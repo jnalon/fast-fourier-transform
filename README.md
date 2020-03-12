@@ -7,6 +7,8 @@ Every implementation here does basically the same: they execute the Cooley-Tukey
 
 Currently, this repository contains implementations in the languages on the list below. There is a directory for each language, so you can clone only what you want to see. Some folders have more than one version of a file -- usually, an implementation of the Cooley-Tukey algorithm for composite numbers (but not all directories have them).
 
+* C
+* MATLAB/Octave
 * Python
 
 Instructions on how to compile and run are in the comments of each file. There is no `make` file because those are very simple commands. Some of the implementations have dependencies, although I tried to keep them at a minimum. Again, those are in the comments in the header of each file.

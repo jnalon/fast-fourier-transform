@@ -278,7 +278,7 @@ def array_interactive_fft(x):
 # Main program:
 if __name__ == "__main__":
 
-    # Starts printing the table with time comparisons:
+    # Starts by printing the table with time comparisons:
     print("+---------"*11 + "+")
     print("|    N    |   N^2   | N logN  | Direct  | CList   | Array   | Recurs. | Rarray  | Itera.  | AItera  | Interna |")
     print("+---------"*11 + "+")

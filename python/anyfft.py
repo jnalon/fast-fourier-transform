@@ -136,7 +136,7 @@ def recursive_fft(x):
 # Main program:
 if __name__ == "__main__":
 
-    # Starts printing the table with time comparisons:
+    # Starts by printing the table with time comparisons:
     print("+---------"*5 + "+")
     print("|    N    |   N^2   | Direct  | Recurs. | Interna |")
     print("+---------"*5 + "+")
