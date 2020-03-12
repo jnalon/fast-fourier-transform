@@ -24,7 +24,7 @@ REPEAT = 50                                    # Number of executions to compute
 
 ####################################################################################################
 # Auxiliary Function:
-def time_it(f, r, repeat=REPEAT):
+def time_it(f, size, repeat=REPEAT):
     """
     This function calls a Fast Fourier Transform function repeatedly a certain number of times,
     measure execution time and average it.
@@ -32,7 +32,7 @@ def time_it(f, r, repeat=REPEAT):
     :Parameters:
       f
         Function to be called;
-      r
+      size
         Power of two of the size of the vector on which the transform will be applied;
       repeat
         Number of times the function will be called. Defaults to REPEAT.
@@ -40,7 +40,7 @@ def time_it(f, r, repeat=REPEAT):
     :Returns:
       The average execution time for that function with a vector of the given size.
     """
-    x = arange(2**r, dtype=complex)            # Generate a vector;
+    x = arange(size, dtype=complex)            # Generate a vector;
     t0 = perf_counter()                        # Starts a timer;
     for j in range(0, repeat):                 # Repeated calls;
         f(x)
@@ -287,17 +287,17 @@ if __name__ == "__main__":
     for r in range(5, 11):
 
         # Computes the average execution time:
-        dtime  = time_it(direct_ft, r, REPEAT)
-        ctime  = time_it(lc_dft, r, REPEAT)
-        atime  = time_it(array_direct_ft, r, REPEAT)
-        rtime  = time_it(recursive_fft, r, REPEAT)
-        artime = time_it(array_recursive_fft, r, REPEAT)
-        itime  = time_it(interactive_fft, r, REPEAT)
-        aitime = time_it(array_interactive_fft, r, REPEAT)
-        intime = time_it(fft.fft, r, REPEAT)
+        n = 2**r
+        dtime  = time_it(direct_ft, n, REPEAT)
+        ctime  = time_it(lc_dft, n, REPEAT)
+        atime  = time_it(array_direct_ft, n, REPEAT)
+        rtime  = time_it(recursive_fft, n, REPEAT)
+        artime = time_it(array_recursive_fft, n, REPEAT)
+        itime  = time_it(interactive_fft, n, REPEAT)
+        aitime = time_it(array_interactive_fft, n, REPEAT)
+        intime = time_it(fft.fft, n, REPEAT)
 
         # Print the results:
-        n = 2**r
         tup = (n, n**2, r*n, dtime, ctime, atime, rtime, artime, itime, aitime, intime)
         print(f'| {n:7} | {n**2:7} | {r*n:7} | {dtime:7.4f} | {ctime:7.4f} | {atime:7.4f} ' \
               f'| {rtime:7.4f} | {artime:7.4f} | {itime:7.4f} | {aitime:7.4f} | {intime:7.4f} |')

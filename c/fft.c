@@ -17,10 +17,16 @@
 /**************************************************************************************************
  Includes necessary libraries:
  **************************************************************************************************/
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
+#include <stdlib.h>                            // Standard Library;
+#include <stdio.h>                             // Input and Output;
+#include <math.h>                              // Math Functions;
+#include <time.h>                              // Time measurement;
+
+
+/**************************************************************************************************
+ Definitions:
+ **************************************************************************************************/
+#define REPEAT 500                             // Number of executions to compute average time;
 
 
 /**************************************************************************************************
@@ -31,7 +37,6 @@ typedef struct {
     float r, i;                                // Real and Imaginary parts of a complex number;
 } Complex;
 
-#define REPEAT 500                             // Number of executions to compute average time;
 
 
 /**************************************************************************************************
@@ -121,7 +126,7 @@ void complex_show(Complex x[], int n)
  *    Function to be called, with the given prototype. The first complex vector is the input
  *    vector, the second complex vector is the result of the computation, and the integer is the
  *    number of elements in the vector;
- *  n
+ *  size
  *    Number of elements in the vector on which the transform will be applied;
  *  repeat
  *    Number of times the function will be called.
@@ -129,27 +134,27 @@ void complex_show(Complex x[], int n)
  * Returns:
  *   The average execution time for that function with a vector of the given size.
  **************************************************************************************************/
-float time_it(void (*f)(Complex *, Complex *, int), int n, int repeat)
+float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
 {
     Complex x[1024], X[1024];                  // Vectors will be at most 1024 samples;
     clock_t t0;                                // Starting time;
     float t1;
     int j;
 
-    for(j=0; j<n; ++j) {                       // Initialize the vector;
+    for(j=0; j<size; ++j) {                    // Initialize the vector;
         x[j].r = j;
         x[j].i = 0;
     }
     t0 = clock();                              // Start counting time;
     for(j=0; j<repeat; ++j)
-        (*f)(x, X, n);
+        (*f)(x, X, size);
     t1 = (float) (clock() - t0) / CLOCKS_PER_SEC / (float) repeat;
     return t1;
 }
 
 
 /**************************************************************************************************
- * function: direct_ft
+ * Function: direct_ft
  *   Computes the Discrete Fourier Ttransform directly from the definition, an algorithm that has
  *   O(N^2) complexity.
  *
@@ -186,7 +191,7 @@ void direct_ft(Complex x[], Complex X[], int N)
 
 
 /**************************************************************************************************
- * function: recursive_fft
+ * Function: recursive_fft
  *   Computes the Fast Fourier Ttransform using a recursive decimation in time algorithm. This has
  *   O(N log_2(N)) complexity. This implementation uses native Python lists.
  *
@@ -238,7 +243,7 @@ void recursive_fft(Complex x[], Complex X[], int N)
 
 
 /**************************************************************************************************
- * function: bit_reverse
+ * Function: bit_reverse
  *   Computes the bit-reversed function of an integer number.
  *
  * Parameters:
@@ -264,7 +269,7 @@ int bit_reverse(int k, int r)
 
 
 /**************************************************************************************************
- * function: interactive_fft
+ * Function: interactive_fft
  *   Computes the Fast Fourier Ttransform using an interactive in-place decimation in time
  *   algorithm. This has O(N log_2(N)) complexity, and since there are less function calls, it will
  *   probably be marginally faster than the recursive versions.
@@ -311,7 +316,7 @@ void interactive_fft(Complex x[], Complex X[], int N)
 
 
 /**************************************************************************************************
- Funcao Principal.
+ Main Function:
  **************************************************************************************************/
 int main(int argc, char *argv[]) {
 

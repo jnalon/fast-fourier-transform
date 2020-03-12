@@ -90,9 +90,9 @@ def __factor(n):
     :Returns:
       The smallest prime factor, or the number itself if it is already a prime.
     """
-    rn = int(ceil(sqrt(n)))                            # Search up to the square root of the number;
+    rn = int(ceil(sqrt(n)))                    # Search up to the square root of the number;
     for i in range(2, rn):
-        if n%i == 0:                                   # When remainder is zero, factor is found;
+        if n%i == 0:                           # When remainder is zero, factor is found;
             return i
     return n
 
@@ -102,8 +102,8 @@ def __factor(n):
 def recursive_fft(x):
     """
     Computes the Fast Fourier Ttransform using a recursive decimation in time algorithm. This has
-    O(N log_2(N)) complexity. This implementation uses NumPy arrays, and most likely the function
-    calls contribute to the efficiency.
+    smallest complexity than the direct FT, though the exact value is difficult to compute. This
+    implementation uses NumPy arrays for conciseness.
 
     :Parameters:
       x
@@ -113,21 +113,21 @@ def recursive_fft(x):
     :Returns:
       A complex-number vector of the same size, with the coefficients of the DFT.
     """
-    N = len(x)
-    N1 = __factor(N)
-    if N1 == N:                                # Se a dimensão não pode ser decomposta,
-        return direct_ft(x)                    #    retorna a transformada direta pela definição;
+    N = len(x)                                 # Length of the vector;
+    N1 = __factor(N)                           # Finds the smallest factor of the vector length;
+    if N1 == N:                                # If the length is prime itself,
+        return direct_ft(x)                    #    the transform is given by the direct form;
     else:
-        N2 = N // N1                           # Decomposição em dois fatores, sendo N1 primo;
-        X = zeros((N, ), dtype=complex)        # Retém o resultado;
-        W = exp(-2j*pi/N)
+        N2 = N // N1                           # Decompose in two factors, N1 being prime;
+        X = zeros((N, ), dtype=complex)        # Accumulates the results;
+        W = exp(-2j*pi/N)                      # Twiddle factors;
         Wj = 1.
-        for j in range(N1):                    # Opera em cada subsequência de tamanho N2;
+        for j in range(N1):                    # Computes every subsequence of size N2;
             Xj = recursive_fft(x[j::N1])
             Wkj = 1.
-            for k in range(N):                 # Combina os resultados;
+            for k in range(N):                 # Recombine results;
                 X[k] = X[k] + Xj[k%N2] * Wkj
-                Wkj = Wkj * Wj
+                Wkj = Wkj * Wj                 # Update twiddle factors;
             Wj = Wj * W
         return X
 
@@ -136,7 +136,7 @@ def recursive_fft(x):
 # Main program:
 if __name__ == "__main__":
 
-    # Starts by printing the table with time comparisons:
+    # Starts printing the table with time comparisons:
     print("+---------"*5 + "+")
     print("|    N    |   N^2   | Direct  | Recurs. | Interna |")
     print("+---------"*5 + "+")
