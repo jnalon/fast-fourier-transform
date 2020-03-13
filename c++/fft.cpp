@@ -39,7 +39,7 @@ using namespace std;
 
 
 /**************************************************************************************************
- Small class to operate with complex numbers
+ Small class to operate with complex numbers:
  **************************************************************************************************/
 class Complex {
     public:
@@ -179,7 +179,6 @@ void direct_ft(Complex x[], Complex X[], int N)
         }
         Wk = Wk * W;
     }
-    return;
 }
 
 
@@ -227,7 +226,6 @@ void recursive_fft(Complex x[], Complex X[], int N)
     delete Xe;
     delete xo;
     delete xe;
-    return;
 }
 
 
@@ -295,7 +293,6 @@ void iterative_fft(Complex x[], Complex X[], int N)
         }
         step <<= 1;
     }
-    return;
 }
 
 

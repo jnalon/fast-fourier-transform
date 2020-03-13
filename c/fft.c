@@ -40,7 +40,7 @@ typedef struct {
 
 
 /**************************************************************************************************
- Small set of functions to operate with complex numbers
+ Small set of functions to operate with complex numbers:
  **************************************************************************************************/
 // Initialization of a complex number:
 Complex cmplx(float r, float i)
@@ -249,9 +249,7 @@ void recursive_fft(Complex x[], Complex X[], int N)
  **************************************************************************************************/
 int bit_reverse(int k, int r)
 {
-    int l;
-
-    l = 0;                                     // Accumulates the results;
+    int l = 0;                                 // Accumulates the results;
     for(int i=0; i<r; i++) {                   // Loop on every bit;
         l = (l << 1) + (k & 1);                // Tests less signficant bit and add;
         k >>= 1;                               // Tests next bit;
