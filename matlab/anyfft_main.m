@@ -20,7 +20,7 @@ fprintf('+---------+---------+---------+---------+---------+\n');
 fprintf('|    N    |   N^2   | Direct  | Recurs. | Interna |\n');
 fprintf('+---------+---------+---------+---------+---------+\n');
 
-% Try it with vectors with size ranging from 32 to 1024 samples:
+% Try it with vectors with the given sizes:
 sizes = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ];
 for i = 1:length(sizes)
 

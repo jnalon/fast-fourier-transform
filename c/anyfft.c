@@ -47,7 +47,7 @@ typedef struct {
 
 
 /**************************************************************************************************
- Small set of functions to operate with complex numbers
+ Small set of functions to operate with complex numbers:
  **************************************************************************************************/
 // Initialization of a complex number:
 Complex cmplx(float r, float i)
@@ -245,7 +245,7 @@ void recursive_fft(Complex x[], Complex X[], int N)
         for(int j=0; j<N1; j++) {              // Computes every subsequence of size N2;
             for(int n=0; n<N2; n++) {
                 xj[n] = x[n*N1+j];             // Creates the subsequence;
-                Xj[n] = cmplx(0, 0);           // Inicializes the transform;
+                Xj[n] = cmplx(0, 0);           // Initializes the transform;
             }
             recursive_fft(xj, Xj, N2);         // Computes the DFT of the subsequence;
             Wkj = cmplx(1, 0);
@@ -275,7 +275,7 @@ int main(int argc, char *argv[]) {
     printf("|    N    |   N^2   | Direta  | Recurs. |\n");
     printf("+---------+---------+---------+---------+\n");
 
-    // Try it with vectors with size ranging from 32 to 1024 samples:
+    // Try it with vectors with the given sizes:
     for(int i=0; i<8; i++) {
 
         // Computes the average execution time:
