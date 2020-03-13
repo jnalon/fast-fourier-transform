@@ -202,9 +202,9 @@ def bit_reverse(k, r):
 
 ####################################################################################################
 # Iterative Decimation-in-time FFT, using lists:
-def interactive_fft(x):
+def iterative_fft(x):
     """
-    Computes the Fast Fourier Ttransform using an interactive in-place decimation in time algorithm.
+    Computes the Fast Fourier Ttransform using an iterative in-place decimation in time algorithm.
     This has O(N log_2(N)) complexity, and since there are less function calls, it will probably be
     marginally faster than the recursive versions. It uses native Python lists.
 
@@ -239,9 +239,9 @@ def interactive_fft(x):
 
 ####################################################################################################
 # Iterative Decimation-in-time FFT, using NumPy arrays:
-def array_interactive_fft(x):
+def array_iterative_fft(x):
     """
-    Computes the Fast Fourier Ttransform using an interactive in-place decimation in time algorithm.
+    Computes the Fast Fourier Ttransform using an iterative in-place decimation in time algorithm.
     This has O(N log_2(N)) complexity, and since there are less function calls, it will probably be
     marginally faster than the recursive versions. It uses NumPy arrays.
 
@@ -293,8 +293,8 @@ if __name__ == "__main__":
         atime  = time_it(array_direct_ft, n, REPEAT)
         rtime  = time_it(recursive_fft, n, REPEAT)
         artime = time_it(array_recursive_fft, n, REPEAT)
-        itime  = time_it(interactive_fft, n, REPEAT)
-        aitime = time_it(array_interactive_fft, n, REPEAT)
+        itime  = time_it(iterative_fft, n, REPEAT)
+        aitime = time_it(array_iterative_fft, n, REPEAT)
         intime = time_it(fft.fft, n, REPEAT)
 
         # Print the results:

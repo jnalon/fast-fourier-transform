@@ -116,9 +116,7 @@ Complex cexpn(float angle)
  **************************************************************************************************/
 void complex_show(Complex x[], int n)
 {
-    int i;
-
-    for (i=0; i<n; ++i)
+    for (int i=0; i<n; i++)
         printf("(%7.4f, %7.4f)\n", x[i].r, x[i].i);
 }
 
@@ -146,14 +144,13 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
     Complex x[1024], X[1024];                  // Vectors will be at most 1024 samples;
     clock_t t0;                                // Starting time;
     float t1;
-    int j;
 
-    for(j=0; j<size; ++j) {                       // Initialize the vector;
+    for(int j=0; j<size; j++) {                // Initialize the vector;
         x[j].r = j;
         x[j].i = 0;
     }
     t0 = clock();                              // Start counting time;
-    for(j=0; j<repeat; ++j)
+    for(int j=0; j<repeat; j++)
         (*f)(x, X, size);
     t1 = (float) (clock() - t0) / CLOCKS_PER_SEC / (float) repeat;
     return t1;
@@ -199,21 +196,19 @@ int factor(int n)
 void direct_ft(Complex x[], Complex X[], int N)
 {
     Complex W, Wk, Wkn, w;                     // Twiddle factors;
-    int k, n;
 
     W = cexpn(-2*M_PI/N);                      // Initializes twiddle factors;
     Wk = cmplx(1, 0);
-    for(k=0; k<N; ++k) {
+    for(int k=0; k<N; k++) {
         X[k] = cmplx(0, 0);                    // Accumulates the results;
         Wkn = cmplx(1, 0);                     // Initializes twiddle factors;
-        for(n=0; n<N; ++n) {
+        for(int n=0; n<N; n++) {
             w = cmul(x[n], Wkn);
             X[k] = cadd(X[k], w);
             Wkn = cmul(Wkn, Wk);               // Updates twiddle factors;
         }
         Wk = cmul(Wk, W);
     }
-    return;
 }
 
 
@@ -224,8 +219,8 @@ void direct_ft(Complex x[], Complex X[], int N)
  *
  * Parameters:
  *   x
- *     The vector of which the DFT will be computed. Given the nature of the implementation, there
- *     is no restriction on the size of the vector;
+ *     The vector of which the FFT will be computed. It must be a composite number, or else the
+ *     computation will be defered to the direct FT, and there will be no efficiency gain.
  *   X
  *     The vector that will receive the results of the computation. It needs to be allocated prior
  *     to the function call;
@@ -234,13 +229,13 @@ void direct_ft(Complex x[], Complex X[], int N)
  **********************************************************************************************/
 void recursive_fft(Complex x[], Complex X[], int N)
 {
-    Complex *xj, *Xj;                          // Subsequências e suas transformadas;
+    Complex *xj, *Xj;                          // Subsequences of the transform;
     Complex W, Wj, Wkj;
     int N1, N2;
 
     N1 = factor(N);                            // Smallest prime factor of the length;
     if (N1==N)                                 // If the length is prime itself,
-        direct_ft(x, X, N);                    //   the transform is given by the direct form
+        direct_ft(x, X, N);                    //   the transform is given by the direct form;
     else {
         N2 = N / N1;                           // Decompose in two factors, N1 being prime;
         xj = malloc(sizeof(Complex)*N2);       // Allocates memory for subsequences
@@ -273,7 +268,7 @@ int main(int argc, char *argv[]) {
 
     float dtime, rtime, itime;
     int SIZES[] = { 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 };
-    int i, n;
+    int n;
 
     // Starts by printing the table with time comparisons:
     printf("+---------+---------+---------+---------+\n");
@@ -281,7 +276,7 @@ int main(int argc, char *argv[]) {
     printf("+---------+---------+---------+---------+\n");
 
     // Try it with vectors with size ranging from 32 to 1024 samples:
-    for(i=0; i<8; i++) {
+    for(int i=0; i<8; i++) {
 
         // Computes the average execution time:
         n = SIZES[i];

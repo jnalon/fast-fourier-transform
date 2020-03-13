@@ -27,7 +27,7 @@ for r = 5:10
     n = 2^r;
     dtime = time_it(@direct_ft, n, REPEAT);
     rtime = time_it(@recursive_fft, n, REPEAT);
-    itime = time_it(@interactive_fft, n, REPEAT);
+    itime = time_it(@iterative_fft, n, REPEAT);
     ptime = time_it(@fft, n, REPEAT);
 
     % Print the results:

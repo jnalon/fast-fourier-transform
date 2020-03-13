@@ -1,5 +1,5 @@
 /**************************************************************************************************
- * Fast Fourier Transform -- C Version
+ * Fast Fourier Transform -- C++ Version
  * This version implements Cooley-Tukey algorithm for powers of 2 only.
  *
  * José Alexandre Nalon
@@ -7,20 +7,29 @@
  * This program doesn't need much to be compiled and run. It can be done, as far as I know, with
  * any C compiler, just remember to link the math library. In my box, I used the command:
  *
- * $ gcc -o fft fft.c -lm
+ * $ g++ -o fft fft.cpp -lm
  *
  * It can be run with the command (remember to change permission to execute):
  *
  * $ ./fft
+ *
+ * Obs.: Technically, the power of C++ resides in the object orientation facilities. This program,
+ *   however, doesn't use a lot of it, given its simplicity: it mainly operates over a vector. In a
+ *   object orientation environment (a big project, for instance), maybe the best way to do it was
+ *   to create a complex vector class and make the FFT a method of it. The same could be said of a
+ *   number of other resources such as arrays and libraries, but we'll keep it simple here.
  **************************************************************************************************/
 
 /**************************************************************************************************
  Includes necessary libraries:
  **************************************************************************************************/
-#include <stdlib.h>                            // Standard Library;
-#include <stdio.h>                             // Input and Output;
-#include <math.h>                              // Math Functions;
-#include <time.h>                              // Time measurement;
+#include <iostream>                            // Input and Output;
+#include <iomanip>                             // I/O Manipulation;
+#include <array>                               // Deals with arrays;
+#include <cmath>                               // Math Functions;
+#include <chrono>                              // Time measurement;
+
+using namespace std;
 
 
 /**************************************************************************************************
@@ -30,70 +39,65 @@
 
 
 /**************************************************************************************************
- Data structure to deal with complex numbers. There is, of course, an external library that
- implements operations for comple numbers, but I'm defining this here to reduce dependencies.
+ Small class to operate with complex numbers
  **************************************************************************************************/
-typedef struct {
-    float r, i;                                // Real and Imaginary parts of a complex number;
-} Complex;
+class Complex {
+    public:
+        float r;                               // Real part;
+        float i;                               // Imaginary part;
+        Complex();                             // Constructors;
+        Complex(float re, float im);
+        void set(float re, float im);
+        void set(Complex c);
+        Complex operator+(Complex c);          // Addition (overload + operator);
+        Complex operator-(Complex c);          // Subtraction (overload - operator);
+        Complex operator*(Complex c);          // Product (overload * operator);
+        Complex operator*(float a);            // Product with a scalar;
+        Complex cexp();                        // Complex exponential;
+};
 
-
-
-/**************************************************************************************************
- Small set of functions to operate with complex numbers
- **************************************************************************************************/
-// Initialization of a complex number:
-Complex cmplx(float r, float i)
-{
-    Complex w;
-
-    w.r = r;                                   // Real part;
-    w.i = i;                                   // Imaginary part;
-    return w;
+Complex::Complex() {                           // Constructor;
+    r = 0.0;                                   // Real part;
+    i = 0.0;                                   // Imaginary part;
 }
 
-
-// Complex addition of numbers a and b:
-Complex cadd(Complex a, Complex b)
-{
-    Complex w;
-
-    w.r = a.r + b.r;                           // Real part of sum;
-    w.i = a.i + b.i;                           // Imaginary part of sum;
-    return w;
+Complex::Complex(float re, float im) {         // Constructor;
+    r = re;                                    // Real part;
+    i = im;                                    // Imaginary part;
 }
 
-
-// Complex subtraction of number b from a:
-Complex csub(Complex a, Complex b)
-{
-    Complex w;
-
-    w.r = a.r - b.r;                           // Real part of difference;
-    w.i = a.i - b.i;                           // Imaginary part of difference;
-    return w;
+void Complex::set(float re, float im) {
+    r = re;                                    // Real part;
+    i = im;                                    // Imaginary part;
 }
 
-
-// Complex product of numbers a and b:
-Complex cmul(Complex a, Complex b)
-{
-    Complex w;
-
-    w.r = a.r*b.r - a.i*b.i;                   // Real part of product;
-    w.i = a.r*b.i + a.i*b.r;                   // Imaginary part of product;
-    return w;
+void Complex::set(Complex c) {
+    r = c.r;                                   // Real part;
+    i = c.i;                                   // Imaginary part;
 }
 
+Complex Complex::operator+(Complex c) {
+    return Complex(r + c.r, i + c.i);
+}
 
-// Complex exponential of an angle:
-Complex cexpn(float angle)
-{
-    Complex w;
+Complex Complex::operator-(Complex c) {
+    return Complex(r - c.r, i - c.i);
+}
 
-    w.r = cos(angle);                          // Real part of exponential;
-    w.i = sin(angle);                          // Imaginary part of exponential;
-    return w;
+Complex Complex::operator*(Complex c) {
+    return Complex(r*c.r - i*c.i, r*c.i + i*c.r);
+}
+
+Complex Complex::operator*(float a) {
+    return Complex(a*r, a*i);
+}
+
+Complex Complex::cexp() {
+    return Complex(exp(r)*cos(i), exp(r)*sin(i));
+}
+
+Complex cexpn(float a) {                       // Convenience function to compute the exponential;
+    return Complex(cos(a), sin(a));
 }
 
 
@@ -135,16 +139,14 @@ void complex_show(Complex x[], int n)
 float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
 {
     Complex x[1024], X[1024];                  // Vectors will be at most 1024 samples;
-    clock_t t0;                                // Starting time;
-    float t1;
 
     for(int j=0; j<size; j++)                  // Initialize the vector;
-        x[j] = cmplx(j, 0);
-    t0 = clock();                              // Start counting time;
+        x[j] = Complex();
+    auto t0 = chrono::steady_clock::now();     // Start counting time;
     for(int j=0; j<repeat; j++)
         (*f)(x, X, size);
-    t1 = (float) (clock() - t0) / CLOCKS_PER_SEC / (float) repeat;
-    return t1;
+    auto t1 = chrono::steady_clock::now();     // End of time measuring;
+    return chrono::duration_cast<chrono::seconds>(t1 - t0).count() / (float) repeat;
 }
 
 
@@ -166,20 +168,18 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
  **************************************************************************************************/
 void direct_ft(Complex x[], Complex X[], int N)
 {
-    Complex W, Wk, Wkn, w;                     // Twiddle factors;
-
-    W = cexpn(-2*M_PI/N);                      // Initializes twiddle factors;
-    Wk = cmplx(1, 0);
+    Complex W = cexpn(-2*M_PI/N);              // Initializes twiddle factors;
+    Complex Wk = Complex(1, 0);
     for(int k=0; k<N; k++) {
-        X[k] = cmplx(0, 0);                    // Accumulates the results;
-        Wkn = cmplx(1, 0);                     // Initializes twiddle factors;
+        X[k] = Complex();                      // Accumulates the results;
+        Complex Wkn = Complex(1, 0);           // Initializes twiddle factors;
         for(int n=0; n<N; n++) {
-            w = cmul(x[n], Wkn);
-            X[k] = cadd(X[k], w);
-            Wkn = cmul(Wkn, Wk);               // Updates twiddle factors;
+            X[k] = X[k] + Wkn*x[n];
+            Wkn = Wkn * Wk;                    // Update twiddle factor;
         }
-        Wk = cmul(Wk, W);
+        Wk = Wk * W;
     }
+    return;
 }
 
 
@@ -200,37 +200,34 @@ void direct_ft(Complex x[], Complex X[], int N)
  **************************************************************************************************/
 void recursive_fft(Complex x[], Complex X[], int N)
 {
-    Complex *xe, *xo, *Xe, *Xo;                // Vectors with intermediate results;
-    Complex W, Wk, w;                          // Twiddle factors;
-    int N2;
-
     if(N==1) {                                 // A length-1 vector is its own FT;
         X[0] = x[0];
         return;
     }
-    N2 = N >> 1;
-    xe = (Complex *) malloc(sizeof(Complex)*N2);       // Allocates memory for computation;
-    xo = (Complex *) malloc(sizeof(Complex)*N2);
-    Xe = (Complex *) malloc(sizeof(Complex)*N2);
-    Xo = (Complex *) malloc(sizeof(Complex)*N2);
-    for(int k=0; k<N2; k++) {                          // Splits even and odd samples;
+    int N2 = N >> 1;
+    Complex *xe = new Complex[N2];             // Allocates memory for computation;
+    Complex *xo = new Complex[N2];
+    Complex *Xe = new Complex[N2];
+    Complex *Xo = new Complex[N2];
+    for(int k=0; k<N2; k++) {                  // Split even and odd samples;
         xe[k] = x[k<<1];
         xo[k] = x[(k<<1)+1];
     }
-    recursive_fft(xe, Xe, N2);                         // Transform of even samples;
-    recursive_fft(xo, Xo, N2);                         // Transform of odd samples;
-    W = cexpn(-2*M_PI/N);                              // Twiddle factors;
-    Wk = cmplx(1, 0);
+    recursive_fft(xe, Xe, N2);                 // Transform of even samples;
+    recursive_fft(xo, Xo, N2);                 // Transform of odd samples;
+    Complex W = cexpn(-2*M_PI/N);              // Twiddle factors;
+    Complex Wk = Complex(1, 0);
     for(int k=0; k<N2; k++) {
-        w = cmul(Xo[k], Wk);
-        X[k] = cadd(Xe[k], w);                         // Recombine results;
-        X[k+N2] = csub(Xe[k], w);
-        Wk = cmul(Wk, W);                              // Update twiddle factors;
+        Complex w = Wk * Xo[k];                // Recombine results;
+        X[k] = Xe[k] + w;
+        X[k+N2] = Xe[k] - w;
+        Wk = Wk * W;                           // Update twiddle factors;
     }
-    free(Xo);                                          // Releasing memory of intermediate vectors;
-    free(Xe);
-    free(xo);
-    free(xe);
+    delete Xo;                                 // Releasing memory of intermediate vectors;
+    delete Xe;
+    delete xo;
+    delete xe;
+    return;
 }
 
 
@@ -249,10 +246,10 @@ void recursive_fft(Complex x[], Complex X[], int N)
  **************************************************************************************************/
 int bit_reverse(int k, int r)
 {
-    int l;
+    int l, i;
 
     l = 0;                                     // Accumulates the results;
-    for(int i=0; i<r; i++) {                   // Loop on every bit;
+    for(i=0; i<r; i++) {                       // Loop on every bit;
         l = (l << 1) + (k & 1);                // Tests less signficant bit and add;
         k >>= 1;                               // Tests next bit;
     }
@@ -278,31 +275,27 @@ int bit_reverse(int k, int r)
  **************************************************************************************************/
 void iterative_fft(Complex x[], Complex X[], int N)
 {
-    Complex W, Wkn, w;                         // Twiddle factors;
-    int r, l, p, q, step;
-
-    r = (int) floor(log(N)/log(2));            // Number of bits;
-    for(int k=0; k<N; k++) {                   // Reorder the vector according to the
-        l = bit_reverse(k, r);                 //   bit-reversed order;
+    int r = (int) floor(log(N)/log(2));
+    for(int k=0; k<N; k++) {
+        int l = bit_reverse(k, r);
         X[l] = x[k];
     }
-    step = 1;                                  // Auxiliary for computation of twiddle factors;
+    int step = 1;
     for(int k=0; k<r; k++) {
         for(int l=0; l<N; l+=2*step) {
-            W = cexpn(-M_PI/step);             // Twiddle factors;
-            Wkn = cmplx(1, 0);
+            Complex W = cexpn(-M_PI/step);
+            Complex Wkn = Complex(1, 0);
             for(int n=0; n<step; n++) {
-                p = l + n;
-                q = p + step;
-                w = cmul(X[q], Wkn);           // Recombine results;
-                X[q] = csub(X[p], w);
-                w = cmul(X[p], cmplx(2, 0));
-                X[p] = csub(w, X[q]);
-                Wkn = cmul(Wkn, W);            // Update twiddle factors;
+                int p = l + n;
+                int q = p + step;
+                X[q] = X[p] - Wkn * X[q];
+                X[p] = X[p]*2 - X[q];
+                Wkn = Wkn * W;
             }
         }
         step <<= 1;
     }
+    return;
 }
 
 
@@ -311,28 +304,29 @@ void iterative_fft(Complex x[], Complex X[], int N)
  **************************************************************************************************/
 int main(int argc, char *argv[]) {
 
-    float dtime, rtime, itime;
-    int n;
-
     // Starts by printing the table with time comparisons:
-    printf("+---------+---------+---------+---------+---------+---------+\n");
-    printf("|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |\n");
-    printf("+---------+---------+---------+---------+---------+---------+\n");
+    cout << "+---------+---------+---------+---------+---------+---------+" << endl;
+    cout << "|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |" << endl;
+    cout << "+---------+---------+---------+---------+---------+---------+" << endl;
 
     // Try it with vectors with size ranging from 32 to 1024 samples:
     for(int r=5; r<11; r++) {
 
         // Computes the average execution time:
-        n = exp2(r);
-        dtime = time_it(direct_ft, n, REPEAT);
-        rtime = time_it(recursive_fft, n, REPEAT);
-        itime = time_it(iterative_fft, n, REPEAT);
+        int n = (int) exp2(r);
+        float dtime = time_it(direct_ft, n, REPEAT);
+        float rtime = time_it(recursive_fft, n, REPEAT);
+        float itime = time_it(iterative_fft, n, REPEAT);
 
         // Print the results:
-        printf("| %7d | %7d | %7d | %7.4f | %7.4f | %7.4f |\n",
-                n, n*n, r*n, dtime, rtime, itime);
+        cout << "| " << setw(7) <<     n << " ";
+        cout << "| " << setw(7) <<   n*n << " ";
+        cout << "| " << setw(7) <<   r*n << " ";
+        cout << "| " << setw(7) << setprecision(7) << dtime << " ";
+        cout << "| " << setw(7) << setprecision(7) << rtime << " ";
+        cout << "| " << setw(7) << setprecision(7) << itime << " |" << endl;
     }
-    printf("+---------+---------+---------+---------+---------+---------+\n");
 
+    cout << "+---------+---------+---------+---------+---------+---------+" << endl;
     return 0;
 }
