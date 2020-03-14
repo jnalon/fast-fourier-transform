@@ -5,7 +5,7 @@
  * José Alexandre Nalon
  **************************************************************************************************
  * This program doesn't need much to be compiled and run. It can be done, as far as I know, with
- * any C compiler, just remember to link the math library. In my box, I used the command:
+ * any C++ compiler, just remember to link the math library. In my box, I used the command:
  *
  * $ g++ -o fft fft.cpp -lm
  *
@@ -199,33 +199,37 @@ void direct_ft(Complex x[], Complex X[], int N)
  **************************************************************************************************/
 void recursive_fft(Complex x[], Complex X[], int N)
 {
-    if(N==1) {                                 // A length-1 vector is its own FT;
+    if(N==1)                                   // A length-1 vector is its own FT;
         X[0] = x[0];
-        return;
+    else {
+        int N2 = N >> 1;
+
+        Complex *xe = new Complex[N2];         // Allocates memory for computation;
+        Complex *xo = new Complex[N2];
+        Complex *Xe = new Complex[N2];
+        Complex *Xo = new Complex[N2];
+
+        for(int k=0; k<N2; k++) {              // Split even and odd samples;
+            xe[k] = x[k<<1];
+            xo[k] = x[(k<<1)+1];
+        }
+        recursive_fft(xe, Xe, N2);             // Transform of even samples;
+        recursive_fft(xo, Xo, N2);             // Transform of odd samples;
+
+        Complex W = cexpn(-2*M_PI/N);          // Twiddle factors;
+        Complex Wk = Complex(1, 0);
+        for(int k=0; k<N2; k++) {
+            Complex w = Wk * Xo[k];            // Recombine results;
+            X[k] = Xe[k] + w;
+            X[k+N2] = Xe[k] - w;
+            Wk = Wk * W;                       // Update twiddle factors;
+        }
+
+        delete Xo;                             // Releasing memory of intermediate vectors;
+        delete Xe;
+        delete xo;
+        delete xe;
     }
-    int N2 = N >> 1;
-    Complex *xe = new Complex[N2];             // Allocates memory for computation;
-    Complex *xo = new Complex[N2];
-    Complex *Xe = new Complex[N2];
-    Complex *Xo = new Complex[N2];
-    for(int k=0; k<N2; k++) {                  // Split even and odd samples;
-        xe[k] = x[k<<1];
-        xo[k] = x[(k<<1)+1];
-    }
-    recursive_fft(xe, Xe, N2);                 // Transform of even samples;
-    recursive_fft(xo, Xo, N2);                 // Transform of odd samples;
-    Complex W = cexpn(-2*M_PI/N);              // Twiddle factors;
-    Complex Wk = Complex(1, 0);
-    for(int k=0; k<N2; k++) {
-        Complex w = Wk * Xo[k];                // Recombine results;
-        X[k] = Xe[k] + w;
-        X[k+N2] = Xe[k] - w;
-        Wk = Wk * W;                           // Update twiddle factors;
-    }
-    delete Xo;                                 // Releasing memory of intermediate vectors;
-    delete Xe;
-    delete xo;
-    delete xe;
 }
 
 
@@ -273,22 +277,23 @@ int bit_reverse(int k, int r)
  **************************************************************************************************/
 void iterative_fft(Complex x[], Complex X[], int N)
 {
-    int r = (int) floor(log(N)/log(2));
-    for(int k=0; k<N; k++) {
-        int l = bit_reverse(k, r);
+    int r = (int) floor(log(N)/log(2));        // Number of bits;
+    for(int k=0; k<N; k++) {                   // Reorder the vector according to the
+        int l = bit_reverse(k, r);             //   bit-reversed order;
         X[l] = x[k];
     }
-    int step = 1;
+
+    int step = 1;                              // Auxiliary for computation of twiddle factors;
     for(int k=0; k<r; k++) {
         for(int l=0; l<N; l+=2*step) {
-            Complex W = cexpn(-M_PI/step);
+            Complex W = cexpn(-M_PI/step);     // Twiddle factors;
             Complex Wkn = Complex(1, 0);
             for(int n=0; n<step; n++) {
                 int p = l + n;
                 int q = p + step;
-                X[q] = X[p] - Wkn * X[q];
+                X[q] = X[p] - Wkn * X[q];      // Recombine results;
                 X[p] = X[p]*2 - X[q];
-                Wkn = Wkn * W;
+                Wkn = Wkn * W;                 // Update twiddle factors;
             }
         }
         step <<= 1;

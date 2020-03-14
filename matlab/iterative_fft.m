@@ -20,6 +20,7 @@ function Y = iterative_fft(X)
         l = bit_reverse(k, r);                 %   bit-reversed order;
         Y(l+1) = X(k+1);
     end
+
     step = 1;                                  % Auxililary for computation of twiddle factors;
     for k = 1:r,
         for l = 0:2*step:N-1

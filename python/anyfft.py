@@ -91,7 +91,7 @@ def __factor(n):
       The smallest prime factor, or the number itself if it is already a prime.
     """
     rn = int(ceil(sqrt(n)))                    # Search up to the square root of the number;
-    for i in range(2, rn):
+    for i in range(2, rn+1):
         if n%i == 0:                           # When remainder is zero, factor is found;
             return i
     return n

@@ -222,6 +222,7 @@ def iterative_fft(x):
     for k in range(0, N):                      # Reorder the vector according to the
         l = bit_reverse(k, r)                  #   bit-reversed order;
         X[l] = x[k]
+
     step = 1                                   # Auxililary for computation of twiddle factors;
     for k in range(0, r):
         for l in range(0, N, 2*step):
@@ -234,6 +235,7 @@ def iterative_fft(x):
                 X[p] = 2*X[p] - X[q]
                 Wkn = Wkn * W                  # Update twiddle factors;
         step = 2*step
+
     return X
 
 
@@ -259,6 +261,7 @@ def array_iterative_fft(x):
     for k in range(0, N):                      # Reorder the vector according to the
         l = bit_reverse(k, r)                  #   bit-reversed order;
         X[l] = x[k]
+
     step = 1                                   # Auxililary for computation of twiddle factors;
     for k in range(0, r):
         for l in range(0, N, 2*step):
@@ -271,6 +274,7 @@ def array_iterative_fft(x):
                 X[p] = 2*X[p] - X[q]
                 Wkn = Wkn * W                  # Update twiddle factors;
         step = 2*step
+
     return X
 
 

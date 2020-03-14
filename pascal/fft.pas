@@ -205,12 +205,14 @@ begin
         y[0] := x[0]
     else begin
         n2 := n div 2;
+
         for k := 0 to n2-1 do begin            { Splits even and odd samples; }
             xe[k] := x[2*k];
             xo[k] := x[2*k+1];
         end;
         FXe := RecursiveFFT(xe, n2);           { Transform of even samples; }
         FXo := RecursiveFFT(xo, n2);           { Transform of odd samples; }
+
         W := cexp(-2*Pi/n);
         Wk := Complex(1);
         for k := 0 to n2-1 do begin
@@ -219,6 +221,7 @@ begin
             y[k+n2] := Fxe[k] - wt;
             Wk := Wk * W;                      { Update twiddle factors; }
         end;
+
     end;
     RecursiveFFT := y;                         { Return value; }
 end;
@@ -279,6 +282,7 @@ begin
         l := BitReverse(k, r);                 {   bit-reversed order; }
         y[l] := x[k];
     end;
+
     step := 1;                                 { Auxiliary for computation of twiddle factors; }
     for k := 0 to r-1 do begin
         l := 0;
@@ -296,6 +300,7 @@ begin
         end;
         step := 2*step;
     end;
+
     IterativeFFT := y;                         { Return value; }
 end;
 

@@ -204,33 +204,37 @@ void recursive_fft(Complex x[], Complex X[], int N)
     Complex W, Wk, w;                          // Twiddle factors;
     int N2;
 
-    if(N==1) {                                 // A length-1 vector is its own FT;
+    if(N==1)                                   // A length-1 vector is its own FT;
         X[0] = x[0];
-        return;
+    else {
+        N2 = N >> 1;
+
+        xe = (Complex *) malloc(sizeof(Complex)*N2);   // Allocates memory for computation;
+        xo = (Complex *) malloc(sizeof(Complex)*N2);
+        Xe = (Complex *) malloc(sizeof(Complex)*N2);
+        Xo = (Complex *) malloc(sizeof(Complex)*N2);
+
+        for(int k=0; k<N2; k++) {                      // Splits even and odd samples;
+            xe[k] = x[k<<1];
+            xo[k] = x[(k<<1)+1];
+        }
+        recursive_fft(xe, Xe, N2);                     // Transform of even samples;
+        recursive_fft(xo, Xo, N2);                     // Transform of odd samples;
+
+        W = cexpn(-2*M_PI/N);                          // Twiddle factors;
+        Wk = cmplx(1, 0);
+        for(int k=0; k<N2; k++) {
+            w = cmul(Xo[k], Wk);
+            X[k] = cadd(Xe[k], w);                     // Recombine results;
+            X[k+N2] = csub(Xe[k], w);
+            Wk = cmul(Wk, W);                          // Update twiddle factors;
+        }
+
+        free(Xo);                                      // Releasing memory of intermediate vectors;
+        free(Xe);
+        free(xo);
+        free(xe);
     }
-    N2 = N >> 1;
-    xe = (Complex *) malloc(sizeof(Complex)*N2);       // Allocates memory for computation;
-    xo = (Complex *) malloc(sizeof(Complex)*N2);
-    Xe = (Complex *) malloc(sizeof(Complex)*N2);
-    Xo = (Complex *) malloc(sizeof(Complex)*N2);
-    for(int k=0; k<N2; k++) {                          // Splits even and odd samples;
-        xe[k] = x[k<<1];
-        xo[k] = x[(k<<1)+1];
-    }
-    recursive_fft(xe, Xe, N2);                         // Transform of even samples;
-    recursive_fft(xo, Xo, N2);                         // Transform of odd samples;
-    W = cexpn(-2*M_PI/N);                              // Twiddle factors;
-    Wk = cmplx(1, 0);
-    for(int k=0; k<N2; k++) {
-        w = cmul(Xo[k], Wk);
-        X[k] = cadd(Xe[k], w);                         // Recombine results;
-        X[k+N2] = csub(Xe[k], w);
-        Wk = cmul(Wk, W);                              // Update twiddle factors;
-    }
-    free(Xo);                                          // Releasing memory of intermediate vectors;
-    free(Xe);
-    free(xo);
-    free(xe);
 }
 
 
@@ -284,6 +288,7 @@ void iterative_fft(Complex x[], Complex X[], int N)
         l = bit_reverse(k, r);                 //   bit-reversed order;
         X[l] = x[k];
     }
+
     step = 1;                                  // Auxiliary for computation of twiddle factors;
     for(int k=0; k<r; k++) {
         for(int l=0; l<N; l+=2*step) {

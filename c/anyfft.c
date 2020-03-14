@@ -172,7 +172,7 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
 int factor(int n)
 {
     int rn = n/2;                              // Search up to half the number;
-    for(int i=2; i<rn; i++)
+    for(int i=2; i<=rn; i++)
         if (n%i == 0) return i;                // If remainder is zero, a factor is found;
     return n;
 }
@@ -238,8 +238,10 @@ void recursive_fft(Complex x[], Complex X[], int N)
         direct_ft(x, X, N);                    //   the transform is given by the direct form;
     else {
         N2 = N / N1;                           // Decompose in two factors, N1 being prime;
+
         xj = malloc(sizeof(Complex)*N2);       // Allocates memory for subsequences
         Xj = malloc(sizeof(Complex)*N2);       //    and their transforms;
+
         W = cexpn(-2*M_PI/N);                  // Twiddle factor;
         Wj = cmplx(1, 0);
         for(int j=0; j<N1; j++) {              // Computes every subsequence of size N2;

@@ -5,7 +5,7 @@
  * José Alexandre Nalon
  **************************************************************************************************
  * This program doesn't need much to be compiled and run. It can be done, as far as I know, with
- * any C compiler, just remember to link the math library. In my box, I used the command:
+ * any C++ compiler, just remember to link the math library. In my box, I used the command:
  *
  * $ g++ -o anyfft anyfft.cpp -lm
  *
@@ -197,7 +197,7 @@ void direct_ft(Complex x[], Complex X[], int N)
 int factor(int n)
 {
     int rn = n/2;                              // Search up to half the number;
-    for(int i=2; i<rn; i++)
+    for(int i=2; i<=rn; i++)
         if (n%i == 0) return i;                // If remainder is zero, a factor is found;
     return n;
 }
@@ -225,8 +225,10 @@ void recursive_fft(Complex x[], Complex X[], int N)
         direct_ft(x, X, N);                    //   the transform is given by the direct form;
     else {
         int N2 = N / N1;                       // Decompose in two factors, N1 being prime;
+
         Complex *xj = new Complex[N2];         // Allocates memory for subsequences
         Complex *Xj = new Complex[N2];         //   and their transforms;
+
         Complex W = cexpn(-2*M_PI/N);          // Twiddle factor;
         Complex Wj = Complex(1, 0);
         for(int j=0; j<N1; j++) {              // Computes every subsequence of size N2;
@@ -242,6 +244,7 @@ void recursive_fft(Complex x[], Complex X[], int N)
             }
             Wj = Wj * W;
         }
+
         delete Xj;                              // Clean-up used memory;
         delete xj;
     }

@@ -234,6 +234,7 @@ begin
         for k := 0 to n-1 do                   { Initializes results with 0; }
             y[k] := 0;
         n2 := Floor(n / n1);                   { Decompose in two factors, N1 being prime; }
+
         W := cexp(-2*Pi/n);                    { Twiddle factor;}
         Wj := Complex(1);
         for j := 0 to n1-1 do begin            { Computes every subsequence of size N2; }
@@ -248,6 +249,7 @@ begin
             Wj := Wj * W;
         end;
     end;
+
     RecursiveFFT := y;                         { Return value; }
 end;
 
