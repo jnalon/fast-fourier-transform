@@ -9,6 +9,8 @@ Currently, this repository contains implementations in the languages on the list
 
 * C
 * C++
+* C#
+* Go
 * MATLAB/Octave
 * Pascal
 * Python
