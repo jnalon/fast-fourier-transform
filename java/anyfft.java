@@ -1,144 +1,119 @@
-﻿/**************************************************************************************************
- * Fast Fourier Transform -- C# Version
+/**************************************************************************************************
+ * Fast Fourier Transform -- Java Version
  * This version implements Cooley-Tukey algorithm for composite numbers (not powers of 2 only).
  *
  * José Alexandre Nalon
  **************************************************************************************************
- * This program was compiled and tested in Linux using Mono command line tools. It might need some
- * adaptation to be compiled with Visual Studio (eg. creating a project), but it can be compiles as
- * is with Windows command line tools:
+ * This library can be compiled with the command:
  *
- * $ mcs anyfft.cs
+ * $ javac anyfft.java
  *
- * This will generate a file called 'anyfft.exe', that can be run with the command (remember to
- * change permission to execute):
+ * It can be run by issuing the command:
  *
- * $ ./anyfft.exe
+ * $ java anyfft
+ *
  **************************************************************************************************/
 
 /**************************************************************************************************
- Include necessary libraries:
+ * Include necessay libraries:
  **************************************************************************************************/
-using System;                                  // Input and output and standard library;
-using System.Diagnostics;                      // Time measuring;
+import java.util.Date;                         // Timing;
 
 
 /**************************************************************************************************
- Small class to operate with complex numbers:
+ * Mini-library to deal with complex numbers. While it may be useful to use modules in bigger
+ * projects, this one is very small and thorougly tested, and it is simples to just add the
+ * code to the main program.
  **************************************************************************************************/
-public class Complex
-{
-    public double re;                          // Real part;
-    public double im;                          // Imaginary part;
+class Complex {
 
+    public float r, i;
+
+    // Constructor:
+    public Complex(float re, float im)
+    {
+        r = re;
+        i = im;
+    }
+
+    // Constructor:
     public Complex()
     {
-        this.re = 0;
-        this.im = 0;
+        this(0, 0);
     }
 
-    public Complex(double real, double imag)
+    // Adds the argument to this, giving the result as a new complex number:
+    public Complex add(Complex c)
     {
-        this.re = real;
-        this.im = imag;
+        return new Complex(r + c.r, i + c.i);
     }
 
-    // Sum of two complex numbers:
-    public static Complex operator +(Complex z1, Complex z2)
+    // Subtracts the argument from this, giving the result as a new complex number:
+    public Complex sub(Complex c)
     {
-        return new Complex(z1.re + z2.re, z1.im + z2.im);
+        return new Complex(r - c.r, i - c.i);
     }
 
-    // Difference of two complex numbers:
-    public static Complex operator -(Complex z1, Complex z2)
+    // Multiplies the argument with this, giving the result as a new complex number:
+    public Complex mul(Complex c)
     {
-        return new Complex(z1.re - z2.re, z1.im - z2.im);
+        return new Complex(r*c.r - i*c.i, r*c.i + i*c.r);
     }
 
-    // Product of two complex numbers:
-    public static Complex operator *(Complex z1, Complex z2)
+    // Divides this by the argument, giving the result as a new complex number:
+    public Complex div(float a)
     {
-        return new Complex(z1.re*z2.re - z1.im*z2.im, z1.re*z2.im + z1.im*z2.re);
+        return new Complex(r/a, i/a);
     }
 
-    // Product with a scalar:
-    public static Complex operator *(Complex z, double x)
+    // Complex exponential of an angle:
+    public static Complex exp(float a)
     {
-        return new Complex(z.re*x, z.im*x);
+        return new Complex((float) Math.cos(a), (float) Math.sin(a));
     }
 
-    // Complex Exponential:
-    public static Complex exp(double a)
-    {
-        return new Complex(Math.Cos(a), Math.Sin(a));
-    }
-
-    public override string ToString()
-    {
-        return(String.Format("{0} + {1}i", re, im));
-    }
 }
 
 
 /**************************************************************************************************
- Main program and routines:
+ * Main class
  **************************************************************************************************/
-class FastFourierTransform
-{
-    // Prototype to the DFT function, to be used at the timing function:
-    public delegate Complex[] DFT(Complex[] x);
-
+public class anyfft {
 
     /**********************************************************************************************
-     * Auxiliary Method: ComplexShow
+     * Auxiliary Method: complexShow
      *   Pretty printing of an array of complex numbers, used to inspect results.
      *
      * Parameters:
      *   x
      *     A vector of complex numbers, according to the definition above;
      **********************************************************************************************/
-    public static void ComplexShow(Complex[] x)
+    public static void complexShow(Complex x[])
     {
-        for(int k=0; k<x.Length; k++)
-            Console.WriteLine(x[k].ToString());
+        for(int i=0; i<x.length; i++)
+            System.out.printf("( %7.4f, %7.4f )\n", x[i].r, x[i].i);
     }
 
 
     /**********************************************************************************************
-     * Auxiliary Method: time_it
-     *   This function calls a Fast Fourier Transform function repeatedly a certain number of
-     *   times, measure execution time and average it.
-     *
-     * Parameters:
-     *  f
-     *    Function to be called, with the given prototype. The first complex vector is the input
-     *    vector, the second complex vector is the result of the computation, and the integer is the
-     *    number of elements in the vector;
-     *  size
-     *    Number of elements in the vector on which the transform will be applied;
-     *  repeat
-     *    Number of times the function will be called.
+     * Auxiliary Method: getClock
+     *   This function gets the system time. The other versions of this program define a function
+     *   that iterates and calls the DFT function a number of times. Unfortunatelly, Java doesn't
+     *   deal ok with first-time order functions. There are ways to do this, but they are overly
+     *   complicated for a simple program like this.
      *
      * Returns:
      *   The average execution time for that function with a vector of the given size.
      **********************************************************************************************/
-    public static double TimeIt(DFT f, int size, int repeat)
+    private static long getTime()
     {
-        Complex[] x = new Complex[size];
-        Complex[] X;
-
-        for(int i=0; i<size; i++)
-            x[i] = new Complex(i, 0);
-        Stopwatch dsw = Stopwatch.StartNew();
-        for(int j=0; j<repeat; j++)
-            X = f(x);
-        dsw.Stop();
-        double dtime = ((double) dsw.ElapsedMilliseconds) / ((double)(1000*repeat));
-        return dtime;
+        Date t = new Date();
+        return t.getTime();
     }
 
+
     /**********************************************************************************************
-     * Method: DirectFT
+     * Method: directFT
      *   Computes the Discrete Fourier Ttransform directly from the definition, an algorithm that
      *   has O(N^2) complexity.
      *
@@ -151,28 +126,30 @@ class FastFourierTransform
      * Returns:
      *   A complex-number vector of the same size, with the coefficients of the DFT.
      **********************************************************************************************/
-    public static Complex[] DirectFT(Complex[] x)
+    public static Complex[] directFT(Complex x[])
     {
-        int N = x.Length;
+        int N = x.length;
         Complex[] X = new Complex[N];
-        Complex W = Complex.exp(-2*Math.PI/N);         // Initializes twiddle factors;
+
+        // Initializes twiddle factors;
+        Complex W = Complex.exp((float) (-2*Math.PI) / (float) N);
         Complex Wk = new Complex(1, 0);
 
         for(int k=0; k<N; k++) {
             X[k] = new Complex();                      // Accumulates the results;
             Complex Wkn = new Complex(1, 0);
-            for(int n=0; n<N; n++) {
-                X[k] = X[k] + Wkn*x[n];
-                Wkn = Wkn * Wk;                        // Update twiddle factor;
+            for(int i=0; i<N; i++) {
+                X[k] = X[k].add(Wkn.mul(x[i]));
+                Wkn = Wkn.mul(Wk);                     // Update twiddle factor;
             }
-            Wk = Wk * W;
+            Wk = Wk.mul(W);
         }
         return X;
     }
 
 
     /**********************************************************************************************
-     * Method: Factor
+     * Method: factor
      *   This method finds the smallest prime factor of a given number. If the argument is prime
      *   itself, then it is the return value.
      *
@@ -183,7 +160,7 @@ class FastFourierTransform
      * Returns:
      *   The smallest prime factor, or the number itself if it is already a prime.
      **********************************************************************************************/
-    public static int Factor(int n)
+    public static int factor(int n)
     {
         int rn = n/2;                              // Search up to half the number;
         for(int i=2; i<=rn; i++)
@@ -193,7 +170,7 @@ class FastFourierTransform
 
 
     /**********************************************************************************************
-     * Method: RecursiveFFT
+     * Method: recursiveFFT
      *   Computes the Fast Fourier Ttransform using a recursive decimation in time algorithm. This
      *   has smallest complexity than the direct FT, though the exact value is difficult to
      *   compute.
@@ -206,33 +183,34 @@ class FastFourierTransform
      *  Returns:
      *   A complex-number vector of the same size, with the coefficients of the DFT.
      **********************************************************************************************/
-    public static Complex[] RecursiveFFT(Complex[] x)
+    public static Complex[] recursiveFFT(Complex x[])
     {
-        int N = x.Length;
+        int N = x.length;
         Complex[] X = new Complex[N];
         for(int n=0; n<N; n++)
             X[n] = new Complex();
 
-        int N1 = Factor(N);                            // Smallest prime factor of length;
+        int N1 = factor(N);                            // Smallest prime factor of length;
         if (N1==N)                                     // If the length is prime itself,
-            return DirectFT(x);                        //   transform is given by the direct form;
+            return directFT(x);                        //   transform is given by the direct form;
         else {
             int N2 = N / N1;                           // Decompose in two factors, N1 being prime;
 
             Complex[] xj = new Complex[N2];            // Allocates memory for subsequences;
 
-            Complex W = Complex.exp(-2*Math.PI/N);     // Twiddle factor;
+            // Twiddle factors:
+            Complex W = Complex.exp((float) (-2*Math.PI) / (float) N);
             Complex Wj = new Complex(1, 0);
             for(int j=0; j<N1; j++) {                  // Computes every subsequence of size N2;
                 for(int n=0; n<N2; n++)
                     xj[n] = x[n*N1+j];                 // Creates the subsequence;
-                Complex[] Xj = RecursiveFFT(xj);       // Computes the DFT of the subsequence;
+                Complex[] Xj = recursiveFFT(xj);       // Computes the DFT of the subsequence;
                 Complex Wkj = new Complex(1, 0);
                 for(int k=0; k<N; k++) {               // Recombine results;
-                    X[k] = X[k] + Xj[k%N2] * Wkj;
-                    Wkj = Wkj * Wj;                    // Update twiddle factors;
+                    X[k] = X[k].add(Wkj.mul(Xj[k%N2]));
+                    Wkj = Wkj.mul(Wj);                 // Update twiddle factors;
                 }
-                Wj = Wj * W;
+                Wj = Wj.mul(W);
             }
             return X;
         }
@@ -240,33 +218,45 @@ class FastFourierTransform
 
 
     /**********************************************************************************************
-     * Main Method:
+     * Funcao Principal.
      **********************************************************************************************/
-    public static void Main()
+    public static void main(String args[])
     {
         int[] SIZES = { 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 };
         int REPEAT = 500;                      // Number of executions to compute average time;
+        Complex[] X;
 
         // Starts by printing the table with time comparisons:
-        Console.WriteLine("+---------+---------+---------+---------+");
-        Console.WriteLine("|    N    |   N^2   | Direta  | Recurs. |");
-        Console.WriteLine("+---------+---------+---------+---------+");
+        System.out.print("+---------+---------+---------+---------+\n");
+        System.out.print("|    N    |   N^2   | Direta  | Recurs. |\n");
+        System.out.print("+---------+---------+---------+---------+\n");
 
         // Try it with vectors with the given sizes:
-        for(int i=0; i<SIZES.Length; i++) {
+        for(int i=0; i<SIZES.length; i++) {
 
-            // Computes the average execution time:
+            // Prepara o vetor a ser transformado
             int n = SIZES[i];
-            double dtime = TimeIt(DirectFT, n, REPEAT);
-            double rtime = TimeIt(RecursiveFFT, n, REPEAT);
+            Complex[] x = new Complex[n];
+            for(int j=0; j<n; j++)
+                x[j] = new Complex(j, 0);
+
+            // Computes the average execution time for DirectFT:
+            long t0 = getTime();
+            for(int j=0; j<REPEAT; j++)
+                X = directFT(x);
+            float dtime = (getTime() - t0) / (float) (1000*REPEAT);
+
+            // Computes the average execution time for RecursiveFFT:
+            t0 = getTime();
+            for(int j=0; j<REPEAT; j++)
+                X = recursiveFFT(x);
+            float rtime = (getTime() - t0) / (float) (1000*REPEAT);
 
             // Print the results:
-            string results = String.Format("| {0,7} | {1,7} | {2,7:F4} | {3,7:F4} |",
-                n, n*n, dtime, rtime);
-            Console.WriteLine(results);
-        }
+            System.out.printf("| %7d | %7d | %7.4f | %7.4f |\n", n, n*n, dtime, rtime);
 
-        Console.WriteLine("+---------+---------+---------+---------+");
-    }
+        }
+        System.out.print("+---------+---------+---------+---------+---------+---------+\n");
+     }
 
 }

@@ -185,7 +185,7 @@ func RecursiveFFT(x []complex128) []complex128 {
  * Returns:
  *   The number k, bit-reversed according to integers with r bits.
  **************************************************************************************************/
-func bitreverse(k int, r int) int {
+func BitReverse(k int, r int) int {
     l := 0                                     // Accumulates the results;
     for i:=0; i<r; i++ {                       // Loop on every bit;
         l = (l << 1) + (k & 1)                 // Tests less signficant bit and add;
@@ -215,7 +215,7 @@ func IterativeFFT(x []complex128) []complex128 {
 
     X := make([]complex128, N)                 // Reorder the vector according to the
     for k:=0; k<N; k++ {                       //   bit-reversed order;
-        l := bitreverse(k, r)
+        l := BitReverse(k, r)
         X[l] = x[k]
     }
 
