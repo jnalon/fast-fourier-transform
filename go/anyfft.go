@@ -82,11 +82,11 @@ func ComplexShow(x []complex128) {
  *   The average execution time for that function with a vector of the given size.
  **************************************************************************************************/
 func TimeIt(f func([]complex128) []complex128, size int, repeat int) float64 {
-    x := make([]complex128, size)
+    x := make([]complex128, size)              // Initialize the vector;
     for j:=0; j<size; j++ {
         x[j] = complex(float64(j), 0)
     }
-    t0 := time.Now()
+    t0 := time.Now()                           // Starting time;
     for j:=0; j<repeat; j++ {
         f(x)
     }

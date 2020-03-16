@@ -8,9 +8,11 @@ Every implementation here does basically the same: they execute the Cooley-Tukey
 Currently, this repository contains implementations in the languages on the list below. There is a directory for each language, so you can clone only what you want to see. Some folders have more than one version of a file -- usually, an implementation of the Cooley-Tukey algorithm for composite numbers (but not all directories have them).
 
 * C
-* C++
 * C#
+* C++
 * Go
+* Java
+* Kotlin
 * MATLAB/Octave
 * Pascal
 * Python

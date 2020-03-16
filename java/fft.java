@@ -15,7 +15,7 @@
  **************************************************************************************************/
 
 /**************************************************************************************************
- * Include necessay libraries:
+ * Include necessary libraries:
  **************************************************************************************************/
 import java.util.Date;                         // Timing;
 
@@ -138,8 +138,8 @@ public class fft {
         for(int k=0; k<N; k++) {
             X[k] = new Complex();                      // Accumulates the results;
             Complex Wkn = new Complex(1, 0);
-            for(int i=0; i<N; i++) {
-                X[k] = X[k].add(Wkn.mul(x[i]));
+            for(int n=0; n<N; n++) {
+                X[k] = X[k].add(Wkn.mul(x[n]));
                 Wkn = Wkn.mul(Wk);                     // Update twiddle factor;
             }
             Wk = Wk.mul(W);

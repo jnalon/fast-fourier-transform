@@ -127,9 +127,9 @@ class FastFourierTransform
         Complex[] x = new Complex[size];
         Complex[] X;
 
-        for(int i=0; i<size; i++)
+        for(int i=0; i<size; i++)                      // Initialize the vector;
             x[i] = new Complex(i, 0);
-        Stopwatch dsw = Stopwatch.StartNew();
+        Stopwatch dsw = Stopwatch.StartNew();          // Starting time;
         for(int j=0; j<repeat; j++)
             X = f(x);
         dsw.Stop();
