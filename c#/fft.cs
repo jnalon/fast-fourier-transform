@@ -140,7 +140,7 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Method: DirectFT
-     *   Computes the Discrete Fourier Ttransform directly from the definition, an algorithm that
+     *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that
      *   has O(N^2) complexity.
      *
      * Parameters:
@@ -174,7 +174,7 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Method: RecursiveFFT
-     *   Computes the Fast Fourier Ttransform using a recursive decimation in time algorithm. This
+     *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This
      *   has O(N log_2(N)) complexity.
      *
      * Parameters:
@@ -244,7 +244,7 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Function: IterativeFFT
-     *   Computes the Fast Fourier Ttransform using an iterative in-place decimation in time
+     *   Computes the Fast Fourier Transform using an iterative in-place decimation in time
      *   algorithm. This has O(N log_2(N)) complexity, and since there are less function calls, it
      *   will probably be marginally faster than the recursive versions.
      *

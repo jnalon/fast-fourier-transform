@@ -1,7 +1,7 @@
 function Y = direct_ft(X)
 
 % Y = DIRECT_FT(X)
-% Computes the Discrete Fourier Ttransform directly from the definition, an algorithm that has
+% Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
 % O(N^2) complexity.
 %
 % Parameters:

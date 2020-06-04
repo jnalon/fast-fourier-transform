@@ -1,7 +1,7 @@
 function Y = recursive_anyfft(X)
 
 % Y = RECURSIVE_ANYFFT(X)
-% Computes the Fast Fourier Ttransform using a recursive decimation in time algorithm. This has
+% Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
 % smallest complexity than the direct FT, though the exact value is difficult to compute.
 %
 % Parameters:

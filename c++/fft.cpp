@@ -152,7 +152,7 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
 
 /**************************************************************************************************
  * Function: direct_ft
- *   Computes the Discrete Fourier Ttransform directly from the definition, an algorithm that has
+ *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
  *   O(N^2) complexity.
  *
  * Parameters:
@@ -184,7 +184,7 @@ void direct_ft(Complex x[], Complex X[], int N)
 
 /**************************************************************************************************
  * Function: recursive_fft
- *   Computes the Fast Fourier Ttransform using a recursive decimation in time algorithm. This has
+ *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
  *   O(N log_2(N)) complexity.
  *
  * Parameters:
@@ -261,7 +261,7 @@ int bit_reverse(int k, int r)
 
 /**************************************************************************************************
  * Function: iterative_fft
- *   Computes the Fast Fourier Ttransform using an iterative in-place decimation in time algorithm.
+ *   Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
  *   This has O(N log_2(N)) complexity, and since there are less function calls, it will probably
  *   be marginally faster than the recursive versions.
  *

@@ -12,6 +12,7 @@ Currently, this repository contains implementations in the languages on the list
 * C++
 * Go
 * Java
+* Julia
 * Kotlin
 * MATLAB/Octave
 * Pascal

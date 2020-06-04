@@ -51,7 +51,7 @@ def time_it(f, size, repeat=REPEAT):
 # Direct FT:
 def direct_ft(x):
     """
-    Computes the Discrete Fourier Ttransform directly from the definition, an algorithm that has
+    Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
     O(N^2) complexity. This implementation uses native Python lists -- apparently, it does have an
     impact on code, resulting in faster execution.
 
@@ -98,7 +98,7 @@ lc_dft = lambda X: [ sum([ x*exp(-2j*pi*n*k/len(X)) for n, x in enumerate(X) ]) 
 # Direct FT using NumPy arrays:
 def array_direct_ft(x):
     """
-    Computes the Discrete Fourier Ttransform directly from the definition, an algorithm that has
+    Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
     O(N^2) complexity. This implementation uses NumPy arrays for memory conservation.
 
     :Parameters:
@@ -127,7 +127,7 @@ def array_direct_ft(x):
 # Recursive Decimation-in-time FFT:
 def recursive_fft(x):
     """
-    Computes the Fast Fourier Ttransform using a recursive decimation in time algorithm. This has
+    Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
     O(N log_2(N)) complexity. This implementation uses native Python lists.
 
     :Parameters:
@@ -155,7 +155,7 @@ def recursive_fft(x):
 # Recursive Decimation-in-time FFT using NumPy arrays:
 def array_recursive_fft(x):
     """
-    Computes the Fast Fourier Ttransform using a recursive decimation in time algorithm. This has
+    Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
     O(N log_2(N)) complexity. This implementation uses NumPy arrays.
 
     :Parameters:
@@ -204,7 +204,7 @@ def bit_reverse(k, r):
 # Iterative Decimation-in-time FFT, using lists:
 def iterative_fft(x):
     """
-    Computes the Fast Fourier Ttransform using an iterative in-place decimation in time algorithm.
+    Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
     This has O(N log_2(N)) complexity, and since there are less function calls, it will probably be
     marginally faster than the recursive versions. It uses native Python lists.
 
@@ -243,7 +243,7 @@ def iterative_fft(x):
 # Iterative Decimation-in-time FFT, using NumPy arrays:
 def array_iterative_fft(x):
     """
-    Computes the Fast Fourier Ttransform using an iterative in-place decimation in time algorithm.
+    Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
     This has O(N log_2(N)) complexity, and since there are less function calls, it will probably be
     marginally faster than the recursive versions. It uses NumPy arrays.
 

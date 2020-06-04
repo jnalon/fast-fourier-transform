@@ -180,7 +180,7 @@ int factor(int n)
 
 /**************************************************************************************************
  * Function: direct_ft
- *   Computes the Discrete Fourier Ttransform directly from the definition, an algorithm that has
+ *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
  *   O(N^2) complexity.
  *
  * Parameters:
@@ -214,7 +214,7 @@ void direct_ft(Complex x[], Complex X[], int N)
 
 /**************************************************************************************************
  * Function: recursive_fft
- *   Computes the Fast Fourier Ttransform using a recursive decimation in time algorithm. This has
+ *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
  *   smallest complexity than the direct FT, though the exact value is difficult to compute.
  *
  * Parameters:

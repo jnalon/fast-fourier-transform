@@ -114,7 +114,7 @@ fun timeIt(f: (x: Array<Complex>) -> Array<Complex>, size: Int, repeat: Int): Do
 
 /**************************************************************************************************
  * Function: directFT
- *   Computes the Discrete Fourier Ttransform directly from the definition, an algorithm that has
+ *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
  *   O(N^2) complexity.
  *
  * Parameters:
@@ -170,7 +170,7 @@ fun factor(n: Int): Int
 
 /**************************************************************************************************
  * Function: recursiveFFT
- *   Computes the Fast Fourier Ttransform using a recursive decimation in time algorithm. This has
+ *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
  *   smallest complexity than the direct FT, though the exact value is difficult to compute.
  *
  * Parameters:
