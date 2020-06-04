@@ -4,7 +4,7 @@
 #
 # José Alexandre Nalon
 ####################################################################################################
-# Since Python is an interpreted language, all you have to do is to invoque the interpreter to run
+# Since Julia is an interpreted language, all you have to do is to invoque the interpreter to run
 # this program:
 #
 # $ julia fft.jl
@@ -13,7 +13,6 @@
 ####################################################################################################
 # Import needed modules:
 import Printf                                  # Print messages;
-import Dates                                   # Time events;
 import FFTW                                    # Internal Fast Fourier Transform, for comparison;
 
 
@@ -25,20 +24,18 @@ const REPEAT = 500                             # Number of executions to compute
 ####################################################################################################
 # Auxiliary Function:
 """
-    time_it(f, r, repeat=REPEAT)
+    time_it(f, size, repeat=REPEAT)
 
 Average execution time of a function.
 
-This function calls a Fast Fourier Transform function `f` on a vector of size `2^r` a certain number
-of times (given by `repeat`), and returns the average execution time of the function.
+This function calls a Fast Fourier Transform function `f` on a vector of size `2^size` a certain
+number of times (given by `repeat`), and returns the average execution time of the function.
 """
-function time_it(f, r, repeat=REPEAT)
-    x = Array{Float64}(0:2^r-1)                  # Generate a vector;
-#     t0 = Dates.now()                           # Starts a timer;
+function time_it(f, size, repeat=REPEAT)
+    x = Array{Float64}(0:2^size-1)             # Generate a vector;
     for j = 1:REPEAT                           # Repeated calls;
         f(x)
     end
-#     return float(Dates.now() - t0) / 1000.0 / float(repeat)
 end
 
 
@@ -148,17 +145,25 @@ end
 ####################################################################################################
 # Programa Principal
 function main()
+
+    # Starts by printing the table with time comparisons:
     println("+---------+---------+---------+---------+---------+---------+---------+")
     println("|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  | Interna |")
     println("+---------+---------+---------+---------+---------+---------+---------+")
 
+    # Try it with vectors with size ranging from 32 to 1024 samples:
     for r = 5:10
+
+        # Computes the average execution time:
         dtime = @elapsed time_it(direct_ft, r, REPEAT)
         rtime = @elapsed time_it(recursive_fft, r, REPEAT)
         itime = @elapsed time_it(iterative_fft, r, REPEAT)
         intime = @elapsed time_it(FFTW.fft, r, REPEAT)
         n = 2^r
-        Printf.@printf("| %7d | %7d | %7d | %7.4f | %7.4f | %7.4f | %7.4f |\n", n, n^2, r*n, dtime, rtime, itime, intime)
+
+        # Print the results:
+        Printf.@printf("| %7d | %7d | %7d | %7.4f | %7.4f | %7.4f | %7.4f |\n",
+                        n, n^2, r*n, dtime, rtime, itime, intime)
     end
 
     println("+---------+---------+---------+---------+---------+---------+---------+")

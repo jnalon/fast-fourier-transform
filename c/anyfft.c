@@ -158,27 +158,6 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
 
 
 /**************************************************************************************************
- * Function: factor
- *   This function finds the smallest prime factor of a given number. If the argument is prime
- *   itself, then it is the return value.
- *
- * Parameters:
- *   n
- *     Number to be inspected.
- *
- * Returns:
- *   The smallest prime factor, or the number itself if it is already a prime.
- **************************************************************************************************/
-int factor(int n)
-{
-    int rn = n/2;                              // Search up to half the number;
-    for(int i=2; i<=rn; i++)
-        if (n%i == 0) return i;                // If remainder is zero, a factor is found;
-    return n;
-}
-
-
-/**************************************************************************************************
  * Function: direct_ft
  *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
  *   O(N^2) complexity.
@@ -213,6 +192,27 @@ void direct_ft(Complex x[], Complex X[], int N)
 
 
 /**************************************************************************************************
+ * Function: factor
+ *   This function finds the smallest prime factor of a given number. If the argument is prime
+ *   itself, then it is the return value.
+ *
+ * Parameters:
+ *   n
+ *     Number to be inspected.
+ *
+ * Returns:
+ *   The smallest prime factor, or the number itself if it is already a prime.
+ **************************************************************************************************/
+int factor(int n)
+{
+    int rn = n/2;                              // Search up to half the number;
+    for(int i=2; i<=rn; i++)
+        if (n%i == 0) return i;                // If remainder is zero, a factor is found;
+    return n;
+}
+
+
+/**************************************************************************************************
  * Function: recursive_fft
  *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
  *   smallest complexity than the direct FT, though the exact value is difficult to compute.
@@ -226,7 +226,7 @@ void direct_ft(Complex x[], Complex X[], int N)
  *     to the function call;
  *   N
  *     The number of elements in the vector.
- **********************************************************************************************/
+ **************************************************************************************************/
 void recursive_fft(Complex x[], Complex X[], int N)
 {
     Complex *xj, *Xj;                          // Subsequences of the transform;
