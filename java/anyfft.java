@@ -18,6 +18,7 @@
  * Include necessay libraries:
  **************************************************************************************************/
 import java.util.Date;                         // Timing;
+import java.util.function.Function;            // Passing functions as parameters;
 
 
 /**************************************************************************************************
@@ -96,6 +97,36 @@ public class anyfft {
 
 
     /**********************************************************************************************
+     * Auxiliary Method: timeIt
+     *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
+     *
+     * Parameters:
+     *  f
+     *    Function to be called, with the given prototype. The first complex vector is the input
+     *    vector, the second complex vector is the result of the computation;
+     *  size
+     *    Number of elements in the vector on which the transform will be applied;
+     *  repeat
+     *    Number of times the function will be called.
+     *
+     * Returns:
+     *   The average execution time for that function with a vector of the given size.
+     **********************************************************************************************/
+    public static float timeIt(Function <Complex[], Complex[]> f, int size, int repeat)
+    {
+        Complex[] x = new Complex[size];                // Initialize the vector;
+        for(int j=0; j<size; j++)
+            x[j] = new Complex(j, 0);
+
+        long t0 = new Date().getTime();                 // Start a timer;
+        for(int j=0; j<repeat; j++)                     // Repeated calls;
+            f.apply(x);
+        float ttime = (new Date().getTime() - t0) / (float) (1000*repeat);
+        return ttime;
+    }
+
+
+    /**********************************************************************************************
      * Method: directFT
      *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
      *   complexity.
@@ -168,9 +199,6 @@ public class anyfft {
     public static Complex[] recursiveFFT(Complex x[])
     {
         int N = x.length;
-        Complex[] X = new Complex[N];
-        for(int n=0; n<N; n++)
-            X[n] = new Complex();
 
         int N1 = factor(N);                            // Smallest prime factor of length;
         if (N1==N)                                     // If the length is prime itself,
@@ -179,6 +207,9 @@ public class anyfft {
             int N2 = N / N1;                           // Decompose in two factors, N1 being prime;
 
             Complex[] xj = new Complex[N2];            // Allocate memory for subsequences;
+            Complex[] X = new Complex[N];
+            for(int n=0; n<N; n++)
+                X[n] = new Complex();
 
             // Twiddle factors:
             Complex W = Complex.exp((float) (-2*Math.PI) / (float) N);
@@ -206,7 +237,6 @@ public class anyfft {
     {
         int[] SIZES = { 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 };
         int REPEAT = 500;                      // Number of executions to compute average time;
-        Complex[] X;
 
         // Start by printing the table with time comparisons:
         System.out.print("+---------+---------+---------+---------+\n");
@@ -216,23 +246,10 @@ public class anyfft {
         // Try it with vectors with the given sizes:
         for(int i=0; i<SIZES.length; i++) {
 
-            // Initialize the vector that will be transformed:
+            // Compute the average execution time:
             int n = SIZES[i];
-            Complex[] x = new Complex[n];
-            for(int j=0; j<n; j++)
-                x[j] = new Complex(j, 0);
-
-            // Compute the average execution time for DirectFT:
-            long t0 = new Date().getTime();
-            for(int j=0; j<REPEAT; j++)
-                X = directFT(x);
-            float dtime = (new Date().getTime() - t0) / (float) (1000*REPEAT);
-
-            // Compute the average execution time for RecursiveFFT:
-            t0 = new Date().getTime();
-            for(int j=0; j<REPEAT; j++)
-                X = recursiveFFT(x);
-            float rtime = (new Date().getTime() - t0) / (float) (1000*REPEAT);
+            double dtime = timeIt(x -> directFT(x), n, REPEAT);
+            double rtime = timeIt(x -> recursiveFFT(x), n, REPEAT);
 
             // Print the results:
             System.out.printf("| %7d | %7d | %7.4f | %7.4f |\n", n, n*n, dtime, rtime);

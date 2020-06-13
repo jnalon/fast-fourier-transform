@@ -28,11 +28,11 @@ const REPEAT = 500                             # Number of executions to compute
 
 Average execution time of a function.
 
-This function calls a Fast Fourier Transform function `f` on a vector of size `2^size` a certain
+This function calls a Fast Fourier Transform function `f` on a vector of `size` elements a certain
 number of times (given by `repeat`), and returns the average execution time of the function.
 """
 function time_it(f, size, repeat=REPEAT)
-    x = Array{Float64}(0:2^size-1)             # Generate a vector;
+    x = Array{Float64}(0:size-1)               # Generate a vector;
     for j = 1:REPEAT                           # Repeated calls;
         f(x)
     end
@@ -160,10 +160,11 @@ function main()
     for r = 5:10
 
         # Compute the average execution time:
-        dtime = @elapsed time_it(direct_ft, r, REPEAT)
-        rtime = @elapsed time_it(recursive_fft, r, REPEAT)
-        itime = @elapsed time_it(iterative_fft, r, REPEAT)
-        intime = @elapsed time_it(FFTW.fft, r, REPEAT)
+        n = 2^r
+        dtime = @elapsed time_it(direct_ft, n, REPEAT)
+        rtime = @elapsed time_it(recursive_fft, n, REPEAT)
+        itime = @elapsed time_it(iterative_fft, n, REPEAT)
+        intime = @elapsed time_it(FFTW.fft, n, REPEAT)
         n = 2^r
 
         # Print the results:

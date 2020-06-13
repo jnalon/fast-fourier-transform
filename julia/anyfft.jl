@@ -32,7 +32,7 @@ This function calls a Fast Fourier Transform function `f` on a vector of `size` 
 number of times (given by `repeat`), and returns the average execution time of the function.
 """
 function time_it(f, size, repeat=REPEAT)
-    x = Array{Float64}(0:size)                 # Generate a vector;
+    x = Array{Float64}(0:size-1)               # Generate a vector;
     for j = 1:REPEAT                           # Repeated calls;
         f(x)
     end

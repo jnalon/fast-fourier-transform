@@ -105,14 +105,14 @@ class FastFourierTransform
 
 
     /**********************************************************************************************
-     * Auxiliary Method: time_it
+     * Auxiliary Method: TimeIt
      *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
      *
      * Parameters:
      *  f
-     *    Function to be called, with the given prototype. The first complex vector is the input
-     *    vector, the second complex vector is the result of the computation, and the integer is the
-     *    number of elements in the vector;
+     *    Function to be called, with the given prototype. The parameter is a complex vector to be
+     *    transformed, and the return value is a complex vector with the coefficients of the
+     *    transform;
      *  size
      *    Number of elements in the vector on which the transform will be applied;
      *  repeat
@@ -127,12 +127,11 @@ class FastFourierTransform
 
         for(int i=0; i<size; i++)                      // Initialize the vector;
             x[i] = new Complex(i, 0);
-        Stopwatch dsw = Stopwatch.StartNew();          // Starting time;
-        for(int j=0; j<repeat; j++)
+        Stopwatch dsw = Stopwatch.StartNew();          // Start a timer;
+        for(int j=0; j<repeat; j++)                    // Repeated calls;
             f(x);
         dsw.Stop();
-        double dtime = ((double) dsw.ElapsedMilliseconds) / ((double)(1000*repeat));
-        return dtime;
+        return ((double) dsw.ElapsedMilliseconds) / ((double)(1000*repeat));
     }
 
 
