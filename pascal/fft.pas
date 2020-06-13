@@ -13,7 +13,7 @@ program FFT;
 
  And run by issuing (remember to give permission to execute):
 
- $
+ $ ./fft
  --------------------------------------------------------------------------------------------------}
 
 { Using needed libraries. }
@@ -25,8 +25,8 @@ uses
 {--------------------------------------------------------------------------------------------------
  Definitions
  --------------------------------------------------------------------------------------------------}
-{ Class that implements complex number arithmetics. Many of the Pascal compilers out there have a
-  library for complex numbers, but they don't behave the same, so I made my own.                   }
+{ Complex number arithmetics. Many of the Pascal compilers out there have a library for complex
+  numbers, but they don't behave the same, so I made my own.                   }
 type
     Complex = record
         r: real;
@@ -108,36 +108,35 @@ end;
 
 {--------------------------------------------------------------------------------------------------
  Auxiliary function: TimeIt
-   This function calls a Fast Fourier Transform function repeatedly a certain number of times,
-   measure execution time and average it.
+   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
 
  Parameters:
-  f
-    Function to be called, with the given prototype. The first complex vector is the input
-    vector, the second complex vector is the result of the computation, and the integer is the
-    number of elements in the vector;
-  size
-    Number of elements in the vector on which the transform will be applied;
-  repeat
-    Number of times the function will be called.
+   f
+     Function to be called, with the given prototype. The first complex vector is the input
+     vector, the second complex vector is the result of the computation, and the integer is the
+     number of elements in the vector;
+   size
+     Number of elements in the vector on which the transform will be applied;
+   repeat
+     Number of times the function will be called.
 
  Returns:
    The average execution time for that function with a vector of the given size.
  --------------------------------------------------------------------------------------------------}
 function TimeIt(var f: DFTFunction; size, repeats: integer): real;
 var
-    x, y: ComplexArray;
+    x: ComplexArray;
     h, m, s, c: word;
     t0, t1: real;
     j: integer;
 begin
-    for j := 0 to size-1 do                    { Initializes the vector and transform; }
+    for j := 0 to size-1 do                    { Initialize the vector and transform; }
         x[j] := j;
-    GetTime(h, m, s, c);                       { Starts counting time; }
+    GetTime(h, m, s, c);                       { Start counting time; }
     t0 := h*3600 + m*60 + s + c/100;
     for j := 1 to repeats do
-        y := f(x, size);
-    GetTime(h, m, s, c);                       { Finishes counting time; }
+        f(x, size);
+    GetTime(h, m, s, c);                       { Finish counting time; }
     t1 := h*3600 + m*60 + s + c/100;
     TimeIt := (t1 - t0) / repeats;
 end;
@@ -145,8 +144,8 @@ end;
 
 {--------------------------------------------------------------------------------------------------
  Function: DirectFT
-   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
-   O(N^2) complexity.
+   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+   complexity.
 
  Parameters:
    x
@@ -165,14 +164,14 @@ var
     W, Wk, Wkn: Complex;                       { Twiddle factors; }
     j, k: integer;
 begin
-    W := cexp(-2*Pi/n);                        { Initializes twiddle factors; }
+    W := cexp(-2*Pi/n);                        { Initialize twiddle factors; }
     Wk := Complex(1);
     for k := 0 to n-1 do begin
-        y[k] := 0;                             { Accumulates the results; }
-        Wkn := Complex(1);                     { Initializes twiddle factors; }
+        y[k] := 0;                             { Accumulate the results; }
+        Wkn := Complex(1);                     { Initialize twiddle factors; }
         for j := 0 to n-1 do begin
             y[k] := y[k] + Wkn * x[j];
-            Wkn := Wkn * Wk;                   { Updates twiddle factors; }
+            Wkn := Wkn * Wk;                   { Update twiddle factors; }
         end;
         Wk := Wk * W;
     end;
@@ -182,8 +181,8 @@ end;
 
 {--------------------------------------------------------------------------------------------------
  Function: RecursiveFFT
-   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
-   O(N log_2(N)) complexity.
+   Fast Fourier Transform using a recursive decimation in time algorithm. This has O(N log_2(N))
+   complexity.
 
  Parameters:
    x
@@ -206,7 +205,7 @@ begin
     else begin
         n2 := n div 2;
 
-        for k := 0 to n2-1 do begin            { Splits even and odd samples; }
+        for k := 0 to n2-1 do begin            { Split even and odd samples; }
             xe[k] := x[2*k];
             xo[k] := x[2*k+1];
         end;
@@ -229,7 +228,7 @@ end;
 
 {--------------------------------------------------------------------------------------------------
  Function: BitReverse
-   Computes the bit-reversed function of an integer number.
+   Bit-reversed version of an integer number.
 
  Parameters:
    k
@@ -244,12 +243,12 @@ function BitReverse(k, r: integer): integer;
 var
     l, i: integer;
 begin
-    l := 0;                                    { Accumulates the results; }
+    l := 0;                                    { Accumulate the results; }
     for i := 1 to r do begin                   { Loop on every bit; }
         l := l * 2;
-        if Odd(k) then                         { Tests less signficant bit and add; }
+        if Odd(k) then                         { Test less signficant bit and add; }
             Inc(l);
-        k := k div 2;                          { Tests next bit; }
+        k := k div 2;                          { Test next bit; }
     end;
     BitReverse := l;                           { Return value; }
 end;
@@ -257,9 +256,9 @@ end;
 
 {--------------------------------------------------------------------------------------------------
  Function: IterativeFFT
-   Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
-   This has O(N log_2(N)) complexity, and since there are less function calls, it will probably
-   be marginally faster than the recursive versions.
+   Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+   O(N log_2(N)) complexity, and since there are less function calls, it will probably be
+   marginally faster than the recursive versions.
 
  Parameters:
    x
@@ -313,7 +312,7 @@ var
     dtime, rtime, itime: real;
     r, n: integer;
 begin
-    // Starts by printing the table with time comparisons:
+    // Start by printing the table with time comparisons:
     writeln('+---------+---------+---------+---------+---------+---------+');
     writeln('|    N    |   N^2   | N logN  | Direta  | Recurs. | Inter.  |');
     writeln('+---------+---------+---------+---------+---------+---------+');
@@ -321,7 +320,7 @@ begin
     // Try it with vectors with size ranging from 32 to 1024 samples:
     for r := 5 to 10 do begin
 
-        // Computes the average execution time:
+        // Compute the average execution time:
         n := floor(power(2, r));
         f := @DirectFT;     dtime := timeit(f, n, Repeats);
         f := @RecursiveFFT; rtime := timeit(f, n, Repeats);

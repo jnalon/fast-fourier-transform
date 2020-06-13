@@ -96,26 +96,9 @@ public class anyfft {
 
 
     /**********************************************************************************************
-     * Auxiliary Method: getClock
-     *   This function gets the system time. The other versions of this program define a function
-     *   that iterates and calls the DFT function a number of times. Unfortunatelly, Java doesn't
-     *   deal ok with first-time order functions. There are ways to do this, but they are overly
-     *   complicated for a simple program like this.
-     *
-     * Returns:
-     *   The average execution time for that function with a vector of the given size.
-     **********************************************************************************************/
-    private static long getTime()
-    {
-        Date t = new Date();
-        return t.getTime();
-    }
-
-
-    /**********************************************************************************************
      * Method: directFT
-     *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that
-     *   has O(N^2) complexity.
+     *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+     *   complexity.
      *
      * Parameters:
      *   x
@@ -150,8 +133,8 @@ public class anyfft {
 
     /**********************************************************************************************
      * Method: factor
-     *   This method finds the smallest prime factor of a given number. If the argument is prime
-     *   itself, then it is the return value.
+     *   Smallest prime factor of a given number. If the argument is prime itself, then it is the
+     *   return value.
      *
      * Parameters:
      *   n
@@ -171,9 +154,8 @@ public class anyfft {
 
     /**********************************************************************************************
      * Method: recursiveFFT
-     *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This
-     *   has smallest complexity than the direct FT, though the exact value is difficult to
-     *   compute.
+     *   Fast Fourier Transform using a recursive decimation in time algorithm. This has smaller
+     *   complexity than the direct FT, though the exact value is difficult to compute.
      *
      * Parameters:
      *   x
@@ -196,15 +178,15 @@ public class anyfft {
         else {
             int N2 = N / N1;                           // Decompose in two factors, N1 being prime;
 
-            Complex[] xj = new Complex[N2];            // Allocates memory for subsequences;
+            Complex[] xj = new Complex[N2];            // Allocate memory for subsequences;
 
             // Twiddle factors:
             Complex W = Complex.exp((float) (-2*Math.PI) / (float) N);
             Complex Wj = new Complex(1, 0);
-            for(int j=0; j<N1; j++) {                  // Computes every subsequence of size N2;
+            for(int j=0; j<N1; j++) {                  // Compute every subsequence of size N2;
                 for(int n=0; n<N2; n++)
-                    xj[n] = x[n*N1+j];                 // Creates the subsequence;
-                Complex[] Xj = recursiveFFT(xj);       // Computes the DFT of the subsequence;
+                    xj[n] = x[n*N1+j];                 // Create the subsequence;
+                Complex[] Xj = recursiveFFT(xj);       // Compute the DFT of the subsequence;
                 Complex Wkj = new Complex(1, 0);
                 for(int k=0; k<N; k++) {               // Recombine results;
                     X[k] = X[k].add(Wkj.mul(Xj[k%N2]));
@@ -218,7 +200,7 @@ public class anyfft {
 
 
     /**********************************************************************************************
-     * Funcao Principal.
+     * Main Method.
      **********************************************************************************************/
     public static void main(String args[])
     {
@@ -226,7 +208,7 @@ public class anyfft {
         int REPEAT = 500;                      // Number of executions to compute average time;
         Complex[] X;
 
-        // Starts by printing the table with time comparisons:
+        // Start by printing the table with time comparisons:
         System.out.print("+---------+---------+---------+---------+\n");
         System.out.print("|    N    |   N^2   | Direta  | Recurs. |\n");
         System.out.print("+---------+---------+---------+---------+\n");
@@ -234,23 +216,23 @@ public class anyfft {
         // Try it with vectors with the given sizes:
         for(int i=0; i<SIZES.length; i++) {
 
-            // Prepara o vetor a ser transformado
+            // Initialize the vector that will be transformed:
             int n = SIZES[i];
             Complex[] x = new Complex[n];
             for(int j=0; j<n; j++)
                 x[j] = new Complex(j, 0);
 
-            // Computes the average execution time for DirectFT:
-            long t0 = getTime();
+            // Compute the average execution time for DirectFT:
+            long t0 = new Date().getTime();
             for(int j=0; j<REPEAT; j++)
                 X = directFT(x);
-            float dtime = (getTime() - t0) / (float) (1000*REPEAT);
+            float dtime = (new Date().getTime() - t0) / (float) (1000*REPEAT);
 
-            // Computes the average execution time for RecursiveFFT:
-            t0 = getTime();
+            // Compute the average execution time for RecursiveFFT:
+            t0 = new Date().getTime();
             for(int j=0; j<REPEAT; j++)
                 X = recursiveFFT(x);
-            float rtime = (getTime() - t0) / (float) (1000*REPEAT);
+            float rtime = (new Date().getTime() - t0) / (float) (1000*REPEAT);
 
             // Print the results:
             System.out.printf("| %7d | %7d | %7.4f | %7.4f |\n", n, n*n, dtime, rtime);

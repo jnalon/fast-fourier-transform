@@ -34,7 +34,7 @@ const REPEAT = 500                     // Number of executions to compute averag
 
 /**************************************************************************************************
  * Auxiliary function: CExp
- *   Computes the complex exponential of an angle. Convenience function.
+ *   Complex exponential of an angle. Convenience function.
  *
  * Parameters:
  *   a
@@ -65,8 +65,7 @@ func ComplexShow(x []complex128) {
 
 /**************************************************************************************************
  * Auxiliary function: TimeIt
- *   This function calls a Fast Fourier Transform function repeatedly a certain number of times,
- *   measure execution time and average it.
+ *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
  *
  * Parameters:
  *  f
@@ -97,8 +96,8 @@ func TimeIt(f func([]complex128) []complex128, size int, repeat int) float64 {
 
 /**************************************************************************************************
  * Function: DirectFt
- *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
- *   O(N^2) complexity.
+ *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+ *   complexity.
  *
  * Parameters:
  *   x
@@ -111,11 +110,11 @@ func TimeIt(f func([]complex128) []complex128, size int, repeat int) float64 {
  **************************************************************************************************/
 func DirectFT(x []complex128) []complex128 {
     N := len(x)
-    X := make([]complex128, N)                 // Accumulates the results;
-    W := CExp(-2*math.Pi/float64(N))           // Initializes twiddle factors:
+    X := make([]complex128, N)                 // Accumulate the results;
+    W := CExp(-2*math.Pi/float64(N))           // Initialize twiddle factors:
     Wk := complex(1, 0)
     for k:=0; k<N; k++ {
-        Wkn := complex(1, 0)                   // Initializes twiddle factors;
+        Wkn := complex(1, 0)                   // Initialize twiddle factors;
         for n:=0; n<N; n++ {
             X[k] = X[k] + x[n]*Wkn
             Wkn = Wkn * Wk                     // Update twiddle factor;
@@ -128,8 +127,8 @@ func DirectFT(x []complex128) []complex128 {
 
 /**************************************************************************************************
  * Function: RecursiveFFT
- *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
- *   O(N log_2(N)) complexity.
+ *   Fast Fourier Transform using a recursive decimation in time algorithm. This has O(N log_2(N))
+ *   complexity.
  *
  * Parameters:
  *   x
@@ -146,7 +145,7 @@ func RecursiveFFT(x []complex128) []complex128 {
     } else {
         N2 := N / 2
 
-        xe := make([]complex128, N2)           // Allocates memory for computation;
+        xe := make([]complex128, N2)           // Allocate memory for computation;
         xo := make([]complex128, N2)
 
         for i:=0; i<N/2; i++ {                 // Split even and odd samples;
@@ -171,10 +170,9 @@ func RecursiveFFT(x []complex128) []complex128 {
 }
 
 
-
 /**************************************************************************************************
  * Function: BitReverse
- *   Computes the bit-reversed function of an integer number.
+ *   Bit-reversed version of an integer number.
  *
  * Parameters:
  *   k
@@ -186,10 +184,10 @@ func RecursiveFFT(x []complex128) []complex128 {
  *   The number k, bit-reversed according to integers with r bits.
  **************************************************************************************************/
 func BitReverse(k int, r int) int {
-    l := 0                                     // Accumulates the results;
+    l := 0                                     // Accumulate the results;
     for i:=0; i<r; i++ {                       // Loop on every bit;
-        l = (l << 1) + (k & 1)                 // Tests less signficant bit and add;
-        k = k >> 1                             // Tests next bit;
+        l = (l << 1) + (k & 1)                 // Test less signficant bit and add;
+        k = k >> 1                             // Test next bit;
     }
     return l
 }
@@ -197,9 +195,9 @@ func BitReverse(k int, r int) int {
 
 /**************************************************************************************************
  * Function: IterativeFFT
- *   Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
- *   This has O(N log_2(N)) complexity, and since there are less function calls, it will probably
- *   be marginally faster than the recursive versions.
+ *   Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+ *   O(N log_2(N)) complexity, and since there are less function calls, it will probably be
+ *   marginally faster than the recursive versions.
  *
  * Parameters:
  *   x
@@ -243,7 +241,7 @@ func IterativeFFT(x []complex128) []complex128 {
  **************************************************************************************************/
 func main() {
 
-    // Starts by printing the table with time comparisons:
+    // Start by printing the table with time comparisons:
     fmt.Println("+---------+---------+---------+---------+---------+---------+")
     fmt.Println("|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |")
     fmt.Println("+---------+---------+---------+---------+---------+---------+")
@@ -251,7 +249,7 @@ func main() {
     // Try it with vectors with size ranging from 32 to 1024 samples:
     for r:=5; r<11; r++ {
 
-        // Computes the average execution time:
+        // Compute the average execution time:
         n := int(math.Exp2(float64(r)))
         dtime := TimeIt(DirectFT, n, REPEAT)
         rtime := TimeIt(RecursiveFFT, n, REPEAT)

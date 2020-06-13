@@ -15,7 +15,7 @@
  **************************************************************************************************/
 
 /**************************************************************************************************
- Includes necessary libraries:
+ Include necessary libraries:
  **************************************************************************************************/
 #include <stdlib.h>                            // Standard Library;
 #include <stdio.h>                             // Input and Output;
@@ -116,8 +116,7 @@ void complex_show(Complex x[], int n)
 
 /**************************************************************************************************
  * Auxiliary function: time_it
- *   This function calls a Fast Fourier Transform function repeatedly a certain number of times,
- *   measure execution time and average it.
+ *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
  *
  * Parameters:
  *  f
@@ -150,8 +149,8 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
 
 /**************************************************************************************************
  * Function: direct_ft
- *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
- *   O(N^2) complexity.
+ *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+ *   complexity.
  *
  * Parameters:
  *   x
@@ -168,15 +167,15 @@ void direct_ft(Complex x[], Complex X[], int N)
 {
     Complex W, Wk, Wkn, w;                     // Twiddle factors;
 
-    W = cexpn(-2*M_PI/N);                      // Initializes twiddle factors;
+    W = cexpn(-2*M_PI/N);                      // Initialize twiddle factors;
     Wk = cmplx(1, 0);
     for(int k=0; k<N; k++) {
-        X[k] = cmplx(0, 0);                    // Accumulates the results;
-        Wkn = cmplx(1, 0);                     // Initializes twiddle factors;
+        X[k] = cmplx(0, 0);                    // Accumulate the results;
+        Wkn = cmplx(1, 0);                     // Initialize twiddle factors;
         for(int n=0; n<N; n++) {
             w = cmul(x[n], Wkn);
             X[k] = cadd(X[k], w);
-            Wkn = cmul(Wkn, Wk);               // Updates twiddle factors;
+            Wkn = cmul(Wkn, Wk);               // Update twiddle factors;
         }
         Wk = cmul(Wk, W);
     }
@@ -185,8 +184,8 @@ void direct_ft(Complex x[], Complex X[], int N)
 
 /**************************************************************************************************
  * Function: recursive_fft
- *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
- *   O(N log_2(N)) complexity.
+ *   Fast Fourier Transform using a recursive decimation in time algorithm. This has O(N log_2(N))
+ *   complexity.
  *
  * Parameters:
  *   x
@@ -209,12 +208,12 @@ void recursive_fft(Complex x[], Complex X[], int N)
     else {
         N2 = N >> 1;
 
-        xe = (Complex *) malloc(sizeof(Complex)*N2);   // Allocates memory for computation;
+        xe = (Complex *) malloc(sizeof(Complex)*N2);   // Allocate memory for computation;
         xo = (Complex *) malloc(sizeof(Complex)*N2);
         Xe = (Complex *) malloc(sizeof(Complex)*N2);
         Xo = (Complex *) malloc(sizeof(Complex)*N2);
 
-        for(int k=0; k<N2; k++) {                      // Splits even and odd samples;
+        for(int k=0; k<N2; k++) {                      // Split even and odd samples;
             xe[k] = x[k<<1];
             xo[k] = x[(k<<1)+1];
         }
@@ -240,7 +239,7 @@ void recursive_fft(Complex x[], Complex X[], int N)
 
 /**************************************************************************************************
  * Function: bit_reverse
- *   Computes the bit-reversed function of an integer number.
+ *   Bit-reversed version of an integer number.
  *
  * Parameters:
  *   k
@@ -253,10 +252,10 @@ void recursive_fft(Complex x[], Complex X[], int N)
  **************************************************************************************************/
 int bit_reverse(int k, int r)
 {
-    int l = 0;                                 // Accumulates the results;
+    int l = 0;                                 // Accumulate the results;
     for(int i=0; i<r; i++) {                   // Loop on every bit;
-        l = (l << 1) + (k & 1);                // Tests less signficant bit and add;
-        k >>= 1;                               // Tests next bit;
+        l = (l << 1) + (k & 1);                // Test less signficant bit and add;
+        k >>= 1;                               // Test next bit;
     }
     return l;
 }
@@ -264,9 +263,9 @@ int bit_reverse(int k, int r)
 
 /**************************************************************************************************
  * Function: iterative_fft
- *   Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
- *   This has O(N log_2(N)) complexity, and since there are less function calls, it will probably
- *   be marginally faster than the recursive versions.
+ *   Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+ *   O(N log_2(N)) complexity, and since there are less function calls, it will probably be
+ *   marginally faster than the recursive versions.
  *
  * Parameters:
  *   x
@@ -317,7 +316,7 @@ int main(int argc, char *argv[]) {
     float dtime, rtime, itime;
     int n;
 
-    // Starts by printing the table with time comparisons:
+    // Start by printing the table with time comparisons:
     printf("+---------+---------+---------+---------+---------+---------+\n");
     printf("|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |\n");
     printf("+---------+---------+---------+---------+---------+---------+\n");
@@ -325,7 +324,7 @@ int main(int argc, char *argv[]) {
     // Try it with vectors with size ranging from 32 to 1024 samples:
     for(int r=5; r<11; r++) {
 
-        // Computes the average execution time:
+        // Compute the average execution time:
         n = exp2(r);
         dtime = time_it(direct_ft, n, REPEAT);
         rtime = time_it(recursive_fft, n, REPEAT);

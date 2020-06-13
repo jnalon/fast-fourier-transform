@@ -21,7 +21,7 @@
  **************************************************************************************************/
 
 /**************************************************************************************************
- Includes necessary libraries:
+ Include necessary libraries:
  **************************************************************************************************/
 #include <iostream>                            // Input and Output;
 #include <iomanip>                             // I/O Manipulation;
@@ -120,8 +120,7 @@ void complex_show(Complex x[], int n)
 
 /**************************************************************************************************
  * Auxiliary function: time_it
- *   This function calls a Fast Fourier Transform function repeatedly a certain number of times,
- *   measure execution time and average it.
+ *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
  *
  * Parameters:
  *  f
@@ -152,8 +151,8 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
 
 /**************************************************************************************************
  * Function: direct_ft
- *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
- *   O(N^2) complexity.
+ *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+ *   complexity.
  *
  * Parameters:
  *   x
@@ -168,11 +167,11 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
  **************************************************************************************************/
 void direct_ft(Complex x[], Complex X[], int N)
 {
-    Complex W = cexpn(-2*M_PI/N);              // Initializes twiddle factors;
+    Complex W = cexpn(-2*M_PI/N);              // Initialize twiddle factors;
     Complex Wk = Complex(1, 0);
     for(int k=0; k<N; k++) {
-        X[k] = Complex();                      // Accumulates the results;
-        Complex Wkn = Complex(1, 0);           // Initializes twiddle factors;
+        X[k] = Complex();                      // Accumulate the results;
+        Complex Wkn = Complex(1, 0);           // Initialize twiddle factors;
         for(int n=0; n<N; n++) {
             X[k] = X[k] + Wkn*x[n];
             Wkn = Wkn * Wk;                    // Update twiddle factor;
@@ -184,8 +183,8 @@ void direct_ft(Complex x[], Complex X[], int N)
 
 /**************************************************************************************************
  * Function: recursive_fft
- *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
- *   O(N log_2(N)) complexity.
+ *   Fast Fourier Transform using a recursive decimation in time algorithm. This has O(N log_2(N))
+ *   complexity.
  *
  * Parameters:
  *   x
@@ -204,7 +203,7 @@ void recursive_fft(Complex x[], Complex X[], int N)
     else {
         int N2 = N >> 1;
 
-        Complex *xe = new Complex[N2];         // Allocates memory for computation;
+        Complex *xe = new Complex[N2];         // Allocate memory for computation;
         Complex *xo = new Complex[N2];
         Complex *Xe = new Complex[N2];
         Complex *Xo = new Complex[N2];
@@ -235,7 +234,7 @@ void recursive_fft(Complex x[], Complex X[], int N)
 
 /**************************************************************************************************
  * Function: bit_reverse
- *   Computes the bit-reversed function of an integer number.
+ *   Bit-reversed version of an integer number.
  *
  * Parameters:
  *   k
@@ -250,10 +249,10 @@ int bit_reverse(int k, int r)
 {
     int l, i;
 
-    l = 0;                                     // Accumulates the results;
+    l = 0;                                     // Accumulate the results;
     for(i=0; i<r; i++) {                       // Loop on every bit;
-        l = (l << 1) + (k & 1);                // Tests less signficant bit and add;
-        k >>= 1;                               // Tests next bit;
+        l = (l << 1) + (k & 1);                // Test less signficant bit and add;
+        k >>= 1;                               // Test next bit;
     }
     return l;
 }
@@ -261,9 +260,9 @@ int bit_reverse(int k, int r)
 
 /**************************************************************************************************
  * Function: iterative_fft
- *   Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
- *   This has O(N log_2(N)) complexity, and since there are less function calls, it will probably
- *   be marginally faster than the recursive versions.
+ *   Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+ *   O(N log_2(N)) complexity, and since there are less function calls, it will probably be
+ *   marginally faster than the recursive versions.
  *
  * Parameters:
  *   x
@@ -306,7 +305,7 @@ void iterative_fft(Complex x[], Complex X[], int N)
  **************************************************************************************************/
 int main(int argc, char *argv[]) {
 
-    // Starts by printing the table with time comparisons:
+    // Start by printing the table with time comparisons:
     cout << "+---------+---------+---------+---------+---------+---------+" << endl;
     cout << "|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |" << endl;
     cout << "+---------+---------+---------+---------+---------+---------+" << endl;
@@ -314,7 +313,7 @@ int main(int argc, char *argv[]) {
     // Try it with vectors with size ranging from 32 to 1024 samples:
     for(int r=5; r<11; r++) {
 
-        // Computes the average execution time:
+        // Compute the average execution time:
         int n = (int) exp2(r);
         float dtime = time_it(direct_ft, n, REPEAT);
         float rtime = time_it(recursive_fft, n, REPEAT);

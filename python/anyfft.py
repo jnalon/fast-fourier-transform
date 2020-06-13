@@ -13,7 +13,7 @@
 
 ####################################################################################################
 # Import needed modules:
-from numpy import *                            # Deals with arrays;
+from numpy import *                            # Deal with arrays;
 from time import perf_counter                  # Time events;
 
 
@@ -26,8 +26,7 @@ REPEAT = 50                                    # Number of executions to compute
 # Auxiliary Function:
 def time_it(f, size, repeat=REPEAT):
     """
-    This function calls a Fast Fourier Transform function repeatedly a certain number of times,
-    measure execution time and average it.
+    Measure execution time through repeated calls to a (Fast) Fourier Transform function.
 
     :Parameters:
       f
@@ -41,19 +40,19 @@ def time_it(f, size, repeat=REPEAT):
       The average execution time for that function with a vector of the given size.
     """
     x = arange(size, dtype=complex)            # Generate a vector;
-    t0 = perf_counter()                        # Starts a timer;
+    t0 = perf_counter()                        # Start a timer;
     for j in range(0, repeat):                 # Repeated calls;
         f(x)
-    return (perf_counter() - t0) / repeat      # Computes average;
+    return (perf_counter() - t0) / repeat      # Compute average;
 
 
 ####################################################################################################
 # Direct FT:
 def direct_ft(x):
     """
-    Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
-    O(N^2) complexity. This implementation uses native Python lists -- apparently, it does have an
-    impact on code, resulting in faster execution.
+    Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+    complexity. This implementation uses native Python lists -- apparently, it does have an impact
+    on code, resulting in faster execution.
 
     :Parameters:
       x
@@ -64,13 +63,13 @@ def direct_ft(x):
       A complex-number vector of the same size, with the coefficients of the DFT.
     """
     N = len(x)                                 # Length of the vector;
-    X = [ 0+0j ] * N                           # Accumulates the results;
+    X = [ 0+0j ] * N                           # Accumulate the results;
     W = exp(-2j*pi/N)                          # Twiddle factors;
     Wk = 1.
     for k in range(0, N):                      # Compute the kth coefficient;
         Wkn = 1.
-        for n in range(0, N):                  #   Operates the summation;
-            X[k] = X[k] + x[n]*Wkn             #     Computes every term;
+        for n in range(0, N):                  #   Operate the summation;
+            X[k] = X[k] + x[n]*Wkn             #     Compute every term;
             Wkn = Wkn * Wk                     # Update twiddle factors;
         Wk = Wk * W
     return X
@@ -80,8 +79,8 @@ def direct_ft(x):
 # Auxiliary function:
 def __factor(n):
     """
-    This function finds the smallest prime factor of a given number. If the argument is prime
-    itself, then it is the return value.
+    Smallest prime factor of a given number. If the argument is prime itself, then it is the return
+    value.
 
     :Parameters:
       n
@@ -101,8 +100,8 @@ def __factor(n):
 # Recursive FFT:
 def recursive_fft(x):
     """
-    Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
-    smallest complexity than the direct FT, though the exact value is difficult to compute. This
+    Fast Fourier Transform using a recursive decimation in time algorithm. This has smaller
+    complexity than the direct FT, though the exact value is difficult to compute. This
     implementation uses NumPy arrays for conciseness.
 
     :Parameters:
@@ -114,15 +113,15 @@ def recursive_fft(x):
       A complex-number vector of the same size, with the coefficients of the DFT.
     """
     N = len(x)                                 # Length of the vector;
-    N1 = __factor(N)                           # Finds the smallest factor of the vector length;
+    N1 = __factor(N)                           # Find the smallest factor of the vector length;
     if N1 == N:                                # If the length is prime itself,
         return direct_ft(x)                    #    the transform is given by the direct form;
     else:
         N2 = N // N1                           # Decompose in two factors, N1 being prime;
-        X = zeros((N, ), dtype=complex)        # Accumulates the results;
+        X = zeros((N, ), dtype=complex)        # Accumulate the results;
         W = exp(-2j*pi/N)                      # Twiddle factors;
         Wj = 1.
-        for j in range(N1):                    # Computes every subsequence of size N2;
+        for j in range(N1):                    # Compute every subsequence of size N2;
             Xj = recursive_fft(x[j::N1])
             Wkj = 1.
             for k in range(N):                 # Recombine results;
@@ -136,7 +135,7 @@ def recursive_fft(x):
 # Main program:
 if __name__ == "__main__":
 
-    # Starts printing the table with time comparisons:
+    # Start printing the table with time comparisons:
     print("+---------"*5 + "+")
     print("|    N    |   N^2   | Direct  | Recurs. | Interna |")
     print("+---------"*5 + "+")
@@ -145,7 +144,7 @@ if __name__ == "__main__":
     sizes = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ]
     for n in sizes:
 
-        # Computes the average execution time:
+        # Compute the average execution time:
         dtime  = time_it(direct_ft, n, REPEAT)
         rtime  = time_it(recursive_fft, n, REPEAT)
         intime = time_it(fft.fft, n, REPEAT)

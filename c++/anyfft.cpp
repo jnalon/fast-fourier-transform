@@ -21,7 +21,7 @@
  **************************************************************************************************/
 
 /**************************************************************************************************
- Includes necessary libraries:
+ Include necessary libraries:
  **************************************************************************************************/
 #include <iostream>                            // Input and Output;
 #include <iomanip>                             // I/O Manipulation;
@@ -120,8 +120,7 @@ void complex_show(Complex x[], int n)
 
 /**************************************************************************************************
  * Auxiliary function: time_it
- *   This function calls a Fast Fourier Transform function repeatedly a certain number of times,
- *   measure execution time and average it.
+ *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
  *
  * Parameters:
  *  f
@@ -152,8 +151,8 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
 
 /**************************************************************************************************
  * Function: direct_ft
- *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
- *   O(N^2) complexity.
+ *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+ *   complexity.
  *
  * Parameters:
  *   x
@@ -168,11 +167,11 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
  **************************************************************************************************/
 void direct_ft(Complex x[], Complex X[], int N)
 {
-    Complex W = cexpn(-2*M_PI/N);              // Initializes twiddle factors;
+    Complex W = cexpn(-2*M_PI/N);              // Initialize twiddle factors;
     Complex Wk = Complex(1, 0);
     for(int k=0; k<N; k++) {
-        X[k] = Complex();                      // Accumulates the results;
-        Complex Wkn = Complex(1, 0);           // Initializes twiddle factors;
+        X[k] = Complex();                      // Accumulate the results;
+        Complex Wkn = Complex(1, 0);           // Initialize twiddle factors;
         for(int n=0; n<N; n++) {
             X[k] = X[k] + Wkn*x[n];
             Wkn = Wkn * Wk;                    // Update twiddle factor;
@@ -184,8 +183,8 @@ void direct_ft(Complex x[], Complex X[], int N)
 
 /**************************************************************************************************
  * Function: factor
- *   This function finds the smallest prime factor of a given number. If the argument is prime
- *   itself, then it is the return value.
+ *   Smallest prime factor of a given number. If the argument is prime itself, then it is the
+ *   return value.
  *
  * Parameters:
  *   n
@@ -205,8 +204,8 @@ int factor(int n)
 
 /**************************************************************************************************
  * Function: recursive_fft
- *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
- *   smallest complexity than the direct FT, though the exact value is difficult to compute.
+ *   Fast Fourier Transform using a recursive decimation in time algorithm. This has smaller
+ *   complexity than the direct FT, though the exact value is difficult to compute.
  *
  * Parameters:
  *   x
@@ -226,17 +225,17 @@ void recursive_fft(Complex x[], Complex X[], int N)
     else {
         int N2 = N / N1;                       // Decompose in two factors, N1 being prime;
 
-        Complex *xj = new Complex[N2];         // Allocates memory for subsequences
+        Complex *xj = new Complex[N2];         // Allocate memory for subsequences
         Complex *Xj = new Complex[N2];         //   and their transforms;
 
         Complex W = cexpn(-2*M_PI/N);          // Twiddle factor;
         Complex Wj = Complex(1, 0);
-        for(int j=0; j<N1; j++) {              // Computes every subsequence of size N2;
+        for(int j=0; j<N1; j++) {              // Compute every subsequence of size N2;
             for(int n=0; n<N2; n++) {
-                xj[n] = x[n*N1+j];             // Creates the subsequence;
-                Xj[n] = Complex(0, 0);         // Initializes the transform;
+                xj[n] = x[n*N1+j];             // Create the subsequence;
+                Xj[n] = Complex(0, 0);         // Initialize the transform;
             }
-            recursive_fft(xj, Xj, N2);         // Computes the DFT of the subsequence;
+            recursive_fft(xj, Xj, N2);         // Compute the DFT of the subsequence;
             Complex Wkj = Complex(1, 0);
             for(int k=0; k<N; k++) {           // Recombine results;
                 X[k] = X[k] + Xj[k%N2] * Wkj;
@@ -258,7 +257,7 @@ int main(int argc, char *argv[]) {
 
     int SIZES[] = { 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 };
 
-    // Starts by printing the table with time comparisons:
+    // Start by printing the table with time comparisons:
     cout << "+---------+---------+---------+---------+" << endl;
     cout << "|    N    |   N^2   | Direta  | Recurs. |" << endl;
     cout << "+---------+---------+---------+---------+" << endl;
@@ -266,7 +265,7 @@ int main(int argc, char *argv[]) {
     // Try it with vectors with the given sizes:
     for(int i=0; i<8; i++) {
 
-        // Computes the average execution time:
+        // Compute the average execution time:
         int n = SIZES[i];
         float dtime = time_it(direct_ft, n, REPEAT);
         float rtime = time_it(recursive_fft, n, REPEAT);

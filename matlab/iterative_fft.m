@@ -1,9 +1,9 @@
 function Y = iterative_fft(X)
 
 % Y = ITERATIVE_FFT(X)
-% Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
-% This has O(N log_2(N)) complexity, and since there are less function calls, it will probably be
-% marginally faster than the recursive versions.
+% Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+% O(N log_2(N)) complexity, and since there are less function calls, it will probably be marginally
+% faster than the recursive versions.
 %
 % Parameters:
 %   X
@@ -15,7 +15,7 @@ function Y = iterative_fft(X)
 
     N = length(X);                             % Length of vector;
     r = floor(log(N)/log(2));                  % Number of bits;
-    Y = X;                                     % Accumulates the results;
+    Y = X;                                     % Accumulate the results;
     for k = 0:N-1                              % Reorder the vector according to the
         l = bit_reverse(k, r);                 %   bit-reversed order;
         Y(l+1) = X(k+1);
@@ -44,7 +44,7 @@ end
 function L = bit_reverse(K, R)
 
 % M = BIT_REVERSE(R, K)
-% Computes the bit-reversed function of an integer number.
+% Bit-reversed version of an integer number.
 %
 % Parameters:
 %   K
@@ -55,13 +55,13 @@ function L = bit_reverse(K, R)
 % Returns:
 %   The number K, bit-reversed according to integers with R bits.
 
-    L = 0;                                     % Accumulates the results;
+    L = 0;                                     % Accumulate the results;
     for i = 1:R,                               % Loop on every bit;
         L = 2*L;
-        if mod(K, 2) == 1,                     % Tests less signficant bit and add;
+        if mod(K, 2) == 1,                     % Test less signficant bit and add;
             L = L + 1;
         end
-        K = floor(K/2);                        % Tests next bit;
+        K = floor(K/2);                        % Test next bit;
     end
 
 end

@@ -10,12 +10,12 @@
 % $ octave anyfft_main.m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Definitios:
+% Definitions:
 REPEAT = 50;                                   % Number of executions to compute average time;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Starts by printing the table with time comparisons:
+% Start by printing the table with time comparisons:
 fprintf('+---------+---------+---------+---------+---------+\n');
 fprintf('|    N    |   N^2   | Direct  | Recurs. | Interna |\n');
 fprintf('+---------+---------+---------+---------+---------+\n');
@@ -24,7 +24,7 @@ fprintf('+---------+---------+---------+---------+---------+\n');
 sizes = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ];
 for i = 1:length(sizes)
 
-    % Computes the average execution time:
+    % Compute the average execution time:
     n = sizes(i);
     dtime = time_it(@direct_ft, n, REPEAT);
     rtime = time_it(@recursive_anyfft, n, REPEAT);

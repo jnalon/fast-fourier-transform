@@ -29,31 +29,31 @@ class Complex(val r: Double, val i: Double) {
     // Constructor:
     constructor():this(0.0, 0.0) { }
 
-    // Adds the argument to this, giving the result as a new complex number:
+    // Add the argument to this, giving the result as a new complex number:
     operator fun plus(c: Complex):Complex
     {
         return Complex(r + c.r, i + c.i)
     }
 
-    // Subtracts the argument from this, giving the result as a new complex number:
+    // Subtract the argument from this, giving the result as a new complex number:
     operator fun minus(c: Complex): Complex
     {
         return Complex(r - c.r, i - c.i)
     }
 
-    // Multiplies the argument with this, giving the result as a new complex number:
+    // Multiply the argument with this, giving the result as a new complex number:
     operator fun times(c: Complex): Complex
     {
         return Complex(r*c.r - i*c.i, r*c.i + i*c.r)
     }
 
-    // Multiplies with an scalar, giving the reulst as a new complex number:
+    // Multiply with an scalar, giving the reulst as a new complex number:
     operator fun times(a: Double): Complex
     {
         return Complex(a*r, a*i)
     }
 
-    // Divides this by the argument, giving the result as a new complex number:
+    // Divide this by the argument, giving the result as a new complex number:
     operator fun div(a: Double): Complex
     {
         return Complex(r/a, i/a)
@@ -85,8 +85,7 @@ fun complexShow(x: Array<Complex>)
 
 /**************************************************************************************************
  * Auxiliary Function: timeIt
- *   This function gets the system time. The other versions of this program define a function that
- *   iterates and calls the DFT function a number of times.
+ *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
  *
  * Parameters:
  *  f
@@ -106,7 +105,7 @@ fun timeIt(f: (x: Array<Complex>) -> Array<Complex>, size: Int, repeat: Int): Do
     val x = Array<Complex>(size) { i -> Complex(i.toDouble(), 0.0) }
     val start = System.currentTimeMillis()
     for (j in 1..repeat) {
-        val X: Array<Complex> = f(x)
+        f(x)
     }
     return (System.currentTimeMillis() - start).toDouble() / (1000*repeat).toDouble()
 }
@@ -114,8 +113,8 @@ fun timeIt(f: (x: Array<Complex>) -> Array<Complex>, size: Int, repeat: Int): Do
 
 /**************************************************************************************************
  * Function: directFT
- *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
- *   O(N^2) complexity.
+ *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+ *   complexity.
  *
  * Parameters:
  *   x
@@ -129,9 +128,9 @@ fun timeIt(f: (x: Array<Complex>) -> Array<Complex>, size: Int, repeat: Int): Do
 fun directFT(x: Array<Complex>): Array<Complex>
 {
     val N = x.size
-    val X = Array<Complex>(N) { _ -> Complex() }       // Accumulates the results;
+    val X = Array<Complex>(N) { _ -> Complex() }       // Accumulate the results;
 
-    val W = Cexp(-2*PI/N.toDouble())                   // Initializes twiddle factors;
+    val W = Cexp(-2*PI/N.toDouble())                   // Initialize twiddle factors;
     var Wk = Complex(1.0, 0.0)
 
     for (k in 0..N-1) {
@@ -148,8 +147,8 @@ fun directFT(x: Array<Complex>): Array<Complex>
 
 /**************************************************************************************************
  * Function: recursiveFFT
- *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
- *   O(N log_2(N)) complexity.
+ *   Fast Fourier Transform using a recursive decimation in time algorithm. This has O(N log_2(N))
+ *   complexity.
  *
  * Parameters:
  *   x
@@ -168,7 +167,7 @@ fun recursiveFFT(x: Array<Complex>): Array<Complex>
     } else {
         val N2 = N / 2
 
-        val X = Array<Complex>(N) { _ -> Complex() }   // Allocates memory for computation;
+        val X = Array<Complex>(N) { _ -> Complex() }   // Allocate memory for computation;
         val xe = Array<Complex>(N/2) { n -> x[2*n] }
         val xo = Array<Complex>(N/2) { n -> x[2*n+1] }
         val Xe = recursiveFFT(xe)                      // Transform of even samples;
@@ -189,7 +188,7 @@ fun recursiveFFT(x: Array<Complex>): Array<Complex>
 
 /**************************************************************************************************
  * Function: bitReverse
- *   Computes the bit-reversed function of an integer number.
+ *   Bit-reversed version of an integer number.
  *
  * Parameters:
  *   k
@@ -202,11 +201,11 @@ fun recursiveFFT(x: Array<Complex>): Array<Complex>
  **************************************************************************************************/
 fun bitReverse(k: Int, r: Int): Int
 {
-    var l: Int = 0;                                    // Accumulates the results;
+    var l: Int = 0;                                    // Accumulate the results;
     var k0: Int = k;
     for (i in 1..r) {                                  // Loop on every bit;
-        l = (l shl 1) + (k0 and 1);                    // Tests less signficant bit and add;
-        k0 = (k0 shr 1);                               // Tests next bit;
+        l = (l shl 1) + (k0 and 1);                    // Test less signficant bit and add;
+        k0 = (k0 shr 1);                               // Test next bit;
     }
     return l;
 }
@@ -215,9 +214,9 @@ fun bitReverse(k: Int, r: Int): Int
 
 /**************************************************************************************************
  * Function: iterativeFFT
- *   Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
- *   This has O(N log_2(N)) complexity, and since there are less function calls, it will probably
- *   be marginally faster than the recursive versions.
+ *   Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+ *   O(N log_2(N)) complexity, and since there are less function calls, it will probably be
+ *   marginally faster than the recursive versions.
  *
  * Parameters:
  *   x
@@ -267,7 +266,7 @@ fun main() {
 
     val repeat: Int = 500                      // Number of executions to compute average time;
 
-    // Starts by printing the table with time comparisons:
+    // Start by printing the table with time comparisons:
     println("+---------+---------+---------+---------+---------+---------+")
     println("|    N    |   N^2   | N logN  | Direta  | Recurs. | Inter.  |")
     println("+---------+---------+---------+---------+---------+---------+")
@@ -275,7 +274,7 @@ fun main() {
     // Try it with vectors with size ranging from 32 to 1024 samples:
     for (r in 5..10) {
 
-        // Computes the average execution time:
+        // Compute the average execution time:
         var n: Int = 2.0.pow(r).toInt()
         var dtime = timeIt(::directFT, n, repeat)
         var rtime = timeIt(::recursiveFFT, n, repeat);

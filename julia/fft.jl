@@ -45,7 +45,7 @@ end
 
 Fourier Transform of a vector `x` by direct definition.
 
-Computes the Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+Compute the Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
 complexity. The function returns a complex-number vector of the same size, with the coefficients of
 the DFT.
 """
@@ -72,7 +72,7 @@ end
 
 Fast Fourier Transform of a vector `x` with a recursive decimation-in-time algorithm.
 
-Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
+Compute the Fast Fourier Transform using a recursive decimation in time algorithm. This has
 O(N log_2(N)) complexity. The function returns a complex-number vector of the same size, with the
 coefficients of the DFT.
 """
@@ -93,11 +93,16 @@ end
 
 
 ####################################################################################################
-function bitreverse(r, k)
-    l = 0
-    for i = 1:r
-        l = (l << 1) + (k & 1)
-        k = k >> 1
+"""
+    bit_reverse(r, k)
+
+Bit-reversed version of an integer number `k` with respect to `r` bits.
+"""
+function bitreverse(k, r)
+    l = 0                                      # Accumulate the results;
+    for i = 1:r                                # Loop on every bit;
+        l = (l << 1) + (k & 1)                 # Test less signficant bit and add;
+        k = k >> 1                             # Test next bit;
     end
     return l
 end
@@ -107,7 +112,7 @@ end
 
 Fast Fourier Transform of a vector `x` with an iterative decimation-in-time algorithm.
 
-Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm. This
+Compute the Fast Fourier Transform using an iterative in-place decimation in time algorithm. This
 has O(N log_2(N)) complexity, and since there are less function calls, it will probably be
 marginally faster than the recursive versions. The function returns a complex-number vector of the
 same size, with the coefficients of the DFT.
@@ -116,9 +121,9 @@ function iterative_fft(x)
 
     N = length(x)                              # Length of vector;
     r = round(Int, log(N)/log(2))              # Number of bits;
-    X = complex(x)                             # Accumulates the results;
+    X = complex(x)                             # Accumulate the results;
     for k = 0:N-1                              # Reorder the vector according to the
-        l = bitreverse(r, k)                   #   bit-reversed order;
+        l = bitreverse(k, r)                   #   bit-reversed order;
         X[l+1] = x[k+1]
     end
 
@@ -146,7 +151,7 @@ end
 # Programa Principal
 function main()
 
-    # Starts by printing the table with time comparisons:
+    # Start by printing the table with time comparisons:
     println("+---------+---------+---------+---------+---------+---------+---------+")
     println("|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  | Interna |")
     println("+---------+---------+---------+---------+---------+---------+---------+")
@@ -154,7 +159,7 @@ function main()
     # Try it with vectors with size ranging from 32 to 1024 samples:
     for r = 5:10
 
-        # Computes the average execution time:
+        # Compute the average execution time:
         dtime = @elapsed time_it(direct_ft, r, REPEAT)
         rtime = @elapsed time_it(recursive_fft, r, REPEAT)
         itime = @elapsed time_it(iterative_fft, r, REPEAT)

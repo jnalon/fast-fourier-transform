@@ -1,8 +1,7 @@
 function Y = direct_ft(X)
 
 % Y = DIRECT_FT(X)
-% Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
-% O(N^2) complexity.
+% Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2) complexity.
 %
 % Parameters:
 %   X
@@ -14,13 +13,13 @@ function Y = direct_ft(X)
 %   A complex-number vector of the same size, with the coefficients of the DFT.
 
     N = length(X);                             % Length of the vector;
-    Y = zeros(1, N);                           % Accumulates the results;
+    Y = zeros(1, N);                           % Accumulate the results;
     W = exp(-2*i*pi/N);                        % Twiddle factors;
     Wk = 1;
-    for k = 1:N                                % Computes the kth coefficient;
+    for k = 1:N                                % Compute the kth coefficient;
         Wkn = 1;
-        for n = 1:N                            %   Operates the summation;
-            Y(k) = Y(k) + X(n) .* Wkn;         %     Computes every term;
+        for n = 1:N                            %   Operate the summation;
+            Y(k) = Y(k) + X(n) .* Wkn;         %     Compute every term;
             Wkn = Wkn * Wk;                    % Update twiddle factors;
         end
         Wk = Wk * W;

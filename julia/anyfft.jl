@@ -45,7 +45,7 @@ end
 
 Fourier Transform of a vector `x` by direct definition.
 
-Computes the Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+Compute the Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
 complexity. The function returns a complex-number vector of the same size, with the coefficients of
 the DFT.
 """
@@ -56,8 +56,8 @@ function direct_ft(x)
     Wk = 1.0
     for k = 1:N                                # Compute the kth coefficient;
         Wkn = 1
-        for n = 1:N                            #   Operates the summation;
-            X[k] = X[k] + x[n]*Wkn             #     Computes every term;
+        for n = 1:N                            #   Operate the summation;
+            X[k] = X[k] + x[n]*Wkn             #     Compute every term;
             Wkn = Wkn * Wk                     # Update twiddle factors;
         end
         Wk = Wk * W
@@ -87,26 +87,26 @@ end
 
 Fast Fourier Transform of a vector `x` with a recursive decimation-in-time algorithm.
 
-Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
-O(N log_2(N)) complexity. The function returns a complex-number vector of the same size, with the
-coefficients of the DFT.
+Compute the Fast Fourier Transform using a recursive decimation in time algorithm. This has smaller
+complexity than the direct FT, though the exact value is difficult to compute. The function returns
+a complex-number vector of the same size, with the coefficients of the DFT.
 """
 function recursive_fft(x)
     N = length(x)
-    N1 = factor(N)                             # Finds the smallest factor of the vector length;
+    N1 = factor(N)                             # Find the smallest factor of the vector length;
     if N1 == N                                 # If the length is prime itself,
         return direct_ft(x)                    #    the transform is given by the direct form;
     else
         N2 = floor(Int, N / N1)                # Decompose in two factors, N1 being prime;
-        X = complex(zeros(N))                  # Accumulates the results;
+        X = complex(zeros(N))                  # Accumulate the results;
         W = exp(-2im*pi/N)                     # Twiddle factors;
         Wj = 1.0
-        for j = 1:N1                           # Computes every subsequence of size N2;
+        for j = 1:N1                           # Compute every subsequence of size N2;
             Xj = recursive_fft(x[j:N1:end])
             Wkj = 1.0
             for k = 1:N                        # Recombine results;
                 X[k] = X[k] + Xj[(k-1)%N2+1] * Wkj
-                Wkj = Wkj * Wj                 # Udate twiddle factors;
+                Wkj = Wkj * Wj                 # Update twiddle factors;
             end
             Wj = Wj * W
         end
@@ -119,7 +119,7 @@ end
 # Programa Principal
 function main()
 
-    # Starts printing the table with time comparisons:
+    # Start printing the table with time comparisons:
     println("+---------+---------+---------+---------+---------+")
     println("|    N    |   N^2   | Direta  | Recurs. | Interna |")
     println("+---------+---------+---------+---------+---------+")
@@ -128,7 +128,7 @@ function main()
     sizes = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ]
     for size = sizes
 
-        # Computes the average execution time:
+        # Compute the average execution time:
         dtime = @elapsed time_it(direct_ft, size, REPEAT)
         rtime = @elapsed time_it(recursive_fft, size, REPEAT)
         intime = @elapsed time_it(FFTW.fft, size, REPEAT)

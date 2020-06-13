@@ -13,7 +13,7 @@
 
 ####################################################################################################
 # Import needed modules:
-from numpy import *                            # Deals with arrays;
+from numpy import *                            # Deal with arrays;
 from time import perf_counter                  # Time events;
 
 
@@ -26,8 +26,7 @@ REPEAT = 50                                    # Number of executions to compute
 # Auxiliary Function:
 def time_it(f, size, repeat=REPEAT):
     """
-    This function calls a Fast Fourier Transform function repeatedly a certain number of times,
-    measure execution time and average it.
+    Measure execution time through repeated calls to a (Fast) Fourier Transform function.
 
     :Parameters:
       f
@@ -41,19 +40,19 @@ def time_it(f, size, repeat=REPEAT):
       The average execution time for that function with a vector of the given size.
     """
     x = arange(size, dtype=complex)            # Generate a vector;
-    t0 = perf_counter()                        # Starts a timer;
+    t0 = perf_counter()                        # Start a timer;
     for j in range(0, repeat):                 # Repeated calls;
         f(x)
-    return (perf_counter() - t0) / repeat      # Computes average;
+    return (perf_counter() - t0) / repeat      # Compute average;
 
 
 ####################################################################################################
 # Direct FT:
 def direct_ft(x):
     """
-    Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
-    O(N^2) complexity. This implementation uses native Python lists -- apparently, it does have an
-    impact on code, resulting in faster execution.
+    Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+    complexity. This implementation uses native Python lists -- apparently, it does have an impact
+    on code, resulting in faster execution.
 
     :Parameters:
       x
@@ -65,13 +64,13 @@ def direct_ft(x):
       A complex-number vector of the same size, with the coefficients of the DFT.
     """
     N = len(x)                                 # Length of the vector;
-    X = [ 0+0j ] * N                           # Accumulates the results;
+    X = [ 0+0j ] * N                           # Accumulate the results;
     W = exp(-2j*pi/N)                          # Twiddle factors;
     Wk = 1.
     for k in range(0, N):                      # Compute the kth coefficient;
         Wkn = 1.
-        for n in range(0, N):                  #   Operates the summation;
-            X[k] = X[k] + x[n]*Wkn             #     Computes every term;
+        for n in range(0, N):                  #   Operate the summation;
+            X[k] = X[k] + x[n]*Wkn             #     Compute every term;
             Wkn = Wkn * Wk                     # Update twiddle factors;
         Wk = Wk * W
     return X
@@ -98,8 +97,8 @@ lc_dft = lambda X: [ sum([ x*exp(-2j*pi*n*k/len(X)) for n, x in enumerate(X) ]) 
 # Direct FT using NumPy arrays:
 def array_direct_ft(x):
     """
-    Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
-    O(N^2) complexity. This implementation uses NumPy arrays for memory conservation.
+    Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+    complexity. This implementation uses NumPy arrays for memory conservation.
 
     :Parameters:
       x
@@ -111,13 +110,13 @@ def array_direct_ft(x):
       A complex-number vector of the same size, with the coefficients of the DFT.
     """
     N = len(x)                                 # Length of the vector;
-    X = zeros(x.shape, dtype=complex)          # Accumulates the results;
+    X = zeros(x.shape, dtype=complex)          # Accumulate the results;
     W = exp(-2j*pi/N)                          # Twiddle factors;
     Wk = 1.
     for k in range(0, N):                      # Compute the kth coefficient;
         Wkn = 1.
-        for n in range(0, N):                  #   Operates the summation;
-            X[k] = X[k] + x[n]*Wkn             #     Computes every term;
+        for n in range(0, N):                  #   Operate the summation;
+            X[k] = X[k] + x[n]*Wkn             #     Compute every term;
             Wkn = Wkn * Wk                     # Update twiddle factors;
         Wk = Wk * W
     return X
@@ -127,8 +126,8 @@ def array_direct_ft(x):
 # Recursive Decimation-in-time FFT:
 def recursive_fft(x):
     """
-    Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
-    O(N log_2(N)) complexity. This implementation uses native Python lists.
+    Fast Fourier Transform using a recursive decimation in time algorithm. This has O(N log_2(N))
+    complexity. This implementation uses native Python lists.
 
     :Parameters:
       x
@@ -155,8 +154,8 @@ def recursive_fft(x):
 # Recursive Decimation-in-time FFT using NumPy arrays:
 def array_recursive_fft(x):
     """
-    Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
-    O(N log_2(N)) complexity. This implementation uses NumPy arrays.
+    Fast Fourier Transform using a recursive decimation in time algorithm. This has O(N log_2(N))
+    complexity. This implementation uses NumPy arrays.
 
     :Parameters:
       x
@@ -182,7 +181,7 @@ def array_recursive_fft(x):
 # Auxililary function to reorder a vector in bit-reversed order:
 def bit_reverse(k, r):
     """
-    Computes the bit-reversed function of an integer number.
+    Bit-reversed version of an integer number.
 
     :Parameters:
       k
@@ -193,10 +192,10 @@ def bit_reverse(k, r):
     :Returns:
       The number k, bit-reversed according to integers with r bits.
     """
-    l = 0                                      # Accumulates the results;
+    l = 0                                      # Accumulate the results;
     for i in range(0, r):                      # Loop on every bit;
-        l = (l << 1) + (k & 1)                 # Tests less signficant bit and add;
-        k = (k >> 1)                           # Tests next bit;
+        l = (l << 1) + (k & 1)                 # Test less signficant bit and add;
+        k = (k >> 1)                           # Test next bit;
     return l
 
 
@@ -204,8 +203,8 @@ def bit_reverse(k, r):
 # Iterative Decimation-in-time FFT, using lists:
 def iterative_fft(x):
     """
-    Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
-    This has O(N log_2(N)) complexity, and since there are less function calls, it will probably be
+    Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+    O(N log_2(N)) complexity, and since there are less function calls, it will probably be
     marginally faster than the recursive versions. It uses native Python lists.
 
     :Parameters:
@@ -218,7 +217,7 @@ def iterative_fft(x):
     """
     N = len(x)                                 # Length of vector;
     r = int(log(N)/log(2))                     # Number of bits;
-    X = [ complex(xi) for xi in x ]            # Accumulates the results;
+    X = [ complex(xi) for xi in x ]            # Accumulate the results;
     for k in range(0, N):                      # Reorder the vector according to the
         l = bit_reverse(k, r)                  #   bit-reversed order;
         X[l] = x[k]
@@ -243,8 +242,8 @@ def iterative_fft(x):
 # Iterative Decimation-in-time FFT, using NumPy arrays:
 def array_iterative_fft(x):
     """
-    Computes the Fast Fourier Transform using an iterative in-place decimation in time algorithm.
-    This has O(N log_2(N)) complexity, and since there are less function calls, it will probably be
+    Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+    O(N log_2(N)) complexity, and since there are less function calls, it will probably be
     marginally faster than the recursive versions. It uses NumPy arrays.
 
     :Parameters:
@@ -257,7 +256,7 @@ def array_iterative_fft(x):
     """
     N = len(x)                                 # Length of vector;
     r = int(log(N)/log(2))                     # Number of bits;
-    X = array(x, dtype=complex)                # Accumulates the results;
+    X = array(x, dtype=complex)                # Accumulate the results;
     for k in range(0, N):                      # Reorder the vector according to the
         l = bit_reverse(k, r)                  #   bit-reversed order;
         X[l] = x[k]
@@ -282,7 +281,7 @@ def array_iterative_fft(x):
 # Main program:
 if __name__ == "__main__":
 
-    # Starts by printing the table with time comparisons:
+    # Start by printing the table with time comparisons:
     print("+---------"*11 + "+")
     print("|    N    |   N^2   | N logN  | Direct  | CList   | Array   | Recurs. | Rarray  | Itera.  | AItera  | Interna |")
     print("+---------"*11 + "+")
@@ -290,7 +289,7 @@ if __name__ == "__main__":
     # Try it with vectors with size ranging from 32 to 1024 samples:
     for r in range(5, 11):
 
-        # Computes the average execution time:
+        # Compute the average execution time:
         n = 2**r
         dtime  = time_it(direct_ft, n, REPEAT)
         ctime  = time_it(lc_dft, n, REPEAT)

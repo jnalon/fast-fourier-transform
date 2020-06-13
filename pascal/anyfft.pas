@@ -13,7 +13,7 @@ program FFT;
 
  And run by issuing (remember to give permission to execute):
 
- $
+ $ ./anyfft
  --------------------------------------------------------------------------------------------------}
 
 { Using needed libraries. }
@@ -25,8 +25,8 @@ uses
 {--------------------------------------------------------------------------------------------------
  Definitions
  --------------------------------------------------------------------------------------------------}
-{ Class that implements complex number arithmetics. Many of the Pascal compilers out there have a
-  library for complex numbers, but they don't behave the same, so I made my own.                   }
+{ Complex number arithmetics. Many of the Pascal compilers out there have a library for complex
+  numbers, but they don't behave the same, so I made my own.                   }
 type
     Complex = record
         r: real;
@@ -108,36 +108,35 @@ end;
 
 {--------------------------------------------------------------------------------------------------
  Auxiliary function: TimeIt
-   This function calls a Fast Fourier Transform function repeatedly a certain number of times,
-   measure execution time and average it.
+   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
 
  Parameters:
-  f
-    Function to be called, with the given prototype. The first complex vector is the input
-    vector, the second complex vector is the result of the computation, and the integer is the
-    number of elements in the vector;
-  size
-    Number of elements in the vector on which the transform will be applied;
-  repeat
-    Number of times the function will be called.
+   f
+     Function to be called, with the given prototype. The first complex vector is the input
+     vector, the second complex vector is the result of the computation, and the integer is the
+     number of elements in the vector;
+   size
+     Number of elements in the vector on which the transform will be applied;
+   repeat
+     Number of times the function will be called.
 
  Returns:
    The average execution time for that function with a vector of the given size.
  --------------------------------------------------------------------------------------------------}
 function TimeIt(var f: DFTFunction; size, repeats: integer): real;
 var
-    x, y: ComplexArray;
+    x: ComplexArray;
     h, m, s, c: word;
     t0, t1: real;
     j: integer;
 begin
-    for j := 0 to size-1 do                    { Initializes the vector and transform; }
+    for j := 0 to size-1 do                    { Initialize the vector and transform; }
         x[j] := j;
-    GetTime(h, m, s, c);                       { Starts counting time; }
+    GetTime(h, m, s, c);                       { Start counting time; }
     t0 := h*3600 + m*60 + s + c/100;
     for j := 1 to repeats do
-        y := f(x, size);
-    GetTime(h, m, s, c);                       { Finishes counting time; }
+        f(x, size);
+    GetTime(h, m, s, c);                       { Finish counting time; }
     t1 := h*3600 + m*60 + s + c/100;
     TimeIt := (t1 - t0) / repeats;
 end;
@@ -145,8 +144,8 @@ end;
 
 {--------------------------------------------------------------------------------------------------
  Function: DirectFT
-   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
-   O(N^2) complexity.
+   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+   complexity.
 
  Parameters:
    x
@@ -165,14 +164,14 @@ var
     W, Wk, Wkn: Complex;                       { Twiddle factors; }
     j, k: integer;
 begin
-    W := cexp(-2*Pi/n);                        { Initializes twiddle factors; }
+    W := cexp(-2*Pi/n);                        { Initialize twiddle factors; }
     Wk := Complex(1);
     for k := 0 to n-1 do begin
-        y[k] := 0;                             { Accumulates the results; }
-        Wkn := Complex(1);                     { Initializes twiddle factors; }
+        y[k] := 0;                             { Accumulate the results; }
+        Wkn := Complex(1);                     { Initialize twiddle factors; }
         for j := 0 to n-1 do begin
             y[k] := y[k] + Wkn * x[j];
-            Wkn := Wkn * Wk;                   { Updates twiddle factors; }
+            Wkn := Wkn * Wk;                   { Update twiddle factors; }
         end;
         Wk := Wk * W;
     end;
@@ -182,8 +181,8 @@ end;
 
 {--------------------------------------------------------------------------------------------------
  Function: Factor
-   This function finds the smallest prime factor of a given number. If the argument is prime
-   itself, then it is the return value.
+   Smallest prime factor of a given number. If the argument is prime itself, then it is the return
+   value.
 
  Parameters:
    n
@@ -208,8 +207,8 @@ end;
 
 {--------------------------------------------------------------------------------------------------
  Function: RecursiveFFT
-   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
-   smallest complexity than the direct FT, though the exact value is difficult to compute.
+   Fast Fourier Transform using a recursive decimation in time algorithm. This has smaller
+   complexity than the direct FT, though the exact value is difficult to compute.
 
  Parameters:
    x
@@ -231,16 +230,16 @@ begin
     if n1=n then                               { If the length is prime itself, }
         y := DirectFT(x, n)                    {   the transform is given by the direct form; }
     else begin
-        for k := 0 to n-1 do                   { Initializes results with 0; }
+        for k := 0 to n-1 do                   { Initialize results with 0; }
             y[k] := 0;
         n2 := Floor(n / n1);                   { Decompose in two factors, N1 being prime; }
 
         W := cexp(-2*Pi/n);                    { Twiddle factor;}
         Wj := Complex(1);
-        for j := 0 to n1-1 do begin            { Computes every subsequence of size N2; }
+        for j := 0 to n1-1 do begin            { Compute every subsequence of size N2; }
             for k := 0 to N2-1 do
-                xj[k] := x[k*n1+j];            { Creates the subsequence; }
-            FXj := RecursiveFFT(xj, n2);       { Computes the DFT of the subsequence; }
+                xj[k] := x[k*n1+j];            { Create the subsequence; }
+            FXj := RecursiveFFT(xj, n2);       { Compute the DFT of the subsequence; }
             Wkj := Complex(1);
             for k := 0 to N-1 do begin
                 y[k] := y[k] + FXj[k mod n2] * Wkj;
@@ -263,7 +262,7 @@ var
     dtime, rtime: real;
     n, i: integer;
 begin
-    // Starts by printing the table with time comparisons:
+    // Start by printing the table with time comparisons:
     writeln('+---------+---------+---------+---------+');
     writeln('|    N    |   N^2   | Direta  | Recurs. |');
     writeln('+---------+---------+---------+---------+');
@@ -271,7 +270,7 @@ begin
     // Try it with vectors with the given sizes:
     for i := 0 to 7 do begin
 
-        // Computes the average execution time:
+        // Compute the average execution time:
         n := sizes[i];
         f := @DirectFT;     dtime := timeit(f, n, Repeats);
         f := @RecursiveFFT; rtime := timeit(f, n, Repeats);

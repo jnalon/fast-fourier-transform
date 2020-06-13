@@ -5,7 +5,7 @@
  * José Alexandre Nalon
  **************************************************************************************************
  * This program was compiled and tested in Linux using Mono command line tools. It might need some
- * adaptation to be compiled with Visual Studio (eg. creating a project), but it can be compiles as
+ * adaptation to be compiled with Visual Studio (eg. creating a project), but it can be compiled as
  * is with Windows command line tools:
  *
  * $ mcs anyfft.cs
@@ -106,8 +106,7 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Auxiliary Method: time_it
-     *   This function calls a Fast Fourier Transform function repeatedly a certain number of
-     *   times, measure execution time and average it.
+     *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
      *
      * Parameters:
      *  f
@@ -125,13 +124,12 @@ class FastFourierTransform
     public static double TimeIt(DFT f, int size, int repeat)
     {
         Complex[] x = new Complex[size];
-        Complex[] X;
 
         for(int i=0; i<size; i++)                      // Initialize the vector;
             x[i] = new Complex(i, 0);
         Stopwatch dsw = Stopwatch.StartNew();          // Starting time;
         for(int j=0; j<repeat; j++)
-            X = f(x);
+            f(x);
         dsw.Stop();
         double dtime = ((double) dsw.ElapsedMilliseconds) / ((double)(1000*repeat));
         return dtime;
@@ -139,8 +137,8 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Method: DirectFT
-     *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that
-     *   has O(N^2) complexity.
+     *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+     *   complexity.
      *
      * Parameters:
      *   x
@@ -155,11 +153,11 @@ class FastFourierTransform
     {
         int N = x.Length;
         Complex[] X = new Complex[N];
-        Complex W = Complex.exp(-2*Math.PI/N);         // Initializes twiddle factors;
+        Complex W = Complex.exp(-2*Math.PI/N);         // Initialize twiddle factors;
         Complex Wk = new Complex(1, 0);
 
         for(int k=0; k<N; k++) {
-            X[k] = new Complex();                      // Accumulates the results;
+            X[k] = new Complex();                      // Accumulate the results;
             Complex Wkn = new Complex(1, 0);
             for(int n=0; n<N; n++) {
                 X[k] = X[k] + Wkn*x[n];
@@ -173,8 +171,8 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Method: Factor
-     *   This method finds the smallest prime factor of a given number. If the argument is prime
-     *   itself, then it is the return value.
+     *   Smallest prime factor of a given number. If the argument is prime itself, then it is the
+     *   return value.
      *
      * Parameters:
      *   n
@@ -194,9 +192,8 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Method: RecursiveFFT
-     *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This
-     *   has smallest complexity than the direct FT, though the exact value is difficult to
-     *   compute.
+     *   Fast Fourier Transform using a recursive decimation in time algorithm. This has smaller
+     *   complexity than the direct FT, though the exact value is difficult to compute.
      *
      * Parameters:
      *   x
@@ -219,14 +216,14 @@ class FastFourierTransform
         else {
             int N2 = N / N1;                           // Decompose in two factors, N1 being prime;
 
-            Complex[] xj = new Complex[N2];            // Allocates memory for subsequences;
+            Complex[] xj = new Complex[N2];            // Allocate memory for subsequences;
 
             Complex W = Complex.exp(-2*Math.PI/N);     // Twiddle factor;
             Complex Wj = new Complex(1, 0);
-            for(int j=0; j<N1; j++) {                  // Computes every subsequence of size N2;
+            for(int j=0; j<N1; j++) {                  // Compute every subsequence of size N2;
                 for(int n=0; n<N2; n++)
-                    xj[n] = x[n*N1+j];                 // Creates the subsequence;
-                Complex[] Xj = RecursiveFFT(xj);       // Computes the DFT of the subsequence;
+                    xj[n] = x[n*N1+j];                 // Create the subsequence;
+                Complex[] Xj = RecursiveFFT(xj);       // Compute the DFT of the subsequence;
                 Complex Wkj = new Complex(1, 0);
                 for(int k=0; k<N; k++) {               // Recombine results;
                     X[k] = X[k] + Xj[k%N2] * Wkj;

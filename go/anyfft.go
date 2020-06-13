@@ -34,7 +34,7 @@ const REPEAT = 500                     // Number of executions to compute averag
 
 /**************************************************************************************************
  * Auxiliary function: CExp
- *   Computes the complex exponential of an angle. Convenience function.
+ *   Complex exponential of an angle. Convenience function.
  *
  * Parameters:
  *   a
@@ -65,8 +65,7 @@ func ComplexShow(x []complex128) {
 
 /**************************************************************************************************
  * Auxiliary function: TimeIt
- *   This function calls a Fast Fourier Transform function repeatedly a certain number of times,
- *   measure execution time and average it.
+ *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
  *
  * Parameters:
  *  f
@@ -97,8 +96,8 @@ func TimeIt(f func([]complex128) []complex128, size int, repeat int) float64 {
 
 /**************************************************************************************************
  * Function: DirectFt
- *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that has
- *   O(N^2) complexity.
+ *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+ *   complexity.
  *
  * Parameters:
  *   x
@@ -111,11 +110,11 @@ func TimeIt(f func([]complex128) []complex128, size int, repeat int) float64 {
  **************************************************************************************************/
 func DirectFT(x []complex128) []complex128 {
     N := len(x)
-    X := make([]complex128, N)                 // Accumulates the results;
-    W := CExp(-2*math.Pi/float64(N))           // Initializes twiddle factors:
+    X := make([]complex128, N)                 // Accumulate the results;
+    W := CExp(-2*math.Pi/float64(N))           // Initialize twiddle factors:
     Wk := complex(1, 0)
     for k:=0; k<N; k++ {
-        Wkn := complex(1, 0)                   // Initializes twiddle factors;
+        Wkn := complex(1, 0)                   // Initialize twiddle factors;
         for n:=0; n<N; n++ {
             X[k] = X[k] + x[n]*Wkn
             Wkn = Wkn * Wk                     // Update twiddle factor;
@@ -128,8 +127,8 @@ func DirectFT(x []complex128) []complex128 {
 
 /**************************************************************************************************
  * Function: Factor
- *   This function finds the smallest prime factor of a given number. If the argument is prime
- *   itself, then it is the return value.
+ *   Smallest prime factor of a given number. If the argument is prime itself, then it is the
+ *   return value.
  *
  * Parameters:
  *   n
@@ -151,8 +150,8 @@ func Factor(n int) int {
 
 /**************************************************************************************************
  * Function: RecursiveFFT
- *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This has
- *   smallest complexity than the direct FT, though the exact value is difficult to compute.
+ *   Fast Fourier Transform using a recursive decimation in time algorithm. This has smaller
+ *   complexity than the direct FT, though the exact value is difficult to compute.
  *
  * Parameters:
  *   x
@@ -170,14 +169,14 @@ func RecursiveFFT(x []complex128) []complex128 {
         return DirectFT(x)                     //   the transform is given by the direct form;
     } else {
         N2 := N / N1                           // Decompose in two factors, N1 being prime;
-        xj := make([]complex128, N2)           // Allocates memory for subsequences
+        xj := make([]complex128, N2)           // Allocate memory for subsequences
         W := CExp(-2*math.Pi/float64(N))       // Twiddle factor;
         Wj := complex(1, 0)
-        for j:=0; j<N1; j++ {                  // Computes every subsequence of size N2;
+        for j:=0; j<N1; j++ {                  // Compute every subsequence of size N2;
             for n:=0; n<N2; n++ {
-                xj[n] = x[n*N1+j]              // Creates the subsequence;
+                xj[n] = x[n*N1+j]              // Create the subsequence;
             }
-            Xj := RecursiveFFT(xj)             // Computes the DFT of the subsequence;
+            Xj := RecursiveFFT(xj)             // Compute the DFT of the subsequence;
             Wkj := complex(1, 0)
             for k:=0; k<N; k++ {               // Recombine results;
                 X[k] = X[k] + Xj[k%N2] * Wkj
@@ -197,7 +196,7 @@ func main() {
 
     SIZES := [8]int{ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 };
 
-    // Starts by printing the table with time comparisons:
+    // Start by printing the table with time comparisons:
     fmt.Println("+---------+---------+---------+---------+")
     fmt.Println("|    N    |   N^2   | Direta  | Recurs. |")
     fmt.Println("+---------+---------+---------+---------+")
@@ -205,7 +204,7 @@ func main() {
     // Try it with vectors with the given sizes:
     for i:=0; i<8; i++ {
 
-        // Computes the average execution time:
+        // Compute the average execution time:
         n := SIZES[i]
         dtime := TimeIt(DirectFT, n, REPEAT)
         rtime := TimeIt(RecursiveFFT, n, REPEAT)

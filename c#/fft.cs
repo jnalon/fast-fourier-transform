@@ -106,8 +106,7 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Auxiliary Method: time_it
-     *   This function calls a Fast Fourier Transform function repeatedly a certain number of
-     *   times, measure execution time and average it.
+     *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
      *
      * Parameters:
      *  f
@@ -125,13 +124,12 @@ class FastFourierTransform
     public static double TimeIt(DFT f, int size, int repeat)
     {
         Complex[] x = new Complex[size];
-        Complex[] X;
 
         for(int i=0; i<size; i++)                      // Initialize the vector;
             x[i] = new Complex(i, 0);
         Stopwatch dsw = Stopwatch.StartNew();          // Starting time;
         for(int j=0; j<repeat; j++)
-            X = f(x);
+            f(x);
         dsw.Stop();
         double dtime = ((double) dsw.ElapsedMilliseconds) / ((double)(1000*repeat));
         return dtime;
@@ -140,8 +138,8 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Method: DirectFT
-     *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that
-     *   has O(N^2) complexity.
+     *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+     *   complexity.
      *
      * Parameters:
      *   x
@@ -156,11 +154,11 @@ class FastFourierTransform
     {
         int N = x.Length;
         Complex[] X = new Complex[N];
-        Complex W = Complex.exp(-2*Math.PI/N);         // Initializes twiddle factors;
+        Complex W = Complex.exp(-2*Math.PI/N);         // Initialize twiddle factors;
         Complex Wk = new Complex(1, 0);
 
         for(int k=0; k<N; k++) {
-            X[k] = new Complex();                      // Accumulates the results;
+            X[k] = new Complex();                      // Accumulate the results;
             Complex Wkn = new Complex(1, 0);
             for(int n=0; n<N; n++) {
                 X[k] = X[k] + Wkn*x[n];
@@ -174,8 +172,8 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Method: RecursiveFFT
-     *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This
-     *   has O(N log_2(N)) complexity.
+     *   Fast Fourier Transform using a recursive decimation in time algorithm. This has
+     *   O(N log_2(N)) complexity.
      *
      * Parameters:
      *   x
@@ -194,7 +192,7 @@ class FastFourierTransform
         else {
             int N2 = N >> 1;
 
-            Complex[] xe = new Complex[N2];            // Allocates memory for computation;
+            Complex[] xe = new Complex[N2];            // Allocate memory for computation;
             Complex[] xo = new Complex[N2];
             Complex[] X = new Complex[N];
 
@@ -220,7 +218,7 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Method: BitReverse
-     *   Computes the bit-reversed function of an integer number.
+     *   Bit-reversed version of an integer number.
      *
      * Parameters:
      *   k
@@ -233,10 +231,10 @@ class FastFourierTransform
      **********************************************************************************************/
     private static int BitReverse(int k, int r)
     {
-        int l = 0;                                     // Accumulates the results;
+        int l = 0;                                     // Accumulate the results;
         for(int i=0; i<r; i++) {                       // Loop on every bit;
-            l = (l << 1) + (k & 1);                    // Tests less signficant bit and add;
-            k = (k >> 1);                              // Tests next bit;
+            l = (l << 1) + (k & 1);                    // Test less signficant bit and add;
+            k = (k >> 1);                              // Test next bit;
         }
         return l;
     }
@@ -244,9 +242,9 @@ class FastFourierTransform
 
     /**********************************************************************************************
      * Function: IterativeFFT
-     *   Computes the Fast Fourier Transform using an iterative in-place decimation in time
-     *   algorithm. This has O(N log_2(N)) complexity, and since there are less function calls, it
-     *   will probably be marginally faster than the recursive versions.
+     *   Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+     *   O(N log_2(N)) complexity, and since there are less function calls, it will probably be
+     *   marginally faster than the recursive versions.
      *
      * Parameters:
      *   x
@@ -294,7 +292,7 @@ class FastFourierTransform
     {
         int REPEAT = 500;                      // Number of executions to compute average time;
 
-        // Starts by printing the table with time comparisons:
+        // Start by printing the table with time comparisons:
         Console.WriteLine("+---------+---------+---------+---------+---------+---------+");
         Console.WriteLine("|    N    |   N^2   | N logN  | Direta  | Recurs. | Inter.  |");
         Console.WriteLine("+---------+---------+---------+---------+---------+---------+");
@@ -302,7 +300,7 @@ class FastFourierTransform
         // Try it with vectors with size ranging from 32 to 1024 samples:
         for(int r=5; r<11; r++) {
 
-            // Computes the average execution time:
+            // Compute the average execution time:
             int n = (int) Math.Pow(2, r);
             double dtime = TimeIt(DirectFT, n, REPEAT);
             double rtime = TimeIt(RecursiveFFT, n, REPEAT);

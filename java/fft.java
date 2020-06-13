@@ -96,26 +96,9 @@ public class fft {
 
 
     /**********************************************************************************************
-     * Auxiliary Method: getClock
-     *   This function gets the system time. The other versions of this program define a function
-     *   that iterates and calls the DFT function a number of times. Unfortunatelly, Java doesn't
-     *   deal ok with first-time order functions. There are ways to do this, but they are overly
-     *   complicated for a simple program like this.
-     *
-     * Returns:
-     *   The average execution time for that function with a vector of the given size.
-     **********************************************************************************************/
-    private static long getTime()
-    {
-        Date t = new Date();
-        return t.getTime();
-    }
-
-
-    /**********************************************************************************************
      * Method: directFT
-     *   Computes the Discrete Fourier Transform directly from the definition, an algorithm that
-     *   has O(N^2) complexity.
+     *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+     *   complexity.
      *
      * Parameters:
      *   x
@@ -136,7 +119,7 @@ public class fft {
         Complex Wk = new Complex(1, 0);
 
         for(int k=0; k<N; k++) {
-            X[k] = new Complex();                      // Accumulates the results;
+            X[k] = new Complex();                      // Accumulate the results;
             Complex Wkn = new Complex(1, 0);
             for(int n=0; n<N; n++) {
                 X[k] = X[k].add(Wkn.mul(x[n]));
@@ -150,8 +133,8 @@ public class fft {
 
     /**********************************************************************************************
      * Method: recursiveFFT
-     *   Computes the Fast Fourier Transform using a recursive decimation in time algorithm. This
-     *   has O(N log_2(N)) complexity.
+     *   Fast Fourier Transform using a recursive decimation in time algorithm. This has
+     *   O(N log_2(N)) complexity.
      *
      * Parameters:
      *   x
@@ -170,7 +153,7 @@ public class fft {
         else {
             int N2 = N >> 1;
 
-            Complex[] xe = new Complex[N2];            // Allocates memory for computation;
+            Complex[] xe = new Complex[N2];            // Allocate memory for computation;
             Complex[] xo = new Complex[N2];
             Complex[] X = new Complex[N];
 
@@ -197,7 +180,7 @@ public class fft {
 
     /**********************************************************************************************
      * Method: bitReverse
-     *   Computes the bit-reversed function of an integer number.
+     *   Bit-reversed version of an integer number.
      *
      * Parameters:
      *   k
@@ -221,9 +204,9 @@ public class fft {
 
     /**********************************************************************************************
      * Function: iterativeFFT
-     *   Computes the Fast Fourier Transform using an iterative in-place decimation in time
-     *   algorithm. This has O(N log_2(N)) complexity, and since there are less function calls, it
-     *   will probably be marginally faster than the recursive versions.
+     *   Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+     *   O(N log_2(N)) complexity, and since there are less function calls, it will probably be
+     *   marginally faster than the recursive versions.
      *
      * Parameters:
      *   x
@@ -265,14 +248,14 @@ public class fft {
 
 
     /**********************************************************************************************
-     * Main Method:
+     * Main Method.
      **********************************************************************************************/
     public static void main(String args[])
     {
         int REPEAT = 500;                      // Number of executions to compute average time;
         Complex[] X;
 
-        // Starts by printing the table with time comparisons:
+        // Start by printing the table with time comparisons:
         System.out.print("+---------+---------+---------+---------+---------+---------+\n");
         System.out.print("|    N    |   N^2   | N logN  | Direta  | Recurs. | Inter.  |\n");
         System.out.print("+---------+---------+---------+---------+---------+---------+\n");
@@ -280,29 +263,29 @@ public class fft {
         // Try it with vectors with size ranging from 32 to 1024 samples:
         for(int r=5; r<11; r++) {
 
-            // Prepara o vetor a ser transformado
+            // Initialize the vector that will be transformed:
             int n = (int) Math.round(Math.exp(r*Math.log(2)));
             Complex[] x = new Complex[n];
             for(int j=0; j<n; j++)
                 x[j] = new Complex(j, 0);
 
-            // Computes the average execution time for DirectFT:
-            long t0 = getTime();
+            // Compute the average execution time for DirectFT:
+            long t0 = new Date().getTime();
             for(int j=0; j<REPEAT; j++)
                 X = directFT(x);
-            float dtime = (getTime() - t0) / (float) (1000*REPEAT);
+            float dtime = (new Date().getTime() - t0) / (float) (1000*REPEAT);
 
-            // Computes the average execution time for RecursiveFFT:
-            t0 = getTime();
+            // Compute the average execution time for RecursiveFFT:
+            t0 = new Date().getTime();
             for(int j=0; j<REPEAT; j++)
                 X = recursiveFFT(x);
-            float rtime = (getTime() - t0) / (float) (1000*REPEAT);
+            float rtime = (new Date().getTime() - t0) / (float) (1000*REPEAT);
 
-            // Computes the average execution time for IterativeFFT:
-            t0 = getTime();
+            // Compute the average execution time for IterativeFFT:
+            t0 = new Date().getTime();
             for(int j=0; j<REPEAT; j++)
                 X = iterativeFFT(x);
-            float itime = (getTime() - t0) / (float) (1000*REPEAT);
+            float itime = (new Date().getTime() - t0) / (float) (1000*REPEAT);
 
             // Print the results:
             System.out.printf("| %7d | %7d | %7d | %7.4f | %7.4f | %7.4f |\n",

@@ -10,12 +10,12 @@
 % $ octave fft_main.m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Definitios:
+% Definitions:
 REPEAT = 50;                                   % Number of executions to compute average time;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Starts by printing the table with time comparisons:
+% Start by printing the table with time comparisons:
 fprintf('+---------+---------+---------+---------+---------+---------+---------+\n');
 fprintf('|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  | Interna |\n');
 fprintf('+---------+---------+---------+---------+---------+---------+---------+\n');
@@ -23,7 +23,7 @@ fprintf('+---------+---------+---------+---------+---------+---------+---------+
 % Try it with vectors with size ranging from 32 to 1024 samples:
 for r = 5:10
 
-    % Computes the average execution time:
+    % Compute the average execution time:
     n = 2^r;
     dtime = time_it(@direct_ft, n, REPEAT);
     rtime = time_it(@recursive_fft, n, REPEAT);
