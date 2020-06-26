@@ -225,7 +225,7 @@ void recursive_fft(Complex x[], Complex X[], int N)
     else {
         int N2 = N / N1;                       // Decompose in two factors, N1 being prime;
 
-        Complex *xj = new Complex[N2];         // Allocate memory for subsequences
+        Complex *xj = new Complex[N2];         // Allocate memory for subsequences;
         Complex *Xj = new Complex[N2];         //   and their transforms;
 
         Complex W = cexpn(-2*M_PI/N);          // Twiddle factor;

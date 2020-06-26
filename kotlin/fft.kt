@@ -211,7 +211,6 @@ fun bitReverse(k: Int, r: Int): Int
 }
 
 
-
 /**************************************************************************************************
  * Function: iterativeFFT
  *   Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
@@ -232,9 +231,9 @@ fun iterativeFFT(x: Array<Complex>): Array<Complex>
     val X = Array<Complex>(N) { _ -> Complex() }
 
     val r = (round(log(N.toDouble(), 2.0))).toInt()    // Number of bits;
-    for (k in 0..N-1) {                                // Reorder the vector according to
-        var l = bitReverse(k, r)                       //   the bit-reversed order;
-        X[l] = x[k]
+    for (k in 0..N-1) {
+        var l = bitReverse(k, r)                       // Reorder the vector according to
+        X[l] = x[k]                                    //   the bit-reversed order;
     }
 
     var step: Int = 1                                  // Computation of twiddle factors;

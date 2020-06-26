@@ -277,9 +277,9 @@ var
     r, k, l, m, p, q, step: integer;
 begin
     r := Round(ln(n)/ln(2));                   { Number of bits; }
-    for k := 0 to n-1 do begin                 { Reorder the vector according to the }
-        l := BitReverse(k, r);                 {   bit-reversed order; }
-        y[l] := x[k];
+    for k := 0 to n-1 do begin
+        l := BitReverse(k, r);                 { Reorder the vector according to the }
+        y[l] := x[k];                          {   bit-reversed order; }
     end;
 
     step := 1;                                 { Auxiliary for computation of twiddle factors; }

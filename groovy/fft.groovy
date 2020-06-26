@@ -236,9 +236,9 @@ def iterativeFFT(x) {
     def X = new Complex[N]
 
     r = Math.round(Math.log(N)/Math.log(2)) as Integer         // Number of bits;
-    for (k in 0..<N) {                                         // Reorder the vector according to
-        l = bitReverse(k, r)                                   //   the bit-reversed order;
-        X[l] = x[k]
+    for (k in 0..<N) {
+        l = bitReverse(k, r)                                   // Reorder the vector according to
+        X[l] = x[k]                                            //   the bit-reversed order;
     }
 
     step = 1                                                   // Computation of twiddle factors;

@@ -247,10 +247,8 @@ void recursive_fft(Complex x[], Complex X[], int N)
  **************************************************************************************************/
 int bit_reverse(int k, int r)
 {
-    int l, i;
-
-    l = 0;                                     // Accumulate the results;
-    for(i=0; i<r; i++) {                       // Loop on every bit;
+    int l = 0;                                 // Accumulate the results;
+    for(int i=0; i<r; i++) {                   // Loop on every bit;
         l = (l << 1) + (k & 1);                // Test less signficant bit and add;
         k >>= 1;                               // Test next bit;
     }
@@ -277,9 +275,9 @@ int bit_reverse(int k, int r)
 void iterative_fft(Complex x[], Complex X[], int N)
 {
     int r = (int) floor(log(N)/log(2));        // Number of bits;
-    for(int k=0; k<N; k++) {                   // Reorder the vector according to the
-        int l = bit_reverse(k, r);             //   bit-reversed order;
-        X[l] = x[k];
+    for(int k=0; k<N; k++) {
+        int l = bit_reverse(k, r);             // Reorder the vector according to the
+        X[l] = x[k];                           //   bit-reversed order;
     }
 
     int step = 1;                              // Auxiliary for computation of twiddle factors;

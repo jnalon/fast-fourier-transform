@@ -81,16 +81,22 @@ def direct_ft(x):
 # much of Python can be directly translated from Math directly to code. An explanation of every term
 # follows:
 #
-# lambda X:                                    # Given in functional form;
-#   [ sum([                                    # Summation;
-#       x*exp(-2j*pi*n*k/len(X))               # This is the general term of the summation,
-#           for n, x in enumerate(x) ])        #   over the N samples of the vector,
-#       for k, _ in enumerate(x) ]             #   for the N coefficients in the result.
+# lambda x:                                    # Given in functional form;
+#   [ sum(                                     # Summation
+#       [
+#         xn                                   #   of every sample
+#         * exp(-2j*pi*n*k/len(x))             #   times the twiddle factor
+#             for n, xn in enumerate(x)        #   over the interval of samples;
+#       ])
+#       for k, _ in enumerate(x) ]             # Repeat for every coefficient;
 #
 # Here is the analysis equation (in LaTeX form) for comparison:
 #
-#  X[k] = \sum_{0}^{N-1} x[n] e^{-j 2 \pi k n / N}
-lc_dft = lambda X: [ sum([ x*exp(-2j*pi*n*k/len(X)) for n, x in enumerate(X) ]) for k, _ in enumerate(X) ]
+#  X[k] = \sum_{0}^{N-1} x[n] e^{-j 2 \pi k n / N} \; k = 0 \ldots N-1
+#
+# This implementation is not, of course, very efficient, since it doesn't take advantage of the
+# regularity of the twiddle factors, and computes complex exponentials for every term.
+lc_dft = lambda x: [ sum([ xn*exp(-2j*pi*n*k/len(x)) for n, xn in enumerate(x) ]) for k, _ in enumerate(x) ]
 
 
 ####################################################################################################
@@ -165,15 +171,15 @@ def array_recursive_fft(x):
     :Returns:
       A complex-number vector of the same size, with the coefficients of the DFT.
     """
-    if len(x) == 1:                            # A length-1 vector is its own FT;
+    if len(x) == 1:                                    # A length-1 vector is its own FT;
         return x
     else:
-        N = len(x)                             # Length of the vector;
-        Xe = array_recursive_fft(x[0::2])      # Transform of even samples;
-        Xo = array_recursive_fft(x[1::2])      # Transform of odd samples;
-        W = exp(-2j*pi*arange(0, N/2)/N)       # Twiddle factors;
-        WXo = W * Xo                           # Repeated computation;
-        X = hstack((Xe + WXo, Xe - WXo))       # Recombine results;
+        N = len(x)                                     # Length of the vector;
+        Xe = array_recursive_fft(x[0::2])              # Transform of even samples;
+        Xo = array_recursive_fft(x[1::2])              # Transform of odd samples;
+        W = exp(-2j*pi/N) ** range(0, int(N/2))        # Twiddle factors;
+        WXo = W * Xo                                   # Repeated computation;
+        X = hstack((Xe + WXo, Xe - WXo))               # Recombine results;
         return X
 
 
@@ -218,9 +224,9 @@ def iterative_fft(x):
     N = len(x)                                 # Length of vector;
     r = int(log(N)/log(2))                     # Number of bits;
     X = [ complex(xi) for xi in x ]            # Accumulate the results;
-    for k in range(0, N):                      # Reorder the vector according to the
-        l = bit_reverse(k, r)                  #   bit-reversed order;
-        X[l] = x[k]
+    for k in range(0, N):
+        l = bit_reverse(k, r)                  # Reorder the vector according to the
+        X[l] = x[k]                            #   bit-reversed order;
 
     step = 1                                   # Auxililary for computation of twiddle factors;
     for k in range(0, r):
@@ -257,9 +263,9 @@ def array_iterative_fft(x):
     N = len(x)                                 # Length of vector;
     r = int(log(N)/log(2))                     # Number of bits;
     X = array(x, dtype=complex)                # Accumulate the results;
-    for k in range(0, N):                      # Reorder the vector according to the
-        l = bit_reverse(k, r)                  #   bit-reversed order;
-        X[l] = x[k]
+    for k in range(0, N):
+        l = bit_reverse(k, r)                  # Reorder the vector according to the
+        X[l] = x[k]                            #   bit-reversed order;
 
     step = 1                                   # Auxililary for computation of twiddle factors;
     for k in range(0, r):

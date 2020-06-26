@@ -135,14 +135,15 @@ def recursive_fft(x):
 # Main program:
 if __name__ == "__main__":
 
+    SIZES = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ]
+
     # Start printing the table with time comparisons:
     print("+---------"*5 + "+")
     print("|    N    |   N^2   | Direct  | Recurs. | Interna |")
     print("+---------"*5 + "+")
 
     # Try it with vectors with the given sizes:
-    sizes = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ]
-    for n in sizes:
+    for n in SIZES:
 
         # Compute the average execution time:
         dtime  = time_it(direct_ft, n, REPEAT)

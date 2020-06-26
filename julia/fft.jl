@@ -122,9 +122,9 @@ function iterative_fft(x)
     N = length(x)                              # Length of vector;
     r = round(Int, log(N)/log(2))              # Number of bits;
     X = complex(x)                             # Accumulate the results;
-    for k = 0:N-1                              # Reorder the vector according to the
-        l = bitreverse(k, r)                   #   bit-reversed order;
-        X[l+1] = x[k+1]
+    for k = 0:N-1
+        l = bitreverse(k, r)                   # Reorder the vector according to the
+        X[l+1] = x[k+1]                        #   bit-reversed order;
     end
 
     step = 1                                   # Auxililary for computation of twiddle factors;

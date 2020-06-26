@@ -211,10 +211,10 @@ func IterativeFFT(x []complex128) []complex128 {
     N := len(x)
     r := int(math.Floor(math.Log(float64(N))/math.Log(2)))     // Number of bits;
 
-    X := make([]complex128, N)                 // Reorder the vector according to the
-    for k:=0; k<N; k++ {                       //   bit-reversed order;
-        l := BitReverse(k, r)
-        X[l] = x[k]
+    X := make([]complex128, N)
+    for k:=0; k<N; k++ {
+        l := BitReverse(k, r)                  // Reorder the vector according to the
+        X[l] = x[k]                            //   bit-reversed order;
     }
 
     step := 1                                  // Auxiliary for computation of twiddle factors;

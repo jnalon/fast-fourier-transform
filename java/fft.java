@@ -253,9 +253,9 @@ public class fft {
         Complex[] X = new Complex[N];
 
         int r = (int) Math.round(Math.log(N)/Math.log(2));     // Number of bits;
-        for(int k=0; k<N; k++) {                               // Reorder the vector according to
-            int l = bitReverse(k, r);                          //   the bit-reversed order;
-            X[l] = x[k];
+        for(int k=0; k<N; k++) {
+            int l = bitReverse(k, r);                          // Reorder the vector according to
+            X[l] = x[k];                                       //   the bit-reversed order;
         }
 
         int step = 1;                                          // Computation of twiddle factors;

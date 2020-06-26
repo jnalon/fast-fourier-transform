@@ -16,9 +16,9 @@ function Y = iterative_fft(X)
     N = length(X);                             % Length of vector;
     r = floor(log(N)/log(2));                  % Number of bits;
     Y = X;                                     % Accumulate the results;
-    for k = 0:N-1                              % Reorder the vector according to the
-        l = bit_reverse(k, r);                 %   bit-reversed order;
-        Y(l+1) = X(k+1);
+    for k = 0:N-1
+        l = bit_reverse(k, r);                 % Reorder the vector according to the
+        Y(l+1) = X(k+1);                       %   bit-reversed order;
     end
 
     step = 1;                                  % Auxililary for computation of twiddle factors;
