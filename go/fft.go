@@ -243,7 +243,7 @@ func main() {
 
     // Start by printing the table with time comparisons:
     fmt.Println("+---------+---------+---------+---------+---------+---------+")
-    fmt.Println("|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |")
+    fmt.Println("|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  |")
     fmt.Println("+---------+---------+---------+---------+---------+---------+")
 
     // Try it with vectors with size ranging from 32 to 1024 samples:

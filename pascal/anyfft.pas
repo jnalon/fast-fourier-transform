@@ -242,8 +242,8 @@ begin
             FXj := RecursiveFFT(xj, n2);       { Compute the DFT of the subsequence; }
             Wkj := Complex(1);
             for k := 0 to N-1 do begin
-                y[k] := y[k] + FXj[k mod n2] * Wkj;
-                Wkj := Wkj * Wj;               { Update twiddle factors; }
+                y[k] := y[k] + FXj[k mod n2] * Wkj;    { Recombine results; }
+                Wkj := Wkj * Wj;                       { Update twiddle factors; }
             end;
             Wj := Wj * W;
         end;
@@ -264,7 +264,7 @@ var
 begin
     // Start by printing the table with time comparisons:
     writeln('+---------+---------+---------+---------+');
-    writeln('|    N    |   N^2   | Direta  | Recurs. |');
+    writeln('|    N    |   N^2   | Direct  | Recurs. |');
     writeln('+---------+---------+---------+---------+');
 
     // Try it with vectors with the given sizes:

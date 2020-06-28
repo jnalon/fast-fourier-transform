@@ -267,7 +267,7 @@ fun main() {
 
     // Start by printing the table with time comparisons:
     println("+---------+---------+---------+---------+---------+---------+")
-    println("|    N    |   N^2   | N logN  | Direta  | Recurs. | Inter.  |")
+    println("|    N    |   N^2   | N logN  | Direct  | Recurs. | Inter.  |")
     println("+---------+---------+---------+---------+---------+---------+")
 
     // Try it with vectors with size ranging from 32 to 1024 samples:

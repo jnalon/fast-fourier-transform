@@ -314,7 +314,7 @@ var
 begin
     // Start by printing the table with time comparisons:
     writeln('+---------+---------+---------+---------+---------+---------+');
-    writeln('|    N    |   N^2   | N logN  | Direta  | Recurs. | Inter.  |');
+    writeln('|    N    |   N^2   | N logN  | Direct  | Recurs. | Inter.  |');
     writeln('+---------+---------+---------+---------+---------+---------+');
 
     // Try it with vectors with size ranging from 32 to 1024 samples:

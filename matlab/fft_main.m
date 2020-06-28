@@ -17,7 +17,7 @@ REPEAT = 50;                                   % Number of executions to compute
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Start by printing the table with time comparisons:
 fprintf('+---------+---------+---------+---------+---------+---------+---------+\n');
-fprintf('|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  | Interna |\n');
+fprintf('|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  | Intern. |\n');
 fprintf('+---------+---------+---------+---------+---------+---------+---------+\n');
 
 % Try it with vectors with size ranging from 32 to 1024 samples:

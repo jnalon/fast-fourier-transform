@@ -73,6 +73,7 @@ public class Complex
         return new Complex(Math.Cos(a), Math.Sin(a));
     }
 
+    // String representation for printing:
     public override string ToString()
     {
         return(String.Format("{0} + {1}i", re, im));
@@ -293,7 +294,7 @@ class FastFourierTransform
 
         // Start by printing the table with time comparisons:
         Console.WriteLine("+---------+---------+---------+---------+---------+---------+");
-        Console.WriteLine("|    N    |   N^2   | N logN  | Direta  | Recurs. | Inter.  |");
+        Console.WriteLine("|    N    |   N^2   | N logN  | Direct  | Recurs. | Inter.  |");
         Console.WriteLine("+---------+---------+---------+---------+---------+---------+");
 
         // Try it with vectors with size ranging from 32 to 1024 samples:

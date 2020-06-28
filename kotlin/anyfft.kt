@@ -196,7 +196,7 @@ fun recursiveFFT(x: Array<Complex>): Array<Complex>
         var Wj = Complex(1.0, 0.0)
         for (j in 0..N1-1) {                           // Compute every subsequence of size N2;
             val xj = Array<Complex>(N2) { n -> x[n*N1+j] }     // Create the subsequence;
-            val Xj = recursiveFFT(xj)                  // Compute the DFT of the subsequence;
+            val Xj = recursiveFFT(xj)                          // Compute the DFT of the subsequence;
             var Wkj = Complex(1.0, 0.0)
             for (k in 0..N-1) {
                 X[k] = X[k] + Xj[k%N2] * Wkj           // Recombine results;
@@ -219,7 +219,7 @@ fun main() {
 
     // Start by printing the table with time comparisons:
     println("+---------+---------+---------+---------+")
-    println("|    N    |   N^2   | Direta  | Recurs. |")
+    println("|    N    |   N^2   | Direct  | Recurs. |")
     println("+---------+---------+---------+---------+")
 
     // Try it with vectors with the given sizes:

@@ -225,8 +225,8 @@ class FastFourierTransform
                     xj[n] = x[n*N1+j];                 // Create the subsequence;
                 Complex[] Xj = RecursiveFFT(xj);       // Compute the DFT of the subsequence;
                 Complex Wkj = new Complex(1, 0);
-                for(int k=0; k<N; k++) {               // Recombine results;
-                    X[k] = X[k] + Xj[k%N2] * Wkj;
+                for(int k=0; k<N; k++) {
+                    X[k] = X[k] + Xj[k%N2] * Wkj;      // Recombine results;
                     Wkj = Wkj * Wj;                    // Update twiddle factors;
                 }
                 Wj = Wj * W;
@@ -246,7 +246,7 @@ class FastFourierTransform
 
         // Starts by printing the table with time comparisons:
         Console.WriteLine("+---------+---------+---------+---------+");
-        Console.WriteLine("|    N    |   N^2   | Direta  | Recurs. |");
+        Console.WriteLine("|    N    |   N^2   | Direct  | Recurs. |");
         Console.WriteLine("+---------+---------+---------+---------+");
 
         // Try it with vectors with the given sizes:

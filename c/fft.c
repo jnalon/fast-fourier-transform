@@ -318,7 +318,7 @@ int main(int argc, char *argv[]) {
 
     // Start by printing the table with time comparisons:
     printf("+---------+---------+---------+---------+---------+---------+\n");
-    printf("|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |\n");
+    printf("|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  |\n");
     printf("+---------+---------+---------+---------+---------+---------+\n");
 
     // Try it with vectors with size ranging from 32 to 1024 samples:

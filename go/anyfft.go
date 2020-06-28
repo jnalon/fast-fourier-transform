@@ -178,8 +178,8 @@ func RecursiveFFT(x []complex128) []complex128 {
             }
             Xj := RecursiveFFT(xj)             // Compute the DFT of the subsequence;
             Wkj := complex(1, 0)
-            for k:=0; k<N; k++ {               // Recombine results;
-                X[k] = X[k] + Xj[k%N2] * Wkj
+            for k:=0; k<N; k++ {
+                X[k] = X[k] + Xj[k%N2] * Wkj   // Recombine results;
                 Wkj = Wkj * Wj                 // Update twiddle factors;
             }
             Wj = Wj * W
@@ -198,7 +198,7 @@ func main() {
 
     // Start by printing the table with time comparisons:
     fmt.Println("+---------+---------+---------+---------+")
-    fmt.Println("|    N    |   N^2   | Direta  | Recurs. |")
+    fmt.Println("|    N    |   N^2   | Direct  | Recurs. |")
     fmt.Println("+---------+---------+---------+---------+")
 
     // Try it with vectors with the given sizes:

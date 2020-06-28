@@ -104,9 +104,9 @@ function recursive_fft(x)
         for j = 1:N1                           # Compute every subsequence of size N2;
             Xj = recursive_fft(x[j:N1:end])
             Wkj = 1.0
-            for k = 1:N                        # Recombine results;
-                X[k] = X[k] + Xj[(k-1)%N2+1] * Wkj
-                Wkj = Wkj * Wj                 # Update twiddle factors;
+            for k = 1:N
+                X[k] = X[k] + Xj[(k-1)%N2+1] * Wkj     # Recombine results;
+                Wkj = Wkj * Wj                         # Update twiddle factors;
             end
             Wj = Wj * W
         end
@@ -121,7 +121,7 @@ function main()
 
     # Start printing the table with time comparisons:
     println("+---------+---------+---------+---------+---------+")
-    println("|    N    |   N^2   | Direta  | Recurs. | Interna |")
+    println("|    N    |   N^2   | Direct  | Recurs. | Intern. |")
     println("+---------+---------+---------+---------+---------+")
 
     # Try it with vectors with the given sizes:

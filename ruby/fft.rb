@@ -124,8 +124,8 @@ def recursive_fft(x)
         w = CMath.exp((-2.0i*Math::PI/nx))     # Twiddle factors;
         wk = Complex(1.0, 0.0)
         n2.times { |k|
-            tX[k] = tXe[k] + wk*tXo[k]
-            tX[k+n2] = tXe[k] - wk*tXo[k]      # Recombine results;
+            tX[k] = tXe[k] + wk*tXo[k]         # Recombine results;
+            tX[k+n2] = tXe[k] - wk*tXo[k]
             wk = wk * w                        # Update twiddle factors;
         }
         return tX
@@ -204,7 +204,7 @@ def main()
 
     # Try it with vectors with size ranging from 32 to 1024 samples:
     puts "+---------"*6 + "+"
-    puts "|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |"
+    puts "|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  |"
     puts "+---------"*6 + "+"
 
     # Compute the average execution time:

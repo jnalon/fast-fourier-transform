@@ -145,8 +145,8 @@ def recursive_fft(x)
             }
             tXj = recursive_fft(xj)
             wkj = 1.0
-            nx.times { |k|                     # Recombine results;
-                tX[k] = tX[k] + tXj[k%n2]*wkj
+            nx.times { |k|
+                tX[k] = tX[k] + tXj[k%n2]*wkj  # Recombine results;
                 wkj = wkj * wj                 # Update twiddle factors;
             }
             wj = wj * w
@@ -164,7 +164,7 @@ def main()
 
     # Try it with vectors with size ranging from 32 to 1024 samples:
     puts "+---------"*4 + "+"
-    puts "|    N    |   N^2   | Direta  | Recurs. |"
+    puts "|    N    |   N^2   | Direct  | Recurs. |"
     puts "+---------"*4 + "+"
 
     # Compute the average execution time:

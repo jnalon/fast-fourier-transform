@@ -22,13 +22,6 @@
 #include <math.h>                              // Math Functions;
 #include <time.h>                              // Time measurement;
 
-// #include <stdlib.h>                    // Biblioteca padrão da linguagem;
-// #include <stdio.h>                     // Entrada e saída;
-// #include <sys/types.h>                 // Tipos de dados;
-// #include <string.h>                    // Processamento de strings;
-// #include <ctype.h>                     // Processamento de caracteres;
-// #include <math.h>                      // Funções matemáticas;
-
 
 /**************************************************************************************************
  Definitions:
@@ -250,9 +243,9 @@ void recursive_fft(Complex x[], Complex X[], int N)
             }
             recursive_fft(xj, Xj, N2);         // Compute the DFT of the subsequence;
             Wkj = cmplx(1, 0);
-            for(int k=0; k<N; k++) {           // Recombine results;
-                X[k] = cadd(X[k], cmul(Xj[k%N2], Wkj));
-                Wkj = cmul(Wkj, Wj);           // Update twiddle factors;
+            for(int k=0; k<N; k++) {
+                X[k] = cadd(X[k], cmul(Xj[k%N2], Wkj));        // Recombine results;
+                Wkj = cmul(Wkj, Wj);                           // Update twiddle factors;
             }
             Wj = cmul(Wj, W);
         }
@@ -273,7 +266,7 @@ int main(int argc, char *argv[]) {
 
     // Start by printing the table with time comparisons:
     printf("+---------+---------+---------+---------+\n");
-    printf("|    N    |   N^2   | Direta  | Recurs. |\n");
+    printf("|    N    |   N^2   | Direct  | Recurs. |\n");
     printf("+---------+---------+---------+---------+\n");
 
     // Try it with vectors with the given sizes:

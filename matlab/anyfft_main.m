@@ -17,7 +17,7 @@ REPEAT = 50;                                   % Number of executions to compute
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Start by printing the table with time comparisons:
 fprintf('+---------+---------+---------+---------+---------+\n');
-fprintf('|    N    |   N^2   | Direct  | Recurs. | Interna |\n');
+fprintf('|    N    |   N^2   | Direct  | Recurs. | Intern. |\n');
 fprintf('+---------+---------+---------+---------+---------+\n');
 
 % Try it with vectors with the given sizes:

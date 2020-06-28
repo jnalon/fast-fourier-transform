@@ -305,7 +305,7 @@ int main(int argc, char *argv[]) {
 
     // Start by printing the table with time comparisons:
     cout << "+---------+---------+---------+---------+---------+---------+" << endl;
-    cout << "|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |" << endl;
+    cout << "|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  |" << endl;
     cout << "+---------+---------+---------+---------+---------+---------+" << endl;
 
     // Try it with vectors with size ranging from 32 to 1024 samples:

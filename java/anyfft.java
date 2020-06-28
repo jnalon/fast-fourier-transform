@@ -43,25 +43,25 @@ class Complex {
         this(0, 0);
     }
 
-    // Adds the argument to this, giving the result as a new complex number:
+    // Add the argument to this, giving the result as a new complex number:
     public Complex add(Complex c)
     {
         return new Complex(r + c.r, i + c.i);
     }
 
-    // Subtracts the argument from this, giving the result as a new complex number:
+    // Subtract the argument from this, giving the result as a new complex number:
     public Complex sub(Complex c)
     {
         return new Complex(r - c.r, i - c.i);
     }
 
-    // Multiplies the argument with this, giving the result as a new complex number:
+    // Multiply the argument with this, giving the result as a new complex number:
     public Complex mul(Complex c)
     {
         return new Complex(r*c.r - i*c.i, r*c.i + i*c.r);
     }
 
-    // Divides this by the argument, giving the result as a new complex number:
+    // Divide this by the argument, giving the result as a new complex number:
     public Complex div(float a)
     {
         return new Complex(r/a, i/a);
@@ -118,10 +118,10 @@ public class anyfft {
         for(int j=0; j<size; j++)
             x[j] = new Complex(j, 0);
 
-        long t0 = new Date().getTime();                 // Start a timer;
+        long t0 = System.nanoTime();                    // Start a timer;
         for(int j=0; j<repeat; j++)                     // Repeated calls;
             f.apply(x);
-        float ttime = (new Date().getTime() - t0) / (float) (1000*repeat);
+        float ttime = (System.nanoTime() - t0) / (float) (1e9*repeat);
         return ttime;
     }
 
@@ -219,9 +219,9 @@ public class anyfft {
                     xj[n] = x[n*N1+j];                 // Create the subsequence;
                 Complex[] Xj = recursiveFFT(xj);       // Compute the DFT of the subsequence;
                 Complex Wkj = new Complex(1, 0);
-                for(int k=0; k<N; k++) {               // Recombine results;
-                    X[k] = X[k].add(Wkj.mul(Xj[k%N2]));
-                    Wkj = Wkj.mul(Wj);                 // Update twiddle factors;
+                for(int k=0; k<N; k++) {
+                    X[k] = X[k].add(Wkj.mul(Xj[k%N2]));        // Recombine results;
+                    Wkj = Wkj.mul(Wj);                         // Update twiddle factors;
                 }
                 Wj = Wj.mul(W);
             }
@@ -240,7 +240,7 @@ public class anyfft {
 
         // Start by printing the table with time comparisons:
         System.out.print("+---------+---------+---------+---------+\n");
-        System.out.print("|    N    |   N^2   | Direta  | Recurs. |\n");
+        System.out.print("|    N    |   N^2   | Direct  | Recurs. |\n");
         System.out.print("+---------+---------+---------+---------+\n");
 
         // Try it with vectors with the given sizes:
@@ -255,7 +255,7 @@ public class anyfft {
             System.out.printf("| %7d | %7d | %7.4f | %7.4f |\n", n, n*n, dtime, rtime);
 
         }
-        System.out.print("+---------+---------+---------+---------+---------+---------+\n");
+        System.out.print("+---------+---------+---------+---------+\n");
      }
 
 }

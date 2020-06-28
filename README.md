@@ -19,6 +19,7 @@ Currently, this repository contains implementations in the languages on the list
 * Pascal
 * Python
 * Ruby
+* Scala
 
 Instructions on how to compile and run are in the comments of each file. There is no `make` file because those are very simple commands. Some of the implementations have dependencies, although I tried to keep them at a minimum. Again, those are in the comments in the header of each file.
 

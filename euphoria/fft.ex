@@ -232,7 +232,7 @@ procedure main()
 
     -- Start by printing the table with time comparisons:
     printf(1, "%s\n", { "+---------+---------+---------+---------+---------+---------+" })
-    printf(1, "%s\n", { "|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |" })
+    printf(1, "%s\n", { "|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  |" })
     printf(1, "%s\n", { "+---------+---------+---------+---------+---------+---------+" })
 
     -- Try it with vectors with size ranging from 32 to 1024 samples:

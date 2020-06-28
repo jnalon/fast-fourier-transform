@@ -237,8 +237,8 @@ void recursive_fft(Complex x[], Complex X[], int N)
             }
             recursive_fft(xj, Xj, N2);         // Compute the DFT of the subsequence;
             Complex Wkj = Complex(1, 0);
-            for(int k=0; k<N; k++) {           // Recombine results;
-                X[k] = X[k] + Xj[k%N2] * Wkj;
+            for(int k=0; k<N; k++) {
+                X[k] = X[k] + Xj[k%N2] * Wkj;  // Recombine results;
                 Wkj = Wkj * Wj;                // Update twiddle factors;
             }
             Wj = Wj * W;
@@ -259,7 +259,7 @@ int main(int argc, char *argv[]) {
 
     // Start by printing the table with time comparisons:
     cout << "+---------+---------+---------+---------+" << endl;
-    cout << "|    N    |   N^2   | Direta  | Recurs. |" << endl;
+    cout << "|    N    |   N^2   | Direct  | Recurs. |" << endl;
     cout << "+---------+---------+---------+---------+" << endl;
 
     // Try it with vectors with the given sizes:

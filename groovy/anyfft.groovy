@@ -52,7 +52,7 @@ class Complex {
         return new Complex(-re, -im)
     }
 
-    // Divide this by the argument, giving the result as a new complex number:
+    // Multiply this by the argument, giving the result as a new complex number:
     def multiply(c) {
         return new Complex(re*c.re - im*c.im, re*c.im + im*c.re)
     }
@@ -201,8 +201,8 @@ def recursiveFFT(x) {
                 xj[n] = x[n*N1+j]                      // Create the subsequence;
             def Xj = recursiveFFT(xj)                  // Compute the DFT of the subsequence;
             Wkj = new Complex(1.0f, 0.0f)
-            for (k in 0..<N) {                         // Recombine results;
-                X[k] = X[k] + Wkj*Xj[k%N2]
+            for (k in 0..<N) {
+                X[k] = X[k] + Wkj*Xj[k%N2]             // Recombine results;
                 Wkj = Wkj * Wj                         // Update twiddle factors;
             }
             Wj = Wj * W
@@ -220,7 +220,7 @@ def main() {
 
     // Start by printing the table with time comparisons:
     println("+---------"*4 + "+")
-    println("|    N    |   N^2   | Direta  | Recurs. |")
+    println("|    N    |   N^2   | Direct  | Recurs. |")
     println("+---------"*4 + "+")
 
     // Try it with vectors with size ranging from 32 to 1024 samples:

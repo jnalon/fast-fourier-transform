@@ -52,7 +52,7 @@ class Complex {
         return new Complex(-re, -im)
     }
 
-    // Divide this by the argument, giving the result as a new complex number:
+    // Multiply this by the argument, giving the result as a new complex number:
     def multiply(c) {
         return new Complex(re*c.re - im*c.im, re*c.im + im*c.re)
     }
@@ -270,7 +270,7 @@ def main() {
 
     // Start by printing the table with time comparisons:
     println("+---------"*6 + "+")
-    println("|    N    |   N^2   | N logN  | Direta  | Recurs. | Itera.  |")
+    println("|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  |")
     println("+---------"*6 + "+")
 
     // Try it with vectors with size ranging from 32 to 1024 samples:

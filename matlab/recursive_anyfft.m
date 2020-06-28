@@ -24,9 +24,9 @@ function Y = recursive_anyfft(X)
         for j = 1:N1                           % Compute every subsequence of size N2;
             Xj = recursive_anyfft(X(j:N1:end));
             Wkj = 1;
-            for k = 1:N                        % Recombine results;
+            for k = 1:N
                 k2 = mod(k-1, N2);
-                Y(k) = Y(k) + Xj(k2+1) * Wkj;
+                Y(k) = Y(k) + Xj(k2+1) * Wkj;  % Recombine results;
                 Wkj = Wkj * Wj;                % Update twiddle factors;
             end
             Wj = Wj * W;

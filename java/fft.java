@@ -17,7 +17,6 @@
 /**************************************************************************************************
  * Include necessary libraries:
  **************************************************************************************************/
-import java.util.Date;                         // Timing;
 import java.util.function.Function;            // Passing functions as parameters;
 
 
@@ -43,25 +42,25 @@ class Complex {
         this(0, 0);
     }
 
-    // Adds the argument to this, giving the result as a new complex number:
+    // Add the argument to this, giving the result as a new complex number:
     public Complex add(Complex c)
     {
         return new Complex(r + c.r, i + c.i);
     }
 
-    // Subtracts the argument from this, giving the result as a new complex number:
+    // Subtract the argument from this, giving the result as a new complex number:
     public Complex sub(Complex c)
     {
         return new Complex(r - c.r, i - c.i);
     }
 
-    // Multiplies the argument with this, giving the result as a new complex number:
+    // Multiply the argument with this, giving the result as a new complex number:
     public Complex mul(Complex c)
     {
         return new Complex(r*c.r - i*c.i, r*c.i + i*c.r);
     }
 
-    // Divides this by the argument, giving the result as a new complex number:
+    // Divide this by the argument, giving the result as a new complex number:
     public Complex div(float a)
     {
         return new Complex(r/a, i/a);
@@ -118,10 +117,10 @@ public class fft {
         for(int j=0; j<size; j++)
             x[j] = new Complex(j, 0);
 
-        long t0 = new Date().getTime();                 // Start a timer;
+        long t0 = System.nanoTime();                    // Start a timer;
         for(int j=0; j<repeat; j++)                     // Repeated calls;
             f.apply(x);
-        float ttime = (new Date().getTime() - t0) / (float) (1000*repeat);
+        float ttime = (System.nanoTime() - t0) / (float) (1e9*repeat);
         return ttime;
     }
 
@@ -145,7 +144,7 @@ public class fft {
         int N = x.length;                              // Length of the vector;
         Complex[] X = new Complex[N];                  // Accumulate the results;
 
-        // Initializes twiddle factors;
+        // Initializes twiddle factors:
         Complex W = Complex.exp((float) (-2*Math.PI) / (float) N);
         Complex Wk = new Complex(1, 0);
 
@@ -286,7 +285,7 @@ public class fft {
 
         // Start by printing the table with time comparisons:
         System.out.print("+---------+---------+---------+---------+---------+---------+\n");
-        System.out.print("|    N    |   N^2   | N logN  | Direta  | Recurs. | Inter.  |\n");
+        System.out.print("|    N    |   N^2   | N logN  | Direct  | Recurs. | Inter.  |\n");
         System.out.print("+---------+---------+---------+---------+---------+---------+\n");
 
         // Try it with vectors with size ranging from 32 to 1024 samples:

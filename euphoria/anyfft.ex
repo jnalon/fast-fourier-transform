@@ -172,9 +172,9 @@ function recursive_fft(sequence x)
             end for
             sequence Xj = recursive_fft(xj)
             complex Wkj = { 1.0, 0.0 }
-            for k = 1 to N do                          -- Recombine results;
-                X[k] = X[k] + cmul(Xj[mod(k-1, N2)+1], Wkj)
-                Wkj = cmul(Wkj, Wj)                    -- Update twiddle factors;
+            for k = 1 to N do
+                X[k] = X[k] + cmul(Xj[mod(k-1, N2)+1], Wkj)    -- Recombine results;
+                Wkj = cmul(Wkj, Wj)                            -- Update twiddle factors;
             end for
             Wj = cmul(Wj, W)
         end for
@@ -191,7 +191,7 @@ procedure main()
 
     -- Start by printing the table with time comparisons:
     printf(1, "%s\n", { "+---------+---------+---------+---------+" })
-    printf(1, "%s\n", { "|    N    |   N^2   | Direta  | Recurs. |" })
+    printf(1, "%s\n", { "|    N    |   N^2   | Direct  | Recurs. |" })
     printf(1, "%s\n", { "+---------+---------+---------+---------+" })
 
     -- Try it with vectors with size ranging from 32 to 1024 samples:
