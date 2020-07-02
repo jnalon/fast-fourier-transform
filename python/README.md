@@ -11,7 +11,7 @@ It is strongly recommended, however, that you install [NumPy](http://numpy.org/)
 
 The scripts in the folder are described below:
 
-1. `fft.py`: This is the base script, and it has a lot of different implementations to explore some  of the capabilities of the language:
+1. `fft.py`: This is the base script, and it has a lot of different implementations to explore some  of the capabilities of the language. The functions in this file implement the Cooley-Tukey decimation-in-time algorithm for vectors of power of two length:
 
    1.1. `direct_ft`: this function is the base implementation. It is a direct translation of the analysis function, and it is not supposed to be very efficient. It is implemented using Python native lists, and it's very readable and easy to understand;
 
@@ -37,13 +37,15 @@ The scripts in the folder are described below:
 
    4.2. `array_direct_ft`: this is the same functions described above;
 
-   4.3. `recursive_ft`: this function is a recursive implementation of the FFT but allowing for vectors which length is a composite number. If it is not, it falls back to the direct definition. This uses Python native lists;
+   4.3. `recursive_fft`: this function is a recursive implementation of the FFT but allowing for vectors which length is a composite number. If it is not, it falls back to the direct definition. This uses Python native lists;
 
-   4.4. `array_recursive_ft`: the same algorithm as the previous function, but implemented with NumPy arrays.
+   4.4. `array_recursive_fft`: the same algorithm as the previous function, but implemented with NumPy arrays;
 
-5. `anyfft_list.py`: the same functions `direct_ft` and `recursive_ft` as described above, but in a separated file in case you want to try it with differente Python versions.
+   4.5. `vec_recursive_fft`: the same algorithm, but twiddle factors are computed using NumPy vectorization, which is expected to run faster.
 
-6. `anyfft_array.py`: the same functions `array_direct_ft` and `array_recursive_ft` as above, but in a separated file.
+5. `anyfft_list.py`: the same functions `direct_ft` and `recursive_fft` as described above, but in a separated file in case you want to try it with differente Python versions.
+
+6. `anyfft_array.py`: the same functions `array_direct_ft`, `array_recursive_fft` and `vec_recursive_fft` as above, but in a separated file.
 
 
 ## Running
