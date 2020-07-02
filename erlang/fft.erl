@@ -36,27 +36,27 @@
 % Mini-library to deal with complex numbers.
 -type complex() :: { float(), float() }.
 
--spec csum(Z1 :: complex(), Z2 :: complex()) -> complex().     % Add two complex numbers;
+-spec csum(Z1::complex(), Z2::complex()) -> complex().         % Add two complex numbers;
 csum({R1, I1}, {R2, I2}) -> { R1+R2, I1+I2 }.
 
--spec csub(Z1 :: complex(), Z2 :: complex()) -> complex().     % Subtract two complex numbers;
+-spec csub(Z1::complex(), Z2::complex()) -> complex().         % Subtract two complex numbers;
 csub({R1, I1}, {R2, I2}) -> { R1-R2, I1-I2 }.
 
--spec cmul(Z1 :: complex(), Z2 :: complex()) -> complex().     % Multiply two complex numbers;
+-spec cmul(Z1::complex(), Z2::complex()) -> complex().         % Multiply two complex numbers;
 cmul({R1, I1}, {R2, I2}) -> { R1*R2 - I1*I2, R1*I2 + I1*R2 }.
 
--spec to_polar(Z :: complex()) -> complex().                   % Convert to polar coordinates;
+-spec to_polar(Z::complex()) -> complex().                     % Convert to polar coordinates;
 to_polar({R, I}) -> { sqrt(R*R + I*I), atan2(I, R) }.
 
--spec to_rect(Z :: complex()) -> complex().                    % Convert to rectangular coordinates;
+-spec to_rect(Z::complex()) -> complex().                      % Convert to rectangular coordinates;
 to_rect({Re, Th}) -> { Re*cos(Th), Re*sin(Th) }.
 
--spec cpow(Z :: complex(), A :: float()) -> complex().         % Power by a number;
+-spec cpow(Z::complex(), A :: float()) -> complex().           % Power by a number;
 cpow(Z, A) ->
     { Re, Th } = to_polar(Z),
     to_rect({ pow(Re, A), A*Th }).
 
--spec cexp(A :: float()) -> complex().                         % Complex exponential of an angle;
+-spec cexp(A::float()) -> complex().                           % Complex exponential of an angle;
 cexp(A) -> { cos(A), sin(A) }.
 
 -spec c_to_string(Z :: complex()) -> string.
@@ -96,7 +96,7 @@ complex_show([H|T]) ->
 % Returns:
 %   The average execution time for that function with a vector of the given size.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--spec time_it(F :: function(), Size :: integer(), Repeats :: integer()) -> float().
+-spec time_it(F::function(), Size::integer(), Repeats::integer()) -> float().
 time_it(F, Size, Repeats) ->
     X = [ { J, 0.0 } || J <- seq(0, Size-1) ],         % Generate a vector;
     time_it(F, X, Repeats, 0.0) / (Repeats*1.0e6).     % Repeated calls and average;
@@ -112,7 +112,7 @@ time_it(F, X, Repeats, T) ->
 % This implementation uses list comprehensions to compute.
 %
 % Parameters:
-%   x
+%   X
 %     The vector of which the DFT will be computed. Given the nature of the implementation, there is
 %     no restriction on the size of the vector, although it will almost always be called with a
 %     power of two size to give a fair comparison;
@@ -120,7 +120,7 @@ time_it(F, X, Repeats, T) ->
 % Returns:
 %   A complex-number vector of the same size, with the coefficients of the DFT.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--spec direct_ft(X :: [ complex() ]) -> [ complex() ].
+-spec direct_ft(X::[ complex() ]) -> [ complex() ].
 direct_ft(X) -> direct_ft(X, 0).
 
 direct_ft(X, K) when K == length(X) -> [ ];                    % FT of an empty vector;
@@ -138,7 +138,7 @@ direct_ft(X, K) ->                                             % Computes kth co
 % This implementation uses list functions to compute.
 %
 % Parameters:
-%   x
+%   X
 %     The vector of which the DFT will be computed. Given the nature of the implementation, there is
 %     no restriction on the size of the vector, although it will almost always be called with a
 %     power of two size to give a fair comparison;
@@ -146,7 +146,7 @@ direct_ft(X, K) ->                                             % Computes kth co
 % Returns:
 %   A complex-number vector of the same size, with the coefficients of the DFT.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--spec list_direct_ft(X :: [ complex() ]) -> [ complex() ].
+-spec list_direct_ft(X::[ complex() ]) -> [ complex() ].
 list_direct_ft(X) -> list_direct_ft(X, 0).
 
 list_direct_ft(X, K) when K == length(X) -> [ ];               % FT of an empty vector;
@@ -167,7 +167,7 @@ list_direct_ft(X, K) ->                                        % Computes kth co
 % non-tail recursive version, but is probably more time and memory efficient.
 %
 % Parameters:
-%   x
+%   X
 %     The vector of which the DFT will be computed. Given the nature of the implementation, there is
 %     no restriction on the size of the vector, although it will almost always be called with a
 %     power of two size to give a fair comparison;
@@ -175,7 +175,7 @@ list_direct_ft(X, K) ->                                        % Computes kth co
 % Returns:
 %   A complex-number vector of the same size, with the coefficients of the DFT.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--spec tr_direct_ft(X :: [ complex() ]) -> [ complex() ].
+-spec tr_direct_ft(X::[ complex() ]) -> [ complex() ].
 tr_direct_ft(X) -> tr_direct_ft(X, 0, [ ]).
 
 tr_direct_ft(X, K, TX) when K == length(X) -> TX;
@@ -196,7 +196,7 @@ tr_direct_ft(X, K, TX) ->
 % non-tail recursive version, but is probably more time and memory efficient.
 %
 % Parameters:
-%   x
+%   X
 %     The vector of which the DFT will be computed. Given the nature of the implementation, there is
 %     no restriction on the size of the vector, although it will almost always be called with a
 %     power of two size to give a fair comparison;
@@ -204,7 +204,7 @@ tr_direct_ft(X, K, TX) ->
 % Returns:
 %   A complex-number vector of the same size, with the coefficients of the DFT.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--spec list_tr_direct_ft(X :: [ complex() ]) -> [ complex() ].
+-spec list_tr_direct_ft(X::[ complex() ]) -> [ complex() ].
 list_tr_direct_ft(X) -> list_tr_direct_ft(X, 0, [ ]).
 
 list_tr_direct_ft(X, K, TX) when K == length(X) -> TX;
@@ -236,7 +236,7 @@ list_tr_direct_ft(X, K, TX) ->
 % This implementation is not, of course, very efficient, since it doesn't take advantage of the
 % regularity of the twiddle factors, and computes complex exponentials for every term.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--spec enumerate(X :: [ any() ]) -> [ { integer(), any() } ].
+-spec enumerate(X::[ any() ]) -> [ { integer(), any() } ].
 enumerate(X) -> zip(seq(0, length(X)-1), X).
 
 -spec lc_dft(X :: [ complex() ]) -> [ complex() ].
@@ -250,13 +250,13 @@ lc_dft(X) -> [ foldl(csum(), { 0.0, 0.0 },
 % complexity. This version uses comprehension lists to split vectors in even and odd samples.
 %
 % Parameters:
-%   x
+%   X
 %     The vector of which the DFT will be computed. This should have length power of 2;
 %
 % Returns:
 %   A complex-number vector of the same size, with the coefficients of the DFT.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--spec recursive_fft(X :: [ complex() ]) -> [ complex() ].
+-spec recursive_fft(X::[ complex() ]) -> [ complex() ].
 recursive_fft(X) when length(X) == 1 -> X;
 recursive_fft(X) ->
     Nx  = length(X),
@@ -273,13 +273,13 @@ recursive_fft(X) ->
 % complexity. This version uses a external function to split vectors in even and odd samples.
 %
 % Parameters:
-%   x
+%   X
 %     The vector of which the DFT will be computed. This should have length power of 2;
 %
 % Returns:
 %   A complex-number vector of the same size, with the coefficients of the DFT.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--spec split(X :: [ any() ]) -> { [ any() ], [ any() ] }.
+-spec split(X::[ any() ]) -> { [ any() ], [ any() ] }.
 split([]) -> { [], [] };
 split(X) ->
     [ Xe | PTail ] = X,
@@ -287,7 +287,7 @@ split(X) ->
     { XeTail, XoTail } = split(Tail),
     { [ Xe | XeTail ], [ Xo | XoTail ] }.
 
--spec split_recursive_fft(X :: [ complex() ]) -> [ complex() ].
+-spec split_recursive_fft(X::[ complex() ]) -> [ complex() ].
 split_recursive_fft(X) when length(X) == 1 -> X;
 split_recursive_fft(X) ->
     Nx  = length(X),
