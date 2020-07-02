@@ -16,9 +16,9 @@ REPEAT = 50;                                   % Number of executions to compute
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Start by printing the table with time comparisons:
-fprintf('+---------+---------+---------+---------+---------+\n');
-fprintf('|    N    |   N^2   | Direct  | Recurs. | Intern. |\n');
-fprintf('+---------+---------+---------+---------+---------+\n');
+fprintf('+---------+---------+---------+---------+---------+---------+\n');
+fprintf('|    N    |   N^2   | Direct  | Recurs. | VecRec. | Intern. |\n');
+fprintf('+---------+---------+---------+---------+---------+---------+\n');
 
 % Try it with vectors with the given sizes:
 sizes = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ];
@@ -28,10 +28,11 @@ for i = 1:length(sizes)
     n = sizes(i);
     dtime = time_it(@direct_ft, n, REPEAT);
     rtime = time_it(@recursive_anyfft, n, REPEAT);
+    vtime = time_it(@vec_recursive_anyfft, n, REPEAT);
     ptime = time_it(@fft, n, REPEAT);
 
     % Print the results:
-    fprintf('| %7d | %7d | %7.4f | %7.4f | %7.4f |\n', n, n*n, dtime, rtime, ptime);
+    fprintf('| %7d | %7d | %7.4f | %7.4f | %7.4f | %7.4f |\n', n, n*n, dtime, rtime, vtime, ptime);
 
 end
-fprintf('+---------+---------+---------+---------+---------+\n');
+fprintf('+---------+---------+---------+---------+---------+---------+\n');
