@@ -152,16 +152,16 @@ class FastFourierTransform
      **********************************************************************************************/
     public static Complex[] DirectFT(Complex[] x)
     {
-        int N = x.Length;
-        Complex[] X = new Complex[N];
+        int N = x.Length;                              // Length of the vector;
+        Complex[] X = new Complex[N];                  // Accumulate the results;
         Complex W = Complex.exp(-2*Math.PI/N);         // Initialize twiddle factors;
         Complex Wk = new Complex(1, 0);
 
-        for(int k=0; k<N; k++) {
+        for(int k=0; k<N; k++) {                       // Compute the kth coefficient;
             X[k] = new Complex();                      // Accumulate the results;
             Complex Wkn = new Complex(1, 0);
-            for(int n=0; n<N; n++) {
-                X[k] = X[k] + Wkn*x[n];
+            for(int n=0; n<N; n++) {                   //   Operate the summation;
+                X[k] = X[k] + Wkn*x[n];                //     Compute every term;
                 Wkn = Wkn * Wk;                        // Update twiddle factor;
             }
             Wk = Wk * W;
