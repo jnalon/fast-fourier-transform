@@ -7,6 +7,13 @@ C was designed to be a structured language working *very* close to the machine. 
 Since C is an open language, there are numerous different compilers. If you are using a Linux OS, chances are that you have already a C compiler installed, most likely `gcc`; check in the software manager of your system. If you are using Windows or MacOS, however, you will need to install a development package. Choose the one you like most.
 
 
+## Comments on the Language
+
+First, I must say that I've been using C most of my life, so it was exactly difficult for me. I had to check here and there for help with a function of library, but that was all. However, I don't claim that this is the most efficient implementation (it isn't, of course), but I explicitly tried to avoid some tricks that experienced programmers use. I think that resulted in a very readable and easy to understand code.
+
+Strictly speaking, C is *not* an easy language. However, since most languages are at least in part based on it, it won't feel different, even if it was the first time using it (although, if that is the case, I'd recommend starting with easier algorithms). In fact, C won't feel that complicated if you avoid problematic things like memory management. Every program, however, *will* have to deal with memory with some extent. There are two techniques that I use to mitigate the problems: first, every variable that needs it has its memory allocated at the beginning of the scope and is freed in the end of the scope, so it's easy to figure if something is not or wrongly allocated or deallocated; second, if a function must return an array or a set of values, the memory is allocated and freed outside of the function. These are, in fact, good practices in C.
+
+
 ## The Programs
 
 There are two programs in this folder:
@@ -33,11 +40,3 @@ $ ./fft
 ```
 
 To compile and run the `anyfft.c` file, follow the same steps, just change `fft` to `anyfft` in the commands. Once running, the program will repeat the function calls a certain number of times, and show a table comparing the methods.
-
-
-## Comments on the Language
-
-First, I must say that I've been using C most of my life, so it was exactly difficult for me. I had to check here and there for help with a function of library, but that was all. However, I don't claim that this is the most efficient implementation (it isn't, of course), but I explicitly tried to avoid some tricks that experienced programmers use. I think that resulted in a very readable and easy to understand code.
-
-Strictly speaking, C is *not* an easy language. However, since most languages are at least in part based on it, it won't feel different, even if it was the first time using it (although, if that is the case, I'd recommend starting with easier algorithms). In fact, C won't feel that complicated if you avoid problematic things like memory management. Every program, however, *will* have to deal with memory with some extent. There are two techniques that I use to mitigate the problems: first, every variable that needs it has its memory allocated at the beginning of the scope and is freed in the end of the scope, so it's easy to figure if something is not or wrongly allocated or deallocated; second, if a function must return an array or a set of values, the memory is allocated and freed outside of the function. These are, in fact, good practices in C.
-
