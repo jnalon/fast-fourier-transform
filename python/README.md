@@ -7,6 +7,13 @@ Most of the systems these days come with Python already preinstalled. That is mo
 It is strongly recommended, however, that you install [NumPy](http://numpy.org/), which is a very powerful library to deal with numerical computations. Some of the scripts in this folder use it.
 
 
+## Comments on the Language
+
+Python is a very easy language, and it is incredibly easy to develop for it. Most of equations are directly translated to code, and in general, you can have results in a few hours -- if you never used the language before. You can get quicker results if you are already proficient on the language. I have been using Python for more than 20 years now, and it was the base of every simulation and graphic that I run in this time (including the nice pictures for my book). So, for me, there was no problem in converting the FFT algorithm to Python.
+
+That being said, there are some things in Python that I would like to see changed. First, Python is slow, even if you use external libraries (but that can be mitigated with the use of Pypy, which includes a JIT compiler). There are some syntathic sugar that I would like to see: range represented in "slice" notation (`begin:end:step`), partially evaluated functions using the anonymous variable (`f(_, a, b)`), and some others. But, overall, I'm very satisfied with the language.
+
+
 ## The Scripts
 
 The scripts in the folder are described below:
@@ -57,10 +64,3 @@ $ python fft.py
 ```
 
 Instead of `fft.py`, of course, you can choose any of the other scripts described above. The script will repeat the computation of the Fast Fourier Transform for various sizes of vectors, and report the average time. The `array` versions will also compute using NumPy's internal implementation for comparison purposes.
-
-
-## Comments on the Language
-
-Python is a very easy language, and it is incredibly easy to develop for it. Most of equations are directly translated to code, and in general, you can have results in a few hours -- if you never used the language before. You can get quicker results if you are already proficient on the language. I have been using Python for more than 20 years now, and it was the base of every simulation and graphic that I run in this time (including the nice pictures for my book). So, for me, there was no problem in converting the FFT algorithm to Python.
-
-That being said, there are some things in Python that I would like to see changed. First, Python is slow, even if you use external libraries (but that can be mitigated with the use of Pypy, which includes a JIT compiler). There are some syntathic sugar that I would like to see: range represented in "slice" notation (`begin:end:step`), partially evaluated functions using the anonymous variable (`f(_, a, b)`), and some others. But, overall, I'm very satisfied with the language.
