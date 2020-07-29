@@ -1,10 +1,10 @@
 # Erlang Version
 
-This folder contains the Erlang implementation of the Discrete Fourier Transform. The language was created in 1986 by researches working on Ericsson, and it was mainly developed to solve problems in communications. There are some highlights on the language, however, that deserve mention: it was created to be distributed -- that is, that programs could run easily in multiprocessed or distributed systems -- and it's functional -- a different paradigm of computation.
+This folder contains the Erlang implementation of the Discrete Fourier Transform. The language was created in 1986 by researchers working on Ericsson, and it was mainly developed to solve problems in communications. There are some highlights on the language, however, that deserve mention: it was created to be distributed -- that is, that programs could run easily in multiprocessed or distributed systems -- and it's functional -- a different paradigm of computation.
 
 The functional paradigm is an interesting one. Programs in most of languages are created as a sequence of steps that must be followed in order to reach a result, and programs are //algorithm// implementations. In functional languages, computations are given by a set of relations between variables and a set of initial conditions. It's very different from what most people think as computation, and it makes a little harder to program in.
 
-The distributed part is also interesting, since it shows a nice forethinking from the creators of the language. Although multiprocessing already existed when the language was created, it took some time to reach the state we are today: nowadays, it seems that almost every program or application uses multiprocessing or distributed processing at one point. Erlang was developed with this possibility in mind.
+The distributed part is also interesting, since it shows a nice forethinking from the creators of the language. Although multiprocessing already existed when the language was created, it took some time to reach the state we are today: nowadays, it seems that almost every program or application uses multiprocessing or distributed processing at one point. Erlang was developed with this possibility in mind. You can find more information about the language in its [website](https://erlang.org/)
 
 
 ## Comments on the Language
