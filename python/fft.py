@@ -222,7 +222,7 @@ def iterative_fft(x):
       A complex-number vector of the same size, with the coefficients of the DFT.
     """
     N = len(x)                                 # Length of vector;
-    r = int(log(N)/log(2))                     # Number of bits;
+    r = int(log2(N))                           # Number of bits;
     X = [ complex(xi) for xi in x ]            # Accumulate the results;
     for k in range(0, N):
         l = bit_reverse(k, r)                  # Reorder the vector according to the
@@ -261,7 +261,7 @@ def array_iterative_fft(x):
       A complex-number vector of the same size, with the coefficients of the DFT.
     """
     N = len(x)                                 # Length of vector;
-    r = int(log(N)/log(2))                     # Number of bits;
+    r = int(log2(N))                           # Number of bits;
     X = array(x, dtype=complex)                # Accumulate the results;
     for k in range(0, N):
         l = bit_reverse(k, r)                  # Reorder the vector according to the

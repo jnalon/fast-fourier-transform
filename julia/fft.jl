@@ -120,7 +120,7 @@ same size, with the coefficients of the DFT.
 function iterative_fft(x)
 
     N = length(x)                              # Length of vector;
-    r = round(Int, log(N)/log(2))              # Number of bits;
+    r = round(Int, log2(N))                    # Number of bits;
     X = complex(x)                             # Accumulate the results;
     for k = 0:N-1
         l = bitreverse(k, r)                   # Reorder the vector according to the

@@ -276,7 +276,7 @@ var
     W, Wkn: Complex;                           { Twiddle factors; }
     r, k, l, m, p, q, step: integer;
 begin
-    r := Round(ln(n)/ln(2));                   { Number of bits; }
+    r := Round(log2(n));                       { Number of bits; }
     for k := 0 to n-1 do begin
         l := BitReverse(k, r);                 { Reorder the vector according to the }
         y[l] := x[k];                          {   bit-reversed order; }

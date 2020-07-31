@@ -274,7 +274,7 @@ int bit_reverse(int k, int r)
  **************************************************************************************************/
 void iterative_fft(Complex x[], Complex X[], int N)
 {
-    int r = (int) floor(log(N)/log(2));        // Number of bits;
+    int r = (int) floor(log2(N));              // Number of bits;
     for(int k=0; k<N; k++) {
         int l = bit_reverse(k, r);             // Reorder the vector according to the
         X[l] = x[k];                           //   bit-reversed order;

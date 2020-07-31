@@ -170,7 +170,7 @@ end
 ####################################################################################################
 def iterative_fft(x)
     nx = x.length                                      # Length of vector;
-    r = (Math.log(nx) / Math.log(2)).to_i              # Number of bits;
+    r = Math.log2(nx).to_i                             # Number of bits;
     tX = [ Complex(0, 0) ] * nx                        # Accumulate the results;
     nx.times { |k|
         l = bitreverse(k, r)                           # Reorder the vector according to the
@@ -202,12 +202,12 @@ end
 # Main function:
 def main()
 
-    # Try it with vectors with size ranging from 32 to 1024 samples:
+    # Start by printing the table with time comparisons:
     puts "+---------"*6 + "+"
     puts "|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  |"
     puts "+---------"*6 + "+"
 
-    # Compute the average execution time:
+    # Try it with vectors with size ranging from 32 to 1024 samples:
     5.upto(10) { |r|
 
         # Compute the average execution time:

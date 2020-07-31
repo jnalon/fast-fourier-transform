@@ -235,7 +235,7 @@ def iterativeFFT(x) {
     def N = x.length;
     def X = new Complex[N]
 
-    r = Math.round(Math.log(N)/Math.log(2)) as Integer         // Number of bits;
+    r = Math.round(Math.log2(N)) as Integer                    // Number of bits;
     for (k in 0..<N) {
         l = bitReverse(k, r)                                   // Reorder the vector according to
         X[l] = x[k]                                            //   the bit-reversed order;
@@ -245,8 +245,7 @@ def iterativeFFT(x) {
     for (k in 0..<r) {
         l = 0
         while (l < N) {
-            // Twiddle factors:
-            W = Complex.exp(-Math.PI/step)
+            W = Complex.exp(-Math.PI/step)                     // Twiddle factors:
             Wkn = new Complex(1.0f, 0.0f)
             for (n in 0..<step) {
                 p = l + n
@@ -277,6 +276,7 @@ def main() {
     for (r in 5..10) {
 
         // Compute the average execution time:
+        n = Math.pow(2, r) as Integer
         dtime = timeIt({ x -> directFT(x) }, n, REPEAT)
         rtime = timeIt({ x -> recursiveFFT(x) }, n, REPEAT)
         itime = timeIt({ x -> iterativeFFT(x) }, n, REPEAT)

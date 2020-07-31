@@ -209,7 +209,7 @@ func BitReverse(k int, r int) int {
  **************************************************************************************************/
 func IterativeFFT(x []complex128) []complex128 {
     N := len(x)
-    r := int(math.Floor(math.Log(float64(N))/math.Log(2)))     // Number of bits;
+    r := int(math.Floor(math.Log2(float64(N))))        // Number of bits;
 
     X := make([]complex128, N)
     for k:=0; k<N; k++ {

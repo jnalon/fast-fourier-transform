@@ -282,7 +282,7 @@ void iterative_fft(Complex x[], Complex X[], int N)
     Complex W, Wkn, w;                         // Twiddle factors;
     int r, l, p, q, step;
 
-    r = (int) floor(log(N)/log(2));            // Number of bits;
+    r = (int) floor(log2(N));                  // Number of bits;
     for(int k=0; k<N; k++) {
         l = bit_reverse(k, r);                 // Reorder the vector according to the
         X[l] = x[k];                           //   bit-reversed order;
