@@ -160,7 +160,7 @@ def directFT(x) {
  *
  *  Returns:
  *   A complex-number vector of the same size, with the coefficients of the DFT.
- **********************************************************************************************/
+ **************************************************************************************************/
 def recursiveFFT(x) {
     def N = x.length
     if (N == 1)                                        // A length-1 vector is its own FT;

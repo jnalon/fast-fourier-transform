@@ -105,8 +105,8 @@ def recursive_fft(x):
 
     :Parameters:
       x
-        The vector of which the FFT will be computed. It must be a composite number, or else the
-        computation will be defered to the direct FT, and there will be no efficiency gain.
+        The vector of which the FFT will be computed. Its length must be a composite number, or else
+        the computation will be defered to the direct FT, and there will be no efficiency gain.
 
     :Returns:
       A complex-number vector of the same size, with the coefficients of the DFT.
@@ -141,8 +141,8 @@ def vec_recursive_fft(x):
 
     :Parameters:
       x
-        The vector of which the FFT will be computed. It must be a composite number, or else the
-        computation will be defered to the direct FT, and there will be no efficiency gain.
+        The vector of which the FFT will be computed. Its length must be a composite number, or else
+        the computation will be defered to the direct FT, and there will be no efficiency gain.
 
     :Returns:
       A complex-number vector of the same size, with the coefficients of the DFT.
@@ -150,15 +150,17 @@ def vec_recursive_fft(x):
     N = len(x)                                 # Length of the vector;
     N1 = __factor(N)                           # Find the smallest factor of the vector length;
     if N1 == N:                                # If the length is prime itself,
-        return direct_ft(x)                    #    the transform is given by the direct form;
+        return array_direct_ft(x)              #    the transform is given by the direct form;
     else:
         N2 = N // N1                           # Decompose in two factors, N1 being prime;
         X = zeros((N, ), dtype=complex)        # Accumulate the results;
         k = arange(N)
+        Wk = exp(-2j*pi*k/N)                   # Twiddle factors;
+        Wkj = ones(Wk.shape)
         for j in range(N1):                    # Compute every subsequence of size N2;
             Xj = vec_recursive_fft(x[j::N1])   # Recursively compute the Fourier Transform;
-            Wkj = exp(-2j*pi*k*j/N)
-            X = X + Xj[k%N2]*Wkj         # Recombine results;
+            X = X + Xj[k%N2]*Wkj               # Recombine results;
+            Wkj = Wkj * Wk                     # Update twiddle factors;
         return X
 
 

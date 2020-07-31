@@ -18,14 +18,16 @@ function Y = vec_recursive_anyfft(X)
     if N1 == N                                 % If the length is prime itself,
         Y = direct_ft(X);                      %    the transform is given by the direct form;
     else
-        N2 = N / N1;                                   % Decompose in two factors, N1 being prime;
-        Y = zeros(1, N);                               % Accumulate the results;
+        N2 = N / N1;                           % Decompose in two factors, N1 being prime;
+        Y = zeros(1, N);                       % Accumulate the results;
         k = 0:N-1;
+        Wk = exp(-2*i*pi*k/N);                 % Twiddle factors;
+        Wkj = ones(1, N);
         for j = 1:N1                                   % Compute every subsequence of size N2;
             Xj = recursive_anyfft(X(j:N1:end));        % Recursively compute the Fourier Transform;
-            Wkj = exp(-2*i*pi*k*j/N);
-            k2 = mod(k, N2);
-            Y = Y + Xj(k2+1) .* Wkj;           % Recombine results;
+            k2 = mod(k, N2) + 1;
+            Y = Y + Xj(k2) .* Wkj;             % Recombine results;
+            Wkj = Wkj .* Wk;                   % Update twiddle factors;
         end
     end
 

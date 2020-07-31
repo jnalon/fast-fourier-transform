@@ -109,8 +109,8 @@ def recursive_fft(x):
 
     :Parameters:
       x
-        The vector of which the FFT will be computed. It must be a composite number, or else the
-        computation will be defered to the direct FT, and there will be no efficiency gain.
+        The vector of which the FFT will be computed. Its length must be a composite number, or else
+        the computation will be defered to the direct FT, and there will be no efficiency gain.
 
     :Returns:
       A complex-number vector of the same size, with the coefficients of the DFT.

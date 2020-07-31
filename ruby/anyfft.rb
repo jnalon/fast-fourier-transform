@@ -120,8 +120,8 @@ end
 #
 # Parameters:
 #   x
-#     The vector of which the FFT will be computed. This should always be called with a vector of a
-#     power of two length, or it will fail. No checks on this are made.
+#     The vector of which the FFT will be computed. Its length must be a composite number, or else
+#     the computation will be defered to the direct FT, and there will be no efficiency gain.
 #
 # Returns:
 #   A complex-number vector of the same size, with the coefficients of the DFT.

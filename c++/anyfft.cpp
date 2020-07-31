@@ -209,8 +209,8 @@ int factor(int n)
  *
  * Parameters:
  *   x
- *     The vector of which the FFT will be computed. It must be a composite number, or else the
- *     computation will be defered to the direct FT, and there will be no efficiency gain.
+ *     The vector of which the FFT will be computed. Its length must be a composite number, or else
+ *     the computation will be defered to the direct FT, and there will be no efficiency gain.
  *   X
  *     The vector that will receive the results of the computation. It needs to be allocated prior
  *     to the function call;

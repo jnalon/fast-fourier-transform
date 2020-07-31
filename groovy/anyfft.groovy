@@ -148,7 +148,7 @@ def directFT(x) {
 }
 
 
-/**********************************************************************************************
+/**************************************************************************************************
  * Function: factor
  *   Smallest prime factor of a given number. If the argument is prime itself, then it is the
  *   return value.
@@ -159,7 +159,7 @@ def directFT(x) {
  *
  * Returns:
  *   The smallest prime factor, or the number itself if it is already a prime.
- **********************************************************************************************/
+ **************************************************************************************************/
 def factor(n) {
     rn = n/2;                                  // Search up to half the number;
     for (i in 2..rn)
@@ -175,12 +175,12 @@ def factor(n) {
  *
  * Parameters:
  *   x
- *     The vector of which the FFT will be computed. It must be a composite number, or else the
- *     computation will be defered to the direct FT, and there will be no efficiency gain.
+ *     The vector of which the FFT will be computed. Its length must be a composite number, or else
+ *     the computation will be defered to the direct FT, and there will be no efficiency gain.
  *
  *  Returns:
  *   A complex-number vector of the same size, with the coefficients of the DFT.
- **********************************************************************************************/
+ **************************************************************************************************/
 def recursiveFFT(x) {
     def N = x.length
     def N1 = factor(N)                                 // Smallest prime factor of length;

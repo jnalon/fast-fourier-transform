@@ -6,8 +6,8 @@ function Y = recursive_anyfft(X)
 %
 % Parameters:
 %   X
-%     The vector of which the FFT will be computed. It must be a composite number, or else the
-%     computation will be defered to the direct FT, and there will be no efficiency gain.
+%     The vector of which the FFT will be computed. Its length must be a composite number, or else
+%     the computation will be defered to the direct FT, and there will be no efficiency gain.
 %
 % Returns:
 %    A complex-number vector of the same size, with the coefficients of the DFT.
@@ -25,8 +25,8 @@ function Y = recursive_anyfft(X)
             Xj = recursive_anyfft(X(j:N1:end));
             Wkj = 1;
             for k = 1:N
-                k2 = mod(k-1, N2);
-                Y(k) = Y(k) + Xj(k2+1) * Wkj;  % Recombine results;
+                k2 = mod(k-1, N2) + 1;
+                Y(k) = Y(k) + Xj(k2) * Wkj;    % Recombine results;
                 Wkj = Wkj * Wj;                % Update twiddle factors;
             end
             Wj = Wj * W;

@@ -180,7 +180,8 @@ replicate(X, Repeats) -> flatten(duplicate(trunc(Repeats), X)).
 %
 % Parameters:
 %   x
-%     The vector of which the DFT will be computed. This should have length power of 2;
+%     The vector of which the FFT will be computed. Its length must be a composite number, or else
+%     the computation will be defered to the direct FT, and there will be no efficiency gain.
 %
 % Returns:
 %   A complex-number vector of the same size, with the coefficients of the DFT.
@@ -231,7 +232,8 @@ split(X, N1, J) ->
 %
 % Parameters:
 %   x
-%     The vector of which the DFT will be computed. This should have length power of 2;
+%     The vector of which the FFT will be computed. Its length must be a composite number, or else
+%     the computation will be defered to the direct FT, and there will be no efficiency gain.
 %
 % Returns:
 %   A complex-number vector of the same size, with the coefficients of the DFT.
