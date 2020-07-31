@@ -106,8 +106,9 @@ function recursive_fft(x)
             Xj = recursive_fft(x[j:N1:end])
             Wkj = 1.0
             for k = 1:N
-                X[k] = X[k] + Xj[(k-1)%N2+1] * Wkj     # Recombine results;
-                Wkj = Wkj * Wj                         # Update twiddle factors;
+                k2 = (k-1) % N2 + 1
+                X[k] = X[k] + Xj[k2] * Wkj     # Recombine results;
+                Wkj = Wkj * Wj                 # Update twiddle factors;
             end
             Wj = Wj * W
         end
