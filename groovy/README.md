@@ -33,4 +33,4 @@ Groovy is a compiled language, but you can run it with the following command:
 $ groovy fft.groovy
 ```
 
-You might get a warning before the program runs. This is because a small incompatibility of Groovy with some characteristics of the latest Java Virtual Machine. This doesn't affect the execution, and will probably disappear in the future. To run `anyfft.groovy`, just change `fft.go` where needed.
+You might get a warning before the program runs. This is because a small incompatibility of Groovy with some characteristics of the latest Java Virtual Machine. This doesn't affect the execution, and will probably disappear in the future. To run `anyfft.groovy`, just change `fft.groovy` where needed.
