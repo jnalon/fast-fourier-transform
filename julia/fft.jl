@@ -98,7 +98,7 @@ end
 
 Bit-reversed version of an integer number `k` with respect to `r` bits.
 """
-function bitreverse(k, r)
+function bit_reverse(k, r)
     l = 0                                      # Accumulate the results;
     for i = 1:r                                # Loop on every bit;
         l = (l << 1) + (k & 1)                 # Test less signficant bit and add;
@@ -123,7 +123,7 @@ function iterative_fft(x)
     r = round(Int, log2(N))                    # Number of bits;
     X = complex(x)                             # Accumulate the results;
     for k = 0:N-1
-        l = bitreverse(k, r)                   # Reorder the vector according to the
+        l = bit_reverse(k, r)                  # Reorder the vector according to the
         X[l+1] = x[k+1]                        #   bit-reversed order;
     end
 
