@@ -14,7 +14,7 @@ Pascal share a lot of characteristics with C, but is a little higher level. It e
 
 ## The Programs
 
-There are a lot of files in the folder, but two programs are to be run:
+There are a two files in the folder:
 
 1. `fft.pas`: this program implements `DirectFT`, `RecursiveFFT` and `IterativeFFT` functions that compute the Fourier Transform, and runs them a number of times and compares the time spent running the transforms. The functions here can deal only when the vectors to be transformed are of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.);
 
