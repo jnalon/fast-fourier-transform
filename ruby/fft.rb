@@ -145,7 +145,7 @@ end
 # Returns:
 #   The number k, bit-reversed according to integers with r bits.
 ####################################################################################################
-def bitreverse(k, r)
+def bit_reverse(k, r)
     l = 0                                      # Accumulate the results;
     r.times { |i|                              # Loop on every bit;
         l = (l << 1) + (k & 1)                 # Test less signficant bit and add;
@@ -173,7 +173,7 @@ def iterative_fft(x)
     r = Math.log2(nx).to_i                             # Number of bits;
     tX = [ Complex(0, 0) ] * nx                        # Accumulate the results;
     nx.times { |k|
-        l = bitreverse(k, r)                           # Reorder the vector according to the
+        l = bit_reverse(k, r)                          # Reorder the vector according to the
         tX[l] = x[k]                                   #   bit-reversed order;
     }
 
