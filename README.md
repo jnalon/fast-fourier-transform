@@ -36,6 +36,7 @@ I'm calling *semi-functional* those languages that, although they follow the imp
 * Julia
 * MATLAB/Octave
 * Python
+* R
 * Scala
 
 
