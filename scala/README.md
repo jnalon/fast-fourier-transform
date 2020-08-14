@@ -16,7 +16,7 @@ The problem with languages based on JRE is that you might feel tempted to write 
 
 There are two programs in the folder:
 
-1. `fft.scala`: this program implements `directFT`, `forFT`, `recursiveFFT` and `iterativeFT` functions that compute the Fourier Transform, and runs them a number of times and compares the time spent running the transforms. `forFT` is a direct implementation using for expressions, resulting in a very small yet very readable expression. The functions here can deal only when the vectors to be transformed are of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.);
+1. `fft.scala`: this program implements `directFT`, `forFT`, `recursiveFFT` and `iterativeFFT` functions that compute the Fourier Transform, and runs them a number of times and compares the time spent running the transforms. `forFT` is a direct implementation using for expressions, resulting in a very small yet very readable expression. The functions here can deal only when the vectors to be transformed are of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.);
 
 2. `anyfft.scala`: this program implements `directFT` and `recursiveFFT`, that compute the Cooley-Tukey decomposition algorithm for vectors of composite length (that is, the length is a composite number). If the length of the vector is a prime number, it falls back to `directFT`, and shows no gain in efficiency at all.
 
