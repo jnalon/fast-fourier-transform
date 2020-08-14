@@ -28,7 +28,7 @@ A small set of functions to deal with complex arithmetic is present on each file
 There is a great number of Pascal implementations out there, but I suggest you use [FreePascal](http://freepascal.org/). Its a free software implementation, very complete, and mostly compatible with older Object Pascal compilers (namely, Borland's Object Pascal). To compile the program, just type:
 
 ```
-$ fpc fft_main.pas
+$ fpc fft.pas
 ```
 
 This will generate a `fft` executable file in the same folder. The file can be run by typing:
