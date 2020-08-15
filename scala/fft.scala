@@ -201,7 +201,7 @@ object fft {
             val Xo = recursiveFFT(xo)                          // Transform of odd samples;
 
             val X = new Array[Complex](N)                      // Allocate memory for computation;
-            val W = Complex.exp(-2*Math.PI/N)                  // Twiddle factors:
+            val W = Complex.exp(-2*Math.PI/N)                  // Twiddle factors;
             var Wk = Complex(1, 0)
             for (k <- 0 until N2) {
                 X(k) = Xe(k) + Wk*Xo(k)                        // Recombine results;

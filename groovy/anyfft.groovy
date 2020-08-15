@@ -223,7 +223,7 @@ def main() {
     println("|    N    |   N^2   | Direct  | Recurs. |")
     println("+---------"*4 + "+")
 
-    // Try it with vectors with size ranging from 32 to 1024 samples:
+    // Try it with vectors with the given sizes:
     for (i in 0..<SIZES.length) {
 
         // Compute the average execution time:

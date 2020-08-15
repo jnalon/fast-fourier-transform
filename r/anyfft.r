@@ -175,12 +175,12 @@ vec_recursive_fft <- function(x)
 
 SIZES = c( 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 )
 
-# Try it with vectors with size ranging from 32 to 1024 samples:
+# Start by printing the table with time comparisons:
 print("+---------+---------+---------+---------+---------+---------+")
 print("|    N    |   N^2   | Direct  | Recurs. | VecRec. | Intern. |")
 print("+---------+---------+---------+---------+---------+---------+")
 
-# Compute the average execution time:
+# Try it with vectors with the given sizes:
 for (n in SIZES) {
 
     # Compute the average execution time:

@@ -194,7 +194,7 @@ procedure main()
     printf(1, "%s\n", { "|    N    |   N^2   | Direct  | Recurs. |" })
     printf(1, "%s\n", { "+---------+---------+---------+---------+" })
 
-    -- Try it with vectors with size ranging from 32 to 1024 samples:
+    -- Try it with vectors with the given sizes:
     for i = 1 to length(SIZES) do
 
         -- Compute the average execution time:

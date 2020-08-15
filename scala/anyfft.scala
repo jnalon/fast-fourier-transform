@@ -225,7 +225,7 @@ object anyfft {
         println("|    N    |   N^2   | Direta  | Recurs. |")
         println("+---------+---------+---------+---------+")
 
-        // Try it with vectors with size ranging from 32 to 1024 samples:
+        // Try it with vectors with the given sizes:
         for (n <- SIZES) {
 
             // Compute the average execution time:

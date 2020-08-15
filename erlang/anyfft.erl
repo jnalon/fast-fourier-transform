@@ -260,7 +260,7 @@ split_recursive_fft([ Xj | Xjs ], Nx, N1, J) ->
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Main function:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-main_loop([], _) when R > RMax -> ok;
+main_loop([], _) -> ok;
 main_loop([N|T], Repeats) ->
     DTime  = time_it(fun(X) -> direct_ft(X) end, N, Repeats),
     RTime  = time_it(fun(X) -> recursive_fft(X) end, N, Repeats),
@@ -271,14 +271,14 @@ main_loop([N|T], Repeats) ->
 
 start() ->
 
-    Sizees = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ]
+    Sizes = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ],
 
     % Start by printing the table with time comparisons:
     fwrite("+---------+---------+---------+---------+---------+~n"),
     fwrite("|    N    |   N^2   | Direct  | Recurs. | SpRec.  |~n"),
     fwrite("+---------+---------+---------+---------+---------+~n"),
 
-    % Try it with vectors with size ranging from 32 to 1024 samples:
+    % Try it with vectors with the given sizes:
     main_loop(Sizes, 50),
 
     fwrite("+---------+---------+---------+---------+---------+~n").
