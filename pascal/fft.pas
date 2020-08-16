@@ -160,22 +160,22 @@ end;
  --------------------------------------------------------------------------------------------------}
 function DirectFT(var x: ComplexArray; n: integer): ComplexArray;
 var
-    y: ComplexArray;                           { Temporary results; }
+    tX: ComplexArray;                          { Temporary results; }
     W, Wk, Wkn: Complex;                       { Twiddle factors; }
     j, k: integer;
 begin
     W := cexp(-2*Pi/n);                        { Initialize twiddle factors; }
     Wk := Complex(1);
     for k := 0 to n-1 do begin
-        y[k] := 0;                             { Accumulate the results; }
+        tX[k] := 0;                            { Accumulate the results; }
         Wkn := Complex(1);                     { Initialize twiddle factors; }
         for j := 0 to n-1 do begin
-            y[k] := y[k] + Wkn * x[j];
+            tX[k] := tX[k] + Wkn * x[j];
             Wkn := Wkn * Wk;                   { Update twiddle factors; }
         end;
         Wk := Wk * W;
     end;
-    DirectFT := y;                             { Return value; }
+    DirectFT := tX;                            { Return value; }
 end;
 
 
@@ -196,12 +196,12 @@ end;
  --------------------------------------------------------------------------------------------------}
 function RecursiveFFT(var x: ComplexArray; n: integer): ComplexArray;
 var
-    xe, xo, FXe, FXo, y: ComplexArray;         { Vectors with intermediate results; }
+    xe, xo, tXe, tXo, tX: ComplexArray;        { Vectors with intermediate results; }
     W, Wk, wt: Complex;                        { Twiddle factors; }
     k, n2: integer;
 begin
     if n=1 then                                { A length-1 vector is its own FT; }
-        y[0] := x[0]
+        tX[0] := x[0]
     else begin
         n2 := n div 2;
 
@@ -209,20 +209,20 @@ begin
             xe[k] := x[2*k];
             xo[k] := x[2*k+1];
         end;
-        FXe := RecursiveFFT(xe, n2);           { Transform of even samples; }
-        FXo := RecursiveFFT(xo, n2);           { Transform of odd samples; }
+        tXe := RecursiveFFT(xe, n2);           { Transform of even samples; }
+        tXo := RecursiveFFT(xo, n2);           { Transform of odd samples; }
 
         W := cexp(-2*Pi/n);
         Wk := Complex(1);
         for k := 0 to n2-1 do begin
-            wt := Wk * FXo[k];                 { Recombine results; }
-            y[k] := Fxe[k] + wt;
-            y[k+n2] := Fxe[k] - wt;
+            wt := Wk * tXo[k];                 { Recombine results; }
+            tX[k] := tXe[k] + wt;
+            tX[k+n2] := tXe[k] - wt;
             Wk := Wk * W;                      { Update twiddle factors; }
         end;
 
     end;
-    RecursiveFFT := y;                         { Return value; }
+    RecursiveFFT := tX;                        { Return value; }
 end;
 
 
@@ -272,14 +272,14 @@ end;
  --------------------------------------------------------------------------------------------------}
 function IterativeFFT(var x: ComplexArray; n: integer): ComplexArray;
 var
-    y: ComplexArray;                           { Temporary results; }
+    tX: ComplexArray;                          { Temporary results; }
     W, Wkn: Complex;                           { Twiddle factors; }
     r, k, l, m, p, q, step: integer;
 begin
     r := Round(log2(n));                       { Number of bits; }
     for k := 0 to n-1 do begin
         l := BitReverse(k, r);                 { Reorder the vector according to the }
-        y[l] := x[k];                          {   bit-reversed order; }
+        tX[l] := x[k];                         {   bit-reversed order; }
     end;
 
     step := 1;                                 { Auxiliary for computation of twiddle factors; }
@@ -291,8 +291,8 @@ begin
             for m := 0 to step-1 do begin
                 p := l + m;
                 q := p + step;
-                y[q] := y[p] - Wkn * y[q];     { Recombine results; }
-                y[p] := 2*y[p] - y[q];
+                tX[q] := tX[p] - Wkn * tX[q];  { Recombine results; }
+                tX[p] := 2*tX[p] - tX[q];
                 Wkn := Wkn * W;                { Update twiddle factors; }
             end;
             l := l + 2*step;
@@ -300,7 +300,7 @@ begin
         step := 2*step;
     end;
 
-    IterativeFFT := y;                         { Return value; }
+    IterativeFFT := tX;                         { Return value; }
 end;
 
 

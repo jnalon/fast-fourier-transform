@@ -160,22 +160,22 @@ end;
  --------------------------------------------------------------------------------------------------}
 function DirectFT(var x: ComplexArray; n: integer): ComplexArray;
 var
-    y: ComplexArray;                           { Temporary results; }
+    tX: ComplexArray;                          { Temporary results; }
     W, Wk, Wkn: Complex;                       { Twiddle factors; }
     j, k: integer;
 begin
     W := cexp(-2*Pi/n);                        { Initialize twiddle factors; }
     Wk := Complex(1);
     for k := 0 to n-1 do begin
-        y[k] := 0;                             { Accumulate the results; }
+        tX[k] := 0;                            { Accumulate the results; }
         Wkn := Complex(1);                     { Initialize twiddle factors; }
         for j := 0 to n-1 do begin
-            y[k] := y[k] + Wkn * x[j];
+            tX[k] := tX[k] + Wkn * x[j];
             Wkn := Wkn * Wk;                   { Update twiddle factors; }
         end;
         Wk := Wk * W;
     end;
-    DirectFT := y;                             { Return value; }
+    DirectFT := tX;                            { Return value; }
 end;
 
 
@@ -222,16 +222,16 @@ end;
  --------------------------------------------------------------------------------------------------}
 function RecursiveFFT(var x: ComplexArray; n: integer): ComplexArray;
 var
-    xj, FXj, y: ComplexArray;                  { Vectors with intermediate results; }
+    xj, tXj, tX: ComplexArray;                 { Vectors with intermediate results; }
     W, Wj, Wkj: Complex;                       { Twiddle factors; }
     j, k, n1, n2: integer;
 begin
     n1 := factor(n);                           { Smallest prime factor of length; }
     if n1=n then                               { If the length is prime itself, }
-        y := DirectFT(x, n)                    {   the transform is given by the direct form; }
+        tX := DirectFT(x, n)                   {   the transform is given by the direct form; }
     else begin
         for k := 0 to n-1 do                   { Initialize results with 0; }
-            y[k] := 0;
+            tX[k] := 0;
         n2 := Floor(n / n1);                   { Decompose in two factors, N1 being prime; }
 
         W := cexp(-2*Pi/n);                    { Twiddle factor;}
@@ -239,17 +239,17 @@ begin
         for j := 0 to n1-1 do begin            { Compute every subsequence of size N2; }
             for k := 0 to N2-1 do
                 xj[k] := x[k*n1+j];            { Create the subsequence; }
-            FXj := RecursiveFFT(xj, n2);       { Compute the DFT of the subsequence; }
+            tXj := RecursiveFFT(xj, n2);       { Compute the DFT of the subsequence; }
             Wkj := Complex(1);
             for k := 0 to N-1 do begin
-                y[k] := y[k] + FXj[k mod n2] * Wkj;    { Recombine results; }
+                tX[k] := tX[k] + tXj[k mod n2] * Wkj;  { Recombine results; }
                 Wkj := Wkj * Wj;                       { Update twiddle factors; }
             end;
             Wj := Wj * W;
         end;
     end;
 
-    RecursiveFFT := y;                         { Return value; }
+    RecursiveFFT := tX;                        { Return value; }
 end;
 
 
