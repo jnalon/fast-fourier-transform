@@ -102,9 +102,9 @@ def complexShow(x) {
  *   The average execution time for that function with a vector of the given size.
  **************************************************************************************************/
 def timeIt(f, size, repeat=REPEAT) {
-    x = new Complex[size];                                     // Generate a vector;
+    x = new Complex[size]                                      // Generate a vector;
     for (j in 0..<size)
-        x[j] = new Complex(j as Float, 0.0f);
+        x[j] = new Complex(j as Float, 0.0f)
 
     t0 = System.currentTimeMillis()                            // Start a timer;
     for (j in 1..repeat)                                       // Repeated calls;
@@ -161,10 +161,10 @@ def directFT(x) {
  *   The smallest prime factor, or the number itself if it is already a prime.
  **************************************************************************************************/
 def factor(n) {
-    rn = n/2;                                  // Search up to half the number;
+    rn = (int) Math.ceil(Math.sqrt(n))        // Search up to square root of the number;
     for (i in 2..rn)
-        if (n%i == 0) return i;                // If remainder is zero, a factor is found;
-    return n;
+        if (n%i == 0) return i                // If remainder is zero, a factor is found;
+    return n
 }
 
 
@@ -216,6 +216,7 @@ def recursiveFFT(x) {
  Main Function:
  **************************************************************************************************/
 def main() {
+
     def SIZES = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ] as Integer[]
 
     // Start by printing the table with time comparisons:
@@ -235,7 +236,8 @@ def main() {
         println(String.format('| %1$7s | %2$7s | %3$7.7s | %4$7.7s |', n, n**2, dtime, rtime))
 
     }
-    println("+---------"*6 + "+")
+    println("+---------"*4 + "+")
+
 }
 
 main()

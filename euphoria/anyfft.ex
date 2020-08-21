@@ -130,7 +130,8 @@ end function
 --   The smallest prime factor, or the number itself if it is already a prime.
 ----------------------------------------------------------------------------------------------------
 function factor(integer n)
-    integer rn = floor(n/2)                    -- Search up to half the number;
+--     integer rn = floor(n/2)                    -- Search up to half the number;
+    integer rn = ceil(sqrt(n))                    -- Search up to half the number;
     for i=2 to rn do
         if mod(n, i) = 0 then                  -- If remainder is zero, a factor is found;
             return i

@@ -138,10 +138,10 @@ func DirectFT(x []complex128) []complex128 {
  *   The smallest prime factor, or the number itself if it is already a prime.
  **************************************************************************************************/
 func Factor(n int) int {
-    rn := n/2                                  // Search up to half the number;
+    rn := int(math.Ceil(math.Sqrt(float64(n))))    // Search up to the square root of the number;
     for i:=2; i<=rn; i++ {
         if n%i == 0 {
-            return i                           // If remainder is zero, a factor is found;
+            return i                               // If remainder is zero, a factor is found;
         }
     }
     return n

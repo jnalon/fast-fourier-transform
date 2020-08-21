@@ -140,7 +140,7 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
     Complex x[1024], X[1024];                  // Vectors will be at most 1024 samples;
 
     for(int j=0; j<size; j++)                  // Initialize the vector;
-        x[j] = Complex();
+        x[j] = Complex(j, 0);
     auto t0 = chrono::steady_clock::now();     // Start counting time;
     for(int j=0; j<repeat; j++)
         (*f)(x, X, size);
@@ -195,7 +195,7 @@ void direct_ft(Complex x[], Complex X[], int N)
  **************************************************************************************************/
 int factor(int n)
 {
-    int rn = n/2;                              // Search up to half the number;
+    int rn = (int) ceil(sqrt(n));              // Search up to the square root of the number;
     for(int i=2; i<=rn; i++)
         if (n%i == 0) return i;                // If remainder is zero, a factor is found;
     return n;
@@ -278,5 +278,6 @@ int main(int argc, char *argv[]) {
     }
 
     cout << "+---------+---------+---------+---------+" << endl;
+
     return 0;
 }

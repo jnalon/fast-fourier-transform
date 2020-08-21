@@ -161,9 +161,9 @@ object anyfft {
      **********************************************************************************************/
     def factor(n: Int): Int =
     {
-        val rn = n/2                                   // Search up to half the number;
+        val rn = Math.ceil(Math.sqrt(n)).toInt     // Search up to the square root of the number;
         for (i <- 2 to rn)
-            if (n%i == 0) return i                     // If remainder is zero, a factor is found;
+            if (n%i == 0) return i                 // If remainder is zero, a factor is found;
         n
     }
 

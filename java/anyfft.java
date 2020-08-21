@@ -176,7 +176,7 @@ public class anyfft {
      **********************************************************************************************/
     public static int factor(int n)
     {
-        int rn = n/2;                              // Search up to half the number;
+        int rn = (int) Math.ceil(Math.sqrt(n));    // Search up to the square root of the number;
         for(int i=2; i<=rn; i++)
             if (n%i == 0) return i;                // If remainder is zero, a factor is found;
         return n;

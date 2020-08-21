@@ -64,7 +64,7 @@ class Complex(val r: Double, val i: Double) {
 // Complex exponential of an angle:
 fun Cexp(a: Double): Complex
 {
-    return Complex(cos(a), sin(a));
+    return Complex(cos(a), sin(a))
 }
 
 
@@ -159,11 +159,11 @@ fun directFT(x: Array<Complex>): Array<Complex>
  **************************************************************************************************/
 fun factor(n: Int): Int
 {
-    val rn = n/2;                              // Search up to half the number;
+    val rn = ceil(sqrt(n.toDouble())).toInt()      // Search up to the square root of the number;
     for (i in 2..rn) {
-        if (n%i == 0) return i;                // If remainder is zero, a factor is found;
+        if (n%i == 0) return i                     // If remainder is zero, a factor is found;
     }
-    return n;
+    return n
 }
 
 
@@ -227,14 +227,14 @@ fun main() {
 
         // Compute the average execution time:
         var dtime = timeIt(::directFT, n, repeat)
-        var rtime = timeIt(::recursiveFFT, n, repeat);
+        var rtime = timeIt(::recursiveFFT, n, repeat)
 
         // Print the results:
-        val results = "| %7d | %7d | %7.4f | %7.4f |".format(n, n*n, dtime, rtime);
+        val results = "| %7d | %7d | %7.4f | %7.4f |".format(n, n*n, dtime, rtime)
         println(results);
     }
 
-    println("+---------+---------+---------+---------+");
+    println("+---------+---------+---------+---------+")
 
 }
 

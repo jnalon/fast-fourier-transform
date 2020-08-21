@@ -131,9 +131,9 @@ function main()
     for size = sizes
 
         # Compute the average execution time:
-        dtime = @elapsed time_it(direct_ft, size, REPEAT)
-        rtime = @elapsed time_it(recursive_fft, size, REPEAT)
-        intime = @elapsed time_it(FFTW.fft, size, REPEAT)
+        dtime = (@elapsed time_it(direct_ft, size, REPEAT))/ REPEAT
+        rtime = (@elapsed time_it(recursive_fft, size, REPEAT)) / REPEAT
+        intime = (@elapsed time_it(FFTW.fft, size, REPEAT)) / REPEAT
 
         # Print the results:
         Printf.@printf("| %7d | %7d | %7.4f | %7.4f | %7.4f |\n",
