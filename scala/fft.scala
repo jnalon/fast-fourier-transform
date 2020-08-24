@@ -194,7 +194,7 @@ object fft {
         else {
             val N2 = N >> 1
 
-            // Split even and odd samples;
+            // Split even and odd samples:
             val xe = (for (k <- 0 until N2) yield x(2*k)).toArray
             val xo = (for (k <- 0 until N2) yield x(2*k+1)).toArray
             val Xe = recursiveFFT(xe)                          // Transform of even samples;

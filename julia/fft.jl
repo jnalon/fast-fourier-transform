@@ -161,10 +161,10 @@ function main()
 
         # Compute the average execution time:
         n = 2^r
-        dtime = @elapsed time_it(direct_ft, n, REPEAT)
-        rtime = @elapsed time_it(recursive_fft, n, REPEAT)
-        itime = @elapsed time_it(iterative_fft, n, REPEAT)
-        intime = @elapsed time_it(FFTW.fft, n, REPEAT)
+        dtime = (@elapsed time_it(direct_ft, n, REPEAT)) / REPEAT
+        rtime = (@elapsed time_it(recursive_fft, n, REPEAT)) / REPEAT
+        itime = (@elapsed time_it(iterative_fft, n, REPEAT)) / REPEAT
+        intime = (@elapsed time_it(FFTW.fft, n, REPEAT)) / REPEAT
         n = 2^r
 
         # Print the results:

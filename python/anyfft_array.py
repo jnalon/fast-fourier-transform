@@ -150,7 +150,7 @@ def vec_recursive_fft(x):
     N = len(x)                                 # Length of the vector;
     N1 = __factor(N)                           # Find the smallest factor of the vector length;
     if N1 == N:                                # If the length is prime itself,
-        return array_direct_ft(x)              #    the transform is given by the direct form;
+        return direct_ft(x)                    #    the transform is given by the direct form;
     else:
         N2 = N // N1                           # Decompose in two factors, N1 being prime;
         X = zeros((N, ), dtype=complex)        # Accumulate the results;

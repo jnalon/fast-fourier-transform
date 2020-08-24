@@ -140,7 +140,7 @@ float time_it(void (*f)(Complex *, Complex *, int), int size, int repeat)
     Complex x[1024], X[1024];                  // Vectors will be at most 1024 samples;
 
     for(int j=0; j<size; j++)                  // Initialize the vector;
-        x[j] = Complex();
+        x[j] = Complex(j, 0);
     auto t0 = chrono::steady_clock::now();     // Start counting time;
     for(int j=0; j<repeat; j++)
         (*f)(x, X, size);

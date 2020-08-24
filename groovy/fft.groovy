@@ -102,9 +102,9 @@ def complexShow(x) {
  *   The average execution time for that function with a vector of the given size.
  **************************************************************************************************/
 def timeIt(f, size, repeat=REPEAT) {
-    x = new Complex[size];                                     // Generate a vector;
+    x = new Complex[size]                                      // Generate a vector;
     for (j in 0..<size)
-        x[j] = new Complex(j as Float, 0.0f);
+        x[j] = new Complex(j as Float, 0.0f)
 
     t0 = System.currentTimeMillis()                            // Start a timer;
     for (j in 1..repeat)                                       // Repeated calls;
@@ -232,7 +232,7 @@ def bitReverse(k, r) {
  *   A complex-number vector of the same size, with the coefficients of the DFT.
  **************************************************************************************************/
 def iterativeFFT(x) {
-    def N = x.length;
+    def N = x.length
     def X = new Complex[N]
 
     r = Math.round(Math.log2(N)) as Integer                    // Number of bits;
