@@ -124,10 +124,10 @@ time_it(F, X, Repeats, T) ->
 direct_ft(X) -> direct_ft(X, 0).
 
 direct_ft(X, K) when K == length(X) -> [ ];                    % FT of an empty vector;
-direct_ft(X, K) ->                                             % Computes kth component;
+direct_ft(X, K) ->                                             % Compute the kth component;
     Nx    = length(X),                                         % Length of the vector;
-    W     = cexp(-2*pi()/Nx),                                  % Twiddle factor;
-    Wk    = [ cpow(W, K*N)  || N <- seq(0, Nx-1) ],
+    W     = cexp(-2*pi()*K/Nx),                                % Twiddle factor;
+    Wk    = [ cpow(W, N)  || N <- seq(0, Nx-1) ],
     XnWkn = [ cmul(Xn, Wkn) || { Xn, Wkn } <- zip(X, Wk) ],    % Each term of the summation;
     TXk   = foldl(csum(), { 0.0, 0.0 }, XnWkn),                % The value of the kth component;
     [ TXk | direct_ft(X, K+1) ].                               % Recursive call;
@@ -150,10 +150,10 @@ direct_ft(X, K) ->                                             % Computes kth co
 list_direct_ft(X) -> list_direct_ft(X, 0).
 
 list_direct_ft(X, K) when K == length(X) -> [ ];               % FT of an empty vector;
-list_direct_ft(X, K) ->                                        % Computes kth component;
+list_direct_ft(X, K) ->                                        % Compute the kth component;
     Nx    = length(X),                                         % Length of the vector;
-    W     = cexp(-2*pi()/Nx),                                  % Twiddle factor;
-    Wk    = map(fun(N)->cpow(W, K*N) end, seq(0, Nx-1)),
+    W     = cexp(-2*pi()*K/Nx),                                % Twiddle factor;
+    Wk    = map(fun(N)->cpow(W, N) end, seq(0, Nx-1)),
     XnWkn = zipwith(cmul(), X, Wk),                            % Each term of the summation;
     TXk   = foldl(csum(), { 0.0, 0.0 }, XnWkn),                % The value of the kth component;
     [ TXk | list_direct_ft(X, K+1) ].                          % Recursive call;
@@ -181,8 +181,8 @@ tr_direct_ft(X) -> tr_direct_ft(X, 0, [ ]).
 tr_direct_ft(X, K, TX) when K == length(X) -> TX;
 tr_direct_ft(X, K, TX) ->
     Nx    = length(X),                                         % Length of the vector;
-    W     = cexp(-2*pi()/Nx),                                  % Twiddle factor;
-    Wk    = [ cpow(W, K*N)  || N <- seq(0, Nx-1) ],
+    W     = cexp(-2*pi()*K/Nx),                                % Twiddle factor;
+    Wk    = [ cpow(W, N)  || N <- seq(0, Nx-1) ],
     XnWkn = [ cmul(Xn, Wkn) || { Xn, Wkn } <- zip(X, Wk) ],    % Each term of the summation;
     TXk   = foldl(csum(), { 0.0, 0.0 }, XnWkn),                % The value of the kth component;
     tr_direct_ft(X, K+1, TX ++ [ TXk ]).                       % Recursive call;
@@ -210,8 +210,8 @@ list_tr_direct_ft(X) -> list_tr_direct_ft(X, 0, [ ]).
 list_tr_direct_ft(X, K, TX) when K == length(X) -> TX;
 list_tr_direct_ft(X, K, TX) ->
     Nx    = length(X),                                         % Length of the vector;
-    W     = cexp(-2*pi()/Nx),                                  % Twiddle factor;
-    Wk    = map(fun(N)->cpow(W, K*N) end, seq(0, Nx-1)),
+    W     = cexp(-2*pi()*K/Nx),                                % Twiddle factor;
+    Wk    = map(fun(N)->cpow(W, N) end, seq(0, Nx-1)),
     XnWkn = zipwith(cmul(), X, Wk),                            % Each term of the summation;
     TXk   = foldl(csum(), { 0.0, 0.0 }, XnWkn),                % The value of the kth component;
     list_tr_direct_ft(X, K+1, TX ++ [ TXk ]).                  % Recursive call;

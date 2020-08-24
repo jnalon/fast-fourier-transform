@@ -129,8 +129,8 @@ direct_ft(X) -> direct_ft(X, 0, [ ]).
 direct_ft(X, K, TX) when K == length(X) -> TX;
 direct_ft(X, K, TX) ->
     Nx    = length(X),                                         % Length of the vector;
-    W     = cexp(-2*pi()/Nx),                                  % Twiddle factor;
-    Wk    = map(fun(N)->cpow(W, K*N) end, seq(0, Nx-1)),
+    W     = cexp(-2*pi()*K/Nx),                                % Twiddle factor;
+    Wk    = map(fun(N)->cpow(W, N) end, seq(0, Nx-1)),
     XnWkn = zipwith(cmul(), X, Wk),                            % Each term of the summation;
     TXk   = foldl(csum(), { 0.0, 0.0 }, XnWkn),                % The value of the kth component;
     direct_ft(X, K+1, TX ++ [ TXk ]).                          % Recursive call;
