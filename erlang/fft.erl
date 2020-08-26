@@ -29,7 +29,7 @@
 -import(io, [ format/2, fwrite/1, fwrite/2 ]).                 % Input and output;
 -import(math, [ atan2/2, cos/1, sin/1, pi/0, sqrt/1, pow/2 ]). % Math operations;
 -import(lists, [ foldl/3, map/2, nth/2, seq/2, seq/3, zip/2, zipwith/3 ]).     % List operations;
--import(timer, [ tc/2 ]).                                      % Time measurements;
+-import(timer, [ tc/2 ]).                                      % Time measurement;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -257,15 +257,15 @@ lc_dft(X) -> [ foldl(csum(), { 0.0, 0.0 },
 %   A complex-number vector of the same size, with the coefficients of the DFT.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 -spec recursive_fft(X::[ complex() ]) -> [ complex() ].
-recursive_fft(X) when length(X) == 1 -> X;
+recursive_fft(X) when length(X) == 1 -> X;                     % A length-1 vector is its own FT;
 recursive_fft(X) ->
-    Nx  = length(X),
-    Wk  = [ cexp(-2*pi()*K/Nx) || K <- seq(0, Nx div 2 - 1) ],
-    Xe = [ nth(N, X) || N <- seq(1, Nx, 2) ],
+    Nx  = length(X),                                           % Length of the vector;
+    Wk  = [ cexp(-2*pi()*K/Nx) || K <- seq(0, Nx div 2 - 1) ], % Twiddle factors;
+    Xe = [ nth(N, X) || N <- seq(1, Nx, 2) ],                  % Split even and odd samples;
     Xo = [ nth(N, X) || N <- seq(2, Nx, 2) ],
-    TXe = recursive_fft(Xe),
-    TXo = zipwith(cmul(), Wk, recursive_fft(Xo)),
-    zipwith(csum(), TXe, TXo) ++ zipwith(csub(), TXe, TXo).
+    TXe = recursive_fft(Xe),                                   % Transform of even samples;
+    TXo = zipwith(cmul(), Wk, recursive_fft(Xo)),              % Transform of odd samples;
+    zipwith(csum(), TXe, TXo) ++ zipwith(csub(), TXe, TXo).    % Recombine results;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -281,21 +281,20 @@ recursive_fft(X) ->
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 -spec split(X::[ any() ]) -> { [ any() ], [ any() ] }.
 split([]) -> { [], [] };
-split(X) ->
-    [ Xe | PTail ] = X,
-    [ Xo | Tail ] = PTail,
+split(X) ->                                            % Splits a list into even and odd samples;
+    [ Xe, Xo | Tail ] = X,
     { XeTail, XoTail } = split(Tail),
     { [ Xe | XeTail ], [ Xo | XoTail ] }.
 
 -spec split_recursive_fft(X::[ complex() ]) -> [ complex() ].
-split_recursive_fft(X) when length(X) == 1 -> X;
+split_recursive_fft(X) when length(X) == 1 -> X;               % A length-1 vector is its own FT;
 split_recursive_fft(X) ->
-    Nx  = length(X),
-    Wk  = [ cexp(-2*pi()*K/Nx) || K <- seq(0, Nx div 2 - 1) ],
-    { Xe, Xo } = split(X),
-    TXe = split_recursive_fft(Xe),
-    TXo = zipwith(cmul(), Wk, split_recursive_fft(Xo)),
-    zipwith(csum(), TXe, TXo) ++ zipwith(csub(), TXe, TXo).
+    Nx  = length(X),                                           % Length of the vector;
+    Wk  = [ cexp(-2*pi()*K/Nx) || K <- seq(0, Nx div 2 - 1) ], % Twiddle factors;
+    { Xe, Xo } = split(X),                                     % Split even and odd samples;
+    TXe = split_recursive_fft(Xe),                             % Transform of even samples;
+    TXo = zipwith(cmul(), Wk, split_recursive_fft(Xo)),        % Transform of odd samples;
+    zipwith(csum(), TXe, TXo) ++ zipwith(csub(), TXe, TXo).    % Recombine results;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
