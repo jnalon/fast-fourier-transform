@@ -1,15 +1,21 @@
 # Groovy Version
 
-This folder contains the Groovy version of the Discrete Fourier Transform. Groovy was created by the Apache Foundation in 2007. It is one of the many languages that uses the Java Virtual Machine, but implementing a different set of semantics. The goal of the design was to create a language simple enough to be used as a script language, but powerful enough to be used as a programming language. It is inspired by Python and Smalltalk.
+This folder contains the Groovy version of the Discrete Fourier Transform. It was designed by James Strachan for the Apache Foundation in 2007 as a programming language that could also be used as an scripting language. It runs on the Java Virtual Machine and, because of this, it has access to the vast Java library of modules. It was inspired by features present in dynamic languages as Python and Smalltalk.
 
-It is in fact very simple, looking, at first contact, as a version of Java without all the verbosity and complexity. It has, however, some features that Java doesn't, such as operator overloading (at this point you probably guessed that I like this), dynamic typing and some data structures and operators. That allows for some idioms that are not seen in its mother language. It also provides support for functional programming, such as currying. You can find more about Groovy in its [website](http://groovy-lang.org/).
+As every language based on JRE, Groovy has the disadvantage that programmers might *program Java using Groovy syntax*, but Groovy has this problem taken a little further, because much of Java's syntax is valid Groovy. But Groovy has features that are not present in Java, such as dynamic typing, operator overloading and more native data structures with their own syntax. Groovy also has an interesting *safe operator*, given by `?.`, that checks if an object exists before calling its methods.
+
+Groovy also somewhat supports the functional paradigm. It is not a fully functional programming language, but there are abstractions such as currying, the process of creating functions by partial application, and other featurer that become clear when dealing with collections (lists, maps, sets, and more).
+
+Besides all that, Groovy programs can be executed as if they were scripts. When invoked, Groovy compiles the script to bytecode and runs it on Java's Virtual Machine automatically, but in a process that is transparent to the programmer. You can find more about Groovy in its [website](http://groovy-lang.org/).
 
 
 ## Comments on the Language
 
-Since it drives many inspirations from languages such as Python, Groovy is fairly easy to learn, especially if you already program in Java. The use of the Java Virtual Machine has the benefit of making available the huge and very well tested Java Library; on the other hand, that can be a problem, because you can feel comfortable writing 'Java in Groovy' and getting results, and not using the capabilities of the language itself. While I don't think that this will necessarily lead to worse efficiency (*ie*, slower and bigger programs), that will probably make the development process slower and less efficient. I probably made a lot of these mistakes in these files, as a seasoned Groovy programmer will probably notice.
+Groovy was designed kind of a *Java with less verbosity*, and with a lot of ideas taken from Python and other scripting languages. The main consequence of those choices is that Groovy is fairly easy to learn -- but the dependency on Java, as said above, can lead to write Java equivalent code, but using Groovy syntax. In fact, I'm pretty sure that I made this mistake at some points in these programs.
 
-I actually didn't see any problems with the language, besides (maybe) performance, that is not the best for a JVM language. You will notice, however, that it has a Just-In-Time compiler that gets more efficient during the execution of the program. This might give you some strange results, such as that smaller vectors generate bigger execution times.
+I liked Groovy's take on closures, though I hadn't used them here. I'm positive, however, that there is a one- or two-liner way to write the Fourier Transform in its direct form using them, with a result much like list comprehensions in Python, Erlang and other languages. I didn't try that yet, but I might get back to it at some point. Closures also are a nice way to pass functions as arguments to functions.
+
+The performance, however, leaves something to be desired. In fact, at some points I got weird results, such as the Fast Transform taking as long as the direct form. I couldn't find any problems with the algorithms, so I suppose that this might be an effect of Groovy's internal: either the function calling process is very slow, or, if it's Just-In-Yime compiler doesn't perform well. In any case, that can be a problem.
 
 
 ## The Programs

@@ -31,7 +31,9 @@ The languages below are imperative languages. It's the most common programming p
 
 ### Semi-functional Languages
 
-I'm calling *semi-functional* those languages that, although they follow the imperative paradigm, have constructs that allow the programmer to think not in a sequence of commands, but in the relations between values. They still have the same characteristics of the languages above, but have some constructs that allow you to think in terms of functions instead of procedures:
+I'm calling *semi-functional* those languages that, although they follow the imperative paradigm, have constructs that allow the programmer to think not in a sequence of commands, but in the relations between values -- more like *what* the program should do than *how* the program does it. This is not *exactly* this with these languages, but the code is very expressive and *looks* like function definitions. They still have the same characteristics of the languages of the previous class, but have some constructs that allow you to think in terms of functions instead of procedures.
+
+I would like to be more specific on that. Functional languages treats every piece of data as a mathematical object on which *functions* operate. This enables you to see the *relations* between variables. The constructs in these languages include *vectorization* (which allows you to see operations being done on lists or arrays as one thing, as multidimensional functions, if you will) and *list comprehensions* (which allows you to see operations done on members of a set). Interestingly enough, this can be *more expressive* than functions in actuall functional languages. That is why there is a separate category for them:
 
 * Julia
 * MATLAB/Octave

@@ -64,3 +64,5 @@ $ python fft.py
 ```
 
 Instead of `fft.py`, of course, you can choose any of the other scripts described above. The script will repeat the computation of the Fast Fourier Transform for various sizes of vectors, and report the average time. The `array` versions will also compute using NumPy's internal implementation for comparison purposes.
+
+You can also run the programs with other implementations of Python. Not every one of them can support modules like NumPy, so you will have to deal with the `list` versions. I tried running those scripts using [Pypy](http://pypy.org/), which is an implementation of the language with optimizations and a just-in-time compiler. There is a very significant gain in using it, so I suggest you try.

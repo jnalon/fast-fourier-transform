@@ -1,17 +1,29 @@
 # C++ Version
 
-This folder contains the C++ implementation of the Discrete Fourier Transform. C++ was created in 1985 by Bjarne Stroustrup as an object-oriented extension to C. In its first years, it was very clumsy, mainly because C, the original language, is a very low level language, and object orientation is a high level concept. I remember once reading that C++ was trying to build an octopus by putting four tentacles in a dog. It was kind of true then, but I don't think it's like that anymore. The language, its libraries and community have grown, and the C++ environment is very mature and stable these days. It gained a lot of momentum when, back in the end of last century, it was seen as the perfect language to develop desktop applications.
+This folder contains the C++ implementation of the Discrete Fourier Transform. It is a general purpose procedural and object oriented language, created in 1985 by Bjarne Stroustrup as an object-oriented extension to C, and because of that, most of C programs *could* be compiled by C++ compilers. However, since C is a low-level language, and object oriented is a high-leve concept, it used to be very clumsy, and programs developed in the language were riddled with memory leaks and other hard to find bugs. I remember once reading that C++ was trying to build an octopus by putting four tentacles in a dog.
 
-Originally, C++ didn't have automatic memory management, and that is still true for primary data types and some classes derived from them. However, a lot of the classes in the standard library can manage their own memory, which makes it easier to deal with them. Still, this puts some distance from C++ to C, where everything must be managed by the programmer. Then again, it might not be the intent of C++ developers to follow the original philosophy. C++ stands on its own.
+It was true then, but I don't think it's like that anymore. It gained a lot of momentum when, back in the end of last century, it was seen as the perfect language to develop desktop applications. The language, its libraries and community have grown, and the C++ environment is very mature and stable these days.
 
-As happens with C, there are a lot of different implementations of the language. If you are working in a Linux system, your system most likely has `g++`, the GNU C++ Compiler, installed, and you can use it to compile and runs the programs on this folder; check your package manager. If you are in Windows or MacOS, however, you will probably have to install a development package. The companies developing these systems have them, choose whichever you like best.
+Originally, C++ didn't have automatic memory management, and that is still true for primary data types and some data structures and classes. However, a lot of the classes in the standard library can manage their own memory, which makes it easier to deal with them. This puts some distance from C++ to C, where everything must be managed by the programmer, but, probably, it isn't a concern of C++ developers to follow the original philosophy anymore. C++ stands on its own.
 
 
 ## Comments on the Language
 
-Developing with C++ poses a great difficulty: if you are used to program in C, it is very easy to *``fallback''* to C syntax and programming paradigm. If you don't know or forget how to do some simple task, C functions pop to your mind, and that might be a problem with your program. While this may sound silly, it *can* actually be a problem: there are a lot of things in both languages that look and sound similar, but are internally managed in completely different ways. This might lead to some incompatibilities that can make your program not work. Also, your program will end up as a frankenstein collation of low level C and object-oriented C++ trying to work toghether. It might not fail, but it will look ugly -- I tried to avoid this, but I can't be sure.
+Developing with C++ poses a difficulty (that happens with any derived language): if you are used to program in C, it is very easy to *"fallback"* to C programming, and you will be *"programming in C, using C++ syntax"*. If you don't know or forget how to do some simple task, you will feel tempted to use C functions and usual solutions. While this may sound silly, it *can* actually be a problem: there are a lot of things in both languages that look and sound similar, but are internally managed in completely different ways. This can lead to incosistencies that make your program not work. Also, your program will end up as a *"frankenstein"* collation of low level C and object-oriented C++ trying to work toghether. It will most likely not fail, but it will look ugly.
 
-As a positive characteristic, C++ allows for operator overloading. This is a small characteristic that might not be that important or might be overused, but it does makes sense in programs that deal with mathematical objects, such as complex numbers or arrays.
+C++ allows operator overloading, multiple inheritance and other features that might be considered *dangerous*. While that is true, a good design can avoid most if not all of the problems. In the development of these programs, multiple inheritance wasn't necessary, but operator overloading was very helpful. Without this, an expressions such as
+
+```
+X[k] = X[k] + Wkn * X[k]
+```
+
+where all variables are complex, would have to be written as:
+
+```
+X[k] = X[k].add(Wkn.mul(X[k]))
+```
+
+which can get ugly for more complex expressions.
 
 
 ## The Programs
@@ -24,16 +36,20 @@ There are two programs in this folder:
 
 Besides the transform functions, both files also implement a small library to deal with complex numbers. The Standard C++ library already have this, but I wanted to implement my own (that helps me to understand what the language can do). Also, if I was to follow the general guidelines, my complex library should come in a separate module, with a header file and so on. That would be extremely easy to do, but since these are very simple programs, I didn't think I needed that (I might change my mind in the future, however).
 
+As a last note, the programs have *few* characteristics of object orientation. This is because the Fast Fourier Transform is better implemented as an operation (and, thus, as a function) than as a method of a class. In fact, to do it in that way, I would have to create a class to hold the vector data and implement some additional methods to create, allocate and dispose memory and so on. While I could have done this, that would diverge from my first intent, that was to implement the Fast Fourier Transform. So, you might argue that this is - as I said above - C written with C++ syntax, but the functions can be easily transfered to bigger class oriented projects.
+
 
 ## Compiling and Running
 
-Compile and run these programs will depend a lot on the compiler that you have installed. Since my system is Linux with the GNU C++ Compiler (`g++`) installed, I'll go with it. It is very easy to compile, just issue this command in the shell:
+As happens with C, there are a lot of different implementations of the language. If you are working in a Linux system, your system most likely has `g++`, the GNU C++ Compiler, installed, and you can use it to compile and run the programs on this folder; just check the package manager for your distribution, and install the needed packages. If you are in Windows or MacOS, however, you will probably have to install a development package. There are a lot of options (such as [MinGW](http://mingw.org/) for Windows, and GNU C++ is probably available for MacOS. As an alternative, Windows has [Visual Studio](https://visualstudio.microsoft.com/) and MacOS has [XCode](https://developer.apple.com/), both of them with free versions that you can download and use.
+
+I'm in a Linux system, so I will use G++. To compile the program, just issue the command:
 
 ```
 $ g++ -o fft fft.cpp -lm
 ```
 
-to compile the `fft.cpp` file (don't forget the `-lm` switch to link the math library). This will generate a `fft` executable file in the same folder, that can be run with the command:
+to compile the `fft.cpp` file (don't forget the `-lm` switch to link the math library). This will generate an executable file named `fft` in the same folder, that can be run with the command:
 
 ```
 $ ./fft

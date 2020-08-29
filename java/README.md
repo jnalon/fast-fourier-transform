@@ -1,6 +1,6 @@
 # Java Version
 
-This folder contains the Java version of the Discrete Fourier Transform. Java is an object oriented language created by Sun Microsystems in 1995. It was designed with the goal of allow developing portable applications -- it's *motto* was *\"write once, run everywhere\"*. Although it inherited a lot of syntax constructs from C and C++, Java has different semantics, focusing more on code reuse. These days, Java belongs to and is developed by Oracle Corporation.
+This folder contains the Java version of the Discrete Fourier Transform. Java is an object oriented language created by James Gosling at Sun Microsystems in 1995. It was designed with the goal of allow developing portable applications -- it's *motto* was *\"write once, run everywhere\"*. Although it inherited a lot of syntax constructs from C and C++, Java has different semantics, focusing more on code reuse. These days, Java is owned by and is developed by Oracle Corporation.
 
 Java owes much of its popularity by being there when the Internet started to gain popularity. It was the only language that allowed some sort of dynamic behaviour on browsers through *applets*, small applications that run on browser plugins. The language, however, proved to be useful to much more than that.
 
@@ -9,11 +9,25 @@ The language was revolutionary: it was fast and efficient, it was a lot easier t
 
 ## Comments on the Language
 
-Java mandates that every aspect of a program is structured inside classes, thus making everything an object. While that makes sense for a lot of programming, some procedures end up looking kind of strange, such as when the same operation must be done on different objects. The Fourier Transform is such a case: you can take the Fourier Transform of a lot of different kinds of sequences, but you must encapsulate it in a class.
+Java mandates that every aspect of a program is structured inside classes, thus making everything an object. While that makes sense for a lot of programming tasks, some procedures end up looking kind of strange, such as when the same operation must be done on different objects. The Fourier Transform is such a case: you can take the Fourier Transform of a lot of different kinds of sequences, but you must encapsulate it in a class.
 
 The language has some constructs to simplify this, but they still look strange. In this case, it is usual to create a class called something like `FastFourierTransformer` with static methods to perform the computation, and pass data to it when needed. While this kind of makes sense, there should be better ways to do it.
 
 The approach I followed in this code is different: since the objective of these programs is to assess the performance of the language, all the code was put in a single class, and the Fourier Transform behaves pretty much as an isolated function. This hurts code reuse, of course, but is the best way to do this in this case (and, of course, if you need to use the functions, you can just copy the relevant parts).
+
+Java's design has an immense concern for program consistency, and do that by disallowing some constructs. There is no multiple inheritance or operator overloading, for example. The reason is that these abstractions can hurt the program: they tend to be overused and can hurt performance. But, even though that might be true for some situations, both are extremelly useful in certain cases. In these programs, for example, operator overloading could allow me to write
+
+```
+X[k] = X[k] + Wkn * x[n];
+```
+
+which is a lot simpler that what I actually had to write:
+
+```
+X[k] = X[k].add(Wkn.mul(x[n]));
+```
+
+which looks weird and difficult to read.
 
 
 ## The Programs

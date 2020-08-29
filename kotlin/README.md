@@ -2,6 +2,8 @@
 
 This folder contains the Kotlin version of the Discrete Fourier Transform. Kotlin was created in 2011, and is one of the numerous languages that run over the Java Runtime Environment. As such, it benefits from the immense library of modules from, which is always a good thing. Contrary to most but a few of the JRE languages, Kotlin is finding some success because it can be used for development of mobile applications, and also because it can be compiled to Javascript, allowing for easy web development.
 
+Besides allowing access to the extensive library of Java modules, Kotlin tries to make things simpler. Static functions can exist on their own (not needing to be encapsulated by a class), classes can be easily extended without subclassing, there is a lot of type inference in compilation, some objects can be deconstructed, and more. This makes it easier than Java, makes code more expressive, and no power is lost in this.
+
 The downside of being a JRE language, as always, is that people might be tempted to write Java using a different syntax. Kotlin, however, is very simple, and even if you do this, you end up with efficient programs that are fairly readable. Advocates of the language claim that it can be seen as Java if all the verbosity and complexity was removed (Kotlin is not, however, the only JRE-derived language that claims this). You can find more information on its [website](https://kotlinlang.org/)
 
 
@@ -10,6 +12,10 @@ The downside of being a JRE language, as always, is that people might be tempted
 If you know Java, you probably already know Kotlin -- as said above, it *can* be seen as Java with the complexity stripped down. However, it has different resources that can make development easy, especially on those cases where agile development is needed. Among its features (that I personally like) are first-class functions and operator overloading.
 
 Kotlin *also* allows for functional programming of some kind. It has pattern matching and definition of functions by *what* they do, not by *how* they do. This allows for easy expression of solution to problems and makes it easier to develop creating less bugs. Kotlin, however, avoids the purity *"problem"* by using eager execution and allowing mixing of procedural sequences in the functions. My implementations in Kotlin are *not* functional, but they could be easily transformed into it, given the flexibility of the language.
+
+It needs to be mentioned that languages that mix functional and imperative programming might find that one of the two paradigms, although available, is not used. I think Kotlin is a language like that: being heavily inspired on Java makes it easier to write imperative programs that runs faster, and the functional side ends with little use. It might be, in case of Kotlin, that functional programming *does* give some advantage over imperative, but I didn't see how it could be.
+
+As a final note, the Kotlin compiler is *extremely* slow. The quite small programs in this folder took about eight seconds to compile. While it doesn't seem a lot, I imagine that this could be a problem for larger programs.
 
 
 ## The Programs

@@ -1,15 +1,19 @@
 # Ruby Version
 
-This folder contains the Ruby version of the Discrete Fourier Transform. Ruby is another scripting language that bears a lot of resemblance with Python and others. It was created in 1995 because of the creator's dissatisfation with the way that object orientation was implemented by Perl. The resulting language is a little less free form than Perl, more readable and implements a lot of abstractions that are common in object oriented languages. Particularly, there are a lot of syntax that resembles Smalltalk.
+This folder contains the Ruby version of the Discrete Fourier Transform. [Ruby](http://ruby-lang.org/) is a scripting language created by Yukihiro Matsumoto, and bears a lot of resemblance with Python and others. It was created in 1995 because of the creator's dissatisfation with the way that object orientation was implemented by Perl (and any other scripting language at that time). The resulting language is freeform than Perl, more readable and implements a lot of abstractions that are common in object oriented languages. Particularly, there are a lot of syntax that resembles Smalltalk.
 
-Ruby was not very known, but got a lot of tracking with the creation of Ruby on Rails, a web development framework that turned creation of complex pages really easy. It caused a vast migration from Java to the language, and it didn't take long to receive contributions that made it a good choice for every kind of application. You can find more about the language on its [website](http://ruby-lang.org/)
+Ruby wasn't well known, and far from a mainstream language, until about 2005, when Ruby On Rails was released, a web development framework that turned creation of complex pages really easy. It was revolutionary at that time, incredibly easy to program, and had a lot of ideas that influenced the creation of similar frameworks for other languages. It caused a vast migration from Java, and it didn't take long to receive contributions that made it a good choice for every kind of application. You can find more about the language on its [website](http://ruby-lang.org/).
+
+The main philosophy in Ruby's design is stated as *Principle of Least Astonishment*, meaning that the language should behave in the less confusing way. This is recognized as a goal difficult to achieve, given that programmers come from different backgrounds, and each of them has a set of expectiations of what should be the behaviour of a language construct. According to the language creator, however, this means that, after you know Ruby well (or even not so well), whatever new features you find won't cause any surprise.
 
 
 ## Comments on the Language
 
-Script languages are, in general, easy to learn and to write in, but have decreased performance. Ruby is no exception, but it is a lot faster now than it was on my first experiments with it. Recent versions of the language implemented a just-in-time compiler, and that might be the reason its efficiency are improved.
+My first experiments with Ruby date to the 1.6 or maybe 1.8 era, and I was incredibly disappointed at how slow it was. I'm glad to find out that this is not an issue anymore: Ruby runs fast (as fast as possible for an interpreted scripting language) and get the job done. Also, its standard and contributed libraries have grown significantly, and it is now easy to develop in.
 
-The syntax is very clean and objective, and the resulting code is very easy to read. Ruby designed followed what was called the *principle of least surprise*, in general associated with user interface. It means that, if you know Ruby well (or maybe even not so well), then a line of code should do what you *expect* it to do. Of course, that is an unrealistic expectation, but Ruby does it well.
+If you know any programming languages, Ruby won't have any surprise for you at first. Every standard construct (from variables to loops) work exactly as expected, so you will be able to produce code -- even good code -- in your first attempts. Of course (as any other language), Ruby offers more than that. Since one of its goals was to develop an *object oriented* scripting language, you will probably find out a lot of power in writing code in that way.
+
+The programs in this folder might not have a lot of object orientation in it, but that's because the Fourier transform works more as an operator than as an object. This means that it will be better implemented as a set of functions instead of an instance of a class. Fortunatelly, Ruby gives full support for first class functions, so that wasn't a problem.
 
 
 ## The Programs
