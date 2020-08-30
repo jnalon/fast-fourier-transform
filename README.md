@@ -47,6 +47,7 @@ I would like to be more specific on that. Functional languages treats every piec
 Functional languages support the paradigm that programs should be thought of and designed as mathematical equations. Usually, variables are not mutable, there are no loop and decision commands. The supporters of the paradigm *claim* that programs designed with such philosophy are not prone to errors -- but, of course, that's not true. They also claim that functional programming is *"purer"* -- which is obvious also not true. Programming in a functional paradigm, however, is very different from the imperative paradigm, and it takes some time to get used, but it is something that every developer should know:
 
 * Erlang
+* OCaml
 
 
 ----
