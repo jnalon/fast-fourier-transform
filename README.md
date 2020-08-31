@@ -21,6 +21,7 @@ The languages below are imperative languages. It's the most common programming p
 * C#
 * C++
 * Euphoria
+* Fortran
 * Go
 * Groovy
 * Java
