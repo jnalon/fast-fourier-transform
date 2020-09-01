@@ -13,6 +13,11 @@ Instructions on how to compile and run are in the comments of each file. There i
 I don't claim that any of these implementations is the most efficient way to deal with the FFT in any language. In fact, most likely, it isn't, as most of them have bindings for a tested and fast library, such as FFTW.
 
 
+## In Progress
+
+Right now, I'm trying to write a Haskell version. I actually got the Fourier transforms working, but I can't seem to find a way to measure the repeated evaluations of the transform because Haskell has lazy evaluation and **really** anoying ways to make it circumvent that that doesn't seem to work at all.
+
+
 ### Imperative Languages
 
 The languages below are imperative languages. It's the most common programming paradigm, and most of the languages in existence are designed and implemented to support it. They're caracterized by sequences of commands, mutable variables, repetition and decision comands, and strict evaluation. Most of these languages have constructs to support a particular aspect of programming, but the implementation in most of them are very simmilar. I included here object oriented languages, since object orientation is just one other way to structure imperative programs:
@@ -22,6 +27,7 @@ The languages below are imperative languages. It's the most common programming p
 * C++
 * Euphoria
 * Fortran
+* Frink
 * Go
 * Groovy
 * Java

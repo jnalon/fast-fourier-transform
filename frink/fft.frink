@@ -1,0 +1,268 @@
+/**************************************************************************************************
+ * Fast Fourier Transform - Frink version
+ * This version implements Cooley-Tukey algorithm for powers of 2 only.
+ *
+ * José Alexandre Nalon
+ **************************************************************************************************
+ * Frink isn't a mainstream language and cannot be found at most package managers if at all. You
+ * can download the executable from its website and run the programs by issuing the command:
+ *
+ * $ java -cp frink.jar frink.parser.Frink fft.frink
+ *
+ * (which is kind of weird, but Frink runs over the Java Virtual Machine).
+ **************************************************************************************************/
+
+
+/**************************************************************************************************
+ * Auxilary Function: formatNumber
+ *   Format a number to be printed with exactly 7 spaces.
+ *
+ * Parameters:
+ *   x
+ *     Number to be formatted.
+ *
+ * Returns:
+ *   A string with the formatted number, with exactly 7 caracters.
+ **************************************************************************************************/
+formatNumber[x] :=
+{
+    x = "$x"
+    return padLeft[x, 7, " "]
+}
+
+
+/**************************************************************************************************
+ * Auxiliary Function: complexShow
+ *   Pretty printing of an array of complex numbers, used to inspect results.
+ *
+ * Parameters:
+ *   x
+ *     A vector of complex numbers, according to the definition above;
+ **************************************************************************************************/
+complexShow[x] :=
+{
+    print["[ "]
+    for i = 0 to length[x]-1
+    {
+        xi = x@i
+        print["$xi, "]
+    }
+    println[" ]"]
+}
+
+
+/**********************************************************************************************
+ * Auxiliary Method: timeIt
+ *   Measure execution time through repeated calls to a (Fast) Fourier Transform function.
+ *
+ * Parameters:
+ *  f
+ *    Function to be called, with the given prototype. The first complex vector is the input
+ *    vector, the second complex vector is the result of the computation;
+ *  size
+ *    Number of elements in the vector on which the transform will be applied;
+ *  repeats
+ *    Number of times the function will be called.
+ *
+ * Returns:
+ *   The average execution time for that function with a vector of the given size.
+ **********************************************************************************************/
+timeIt[f, size, repeats] :=
+{
+    x = array[0 to size-1]
+    t0 = now[]
+    for j = 1 to repeats
+        X = eval[f]
+    return ((now[] - t0)/repeats) -> seconds
+}
+
+
+/**************************************************************************************************
+ * Function: directFT
+ *   Discrete Fourier Transform directly from the definition, an algorithm that has O(N^2)
+ *   complexity.
+ *
+ * Parameters:
+ *   x
+ *     The vector of which the DFT will be computed. Given the nature of the implementation,
+ *     there is no restriction on the size of the vector, although it will almost always be
+ *     called with a power of two size to give a fair comparison;
+ *
+ * Returns:
+ *   A complex-number vector of the same size, with the coefficients of the DFT.
+ **************************************************************************************************/
+directFT[x] :=
+{
+    N = length[x]                              // Length of the vector;
+    X = makeArray[[N], 0]                      // Accumulate the results;
+    W = exp[-2*i*pi/N]                         // Twiddle factors;
+    Wk = 1
+    for k = 0 to N-1                           // Compute the kth coefficient;
+    {
+        Wkn = 1
+        for n = 0 to N-1                       //   Operate the summation;
+        {
+            X@k = X@k + x@n * Wkn              //     Compute every term;
+            Wkn = Wkn * Wk                     // Update twiddle factors;
+        }
+        Wk = Wk * W
+    }
+    return X
+}
+
+
+/**************************************************************************************************
+ * Function: recursiveFFT
+ *   Fast Fourier Transform using a recursive decimation in time algorithm. This has O(N log_2(N))
+ *   complexity.
+ *
+ * Parameters:
+ *   x
+ *     The vector of which the FFT will be computed. This should always be called with a vector
+ *     of a power of two length, or it will fail. No checks on this are made.
+ *
+ * Returns:
+ *   A complex-number vector of the same size, with the coefficients of the DFT.
+ **************************************************************************************************/
+recursiveFFT[x] :=
+{
+    N = length[x]
+    if N == 1                                  // A length-1 vector is its own FT;
+        return x
+    else
+    {
+        N2 = N / 2
+        xe = makeArray[[N2], 0]                // Allocate memory for computation;
+        xo = makeArray[[N2], 0]
+        for n = 0 to N2-1                      // Split even and odd samples;
+        {
+            xe@n = x@(2*n)
+            xo@n = x@(2*n+1)
+        }
+        Xe = recursiveFFT[xe]                  // Transform of even samples;
+        Xo = recursiveFFT[xo]                  // Transform of odd samples;
+
+        X = makeArray[[N], 0]
+        W = exp[-2*i*pi/N]                     // Twiddle factors;
+        Wk = 1
+        for k = 0 to N2-1
+        {
+            X@k = Xe@k + Wk * Xo@k             // Recombine results;
+            X@(k+N2) = Xe@k - Wk * Xo@k
+            Wk = Wk * W                        // Update twiddle factors;
+        }
+        return X
+    }
+}
+
+
+/**************************************************************************************************
+ * Function: bitReverse
+ *   Bit-reversed version of an integer number.
+ *
+ * Parameters:
+ *   k
+ *     The number to be bit-reversed;
+ *   r
+ *     The number of bits to take into consideration when reversing.
+ *
+ * Returns:
+ *   The number k, bit-reversed according to integers with r bits.
+ **************************************************************************************************/
+bitReverse[k, r] :=
+{
+    l = 0                                      // Accumulate the results;
+    for i = 0 to r-1                           // Loop on every bit;
+    {
+        l = l * 2 + (k mod 2)                  // Test less signficant bit and add;
+        k = k div 2                            // Test next bit;
+    }
+    return l
+}
+
+
+/**************************************************************************************************
+ * Function: iterativeFFT
+ *   Fast Fourier Transform using an iterative in-place decimation in time algorithm. This has
+ *   O(N log_2(N)) complexity, and since there are less function calls, it will probably be
+ *   marginally faster than the recursive versions.
+ *
+ * Parameters:
+ *   x
+ *     The vector of which the FFT will be computed. This should always be called with a vector
+ *     of a power of two length, or it will fail. No checks on this are made.
+ *
+ * Returns:
+ *   A complex-number vector of the same size, with the coefficients of the DFT.
+ **************************************************************************************************/
+iterativeFFT[x] :=
+{
+    N = length[x]
+    r = int[log[N+1]/log[2]]                   // Number of precision bits;
+    X = makeArray[[N], 0]
+    for k = 0 to N-1
+    {
+        l = bitReverse[k, r]                   // Reorder the vector according to
+        X@l = x@k                              //   the bit-reversed order;
+    }
+
+    stp = 1                                    // Computation of twiddle factors;
+    for k = 0 to r-1
+    {
+        for l = 0 to N-1 step 2*stp
+        {
+            W = exp[-i*pi/stp]                 // Twiddle factors;
+            Wkn = 1
+            for n = 0 to stp-1
+            {
+                p = l + n
+                q = p + stp
+                X@q = X@p - X@q * Wkn          // Recombine results;
+                X@p = 2*X@p - X@q
+                Wkn = Wkn * W                  // Update twiddle factors;
+            }
+        }
+        stp = stp * 2
+    }
+    return X
+}
+
+
+/**************************************************************************************************
+ Programa principal
+ **************************************************************************************************/
+setPrecision[8]
+showApproximations[false]
+rationalAsFloat[true]
+
+REPEAT = 50                           // Number of executions to compute average time;
+
+// Start by printing the table with time comparisons:
+println["+---------+---------+---------+---------+---------+---------+---------+---------+"]
+println["|    N    |   N^2   | N logN  | Direct  | Recurs. | Itera.  | DirInt. | Intern. |"]
+println["+---------+---------+---------+---------+---------+---------+---------+---------+"]
+
+// Try it with vectors with size ranging from 32 to 1024 samples:
+for r = 5 to 10
+{
+    // Compute the average execution time:
+    n = 2^r
+    dtime = timeIt["directFT[x]", n, REPEAT]
+    rtime = timeIt["recursiveFFT[x]", n, REPEAT]
+    itime = timeIt["iterativeFFT[x]", n, REPEAT]
+    dntime = timeIt["DFT[x, 1, -1]", n, REPEAT]
+    fntime = timeIt["FFT[x, 1, -1]", n, REPEAT]
+
+    // Print the results:
+    sn = formatNumber[n]
+    nn = formatNumber[n*n]
+    rn = formatNumber[r*n]
+    dt = formatNumber[dtime]
+    rt = formatNumber[rtime]
+    it = formatNumber[itime]
+    dnt = formatNumber[dntime]
+    fnt = formatNumber[fntime]
+    println["| $sn | $nn | $rn | $dt | $rt | $it | $dnt | $fnt |"];
+}
+
+println["+---------+---------+---------+---------+---------+---------+---------+---------+"]
