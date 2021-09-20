@@ -117,10 +117,7 @@ bit_reverse <- function(k, r)
 {
     l <- 0                                     # Accumulate the results;
     for (i in 1:r) {                           # Loop on every bit;
-        l <- 2*l
-        if (k %% 2 == 1) {                     # Test less signficant bit and add;
-            l <- l + 1
-        }
+        l <- 2*l + (k %% 2)
         k = k %/% 2                            # Test next bit;
     }
     return (l)

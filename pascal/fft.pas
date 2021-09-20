@@ -245,9 +245,7 @@ var
 begin
     l := 0;                                    { Accumulate the results; }
     for i := 1 to r do begin                   { Loop on every bit; }
-        l := l * 2;
-        if Odd(k) then                         { Test less signficant bit and add; }
-            Inc(l);
+        l := l * 2 + (k mod 2);
         k := k div 2;                          { Test next bit; }
     end;
     BitReverse := l;                           { Return value; }

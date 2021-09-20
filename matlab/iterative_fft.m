@@ -57,10 +57,7 @@ function L = bit_reverse(K, R)
 
     L = 0;                                     % Accumulate the results;
     for i = 1:R,                               % Loop on every bit;
-        L = 2*L;
-        if mod(K, 2) == 1,                     % Test less signficant bit and add;
-            L = L + 1;
-        end
+        L = 2*L + mod(K, 2);
         K = floor(K/2);                        % Test next bit;
     end
 
