@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
 ####################################################################################################
 # Fast Fourier Transform -- Python 3 Version
-# This version implements Cooley-Tukey algorithm for composite numbers (not powers of 2 only).
+# This version implements Cooley-Tukey algorithm for powers of 2 only.
 #
 # José Alexandre Nalon
 ####################################################################################################
 # Since Python is an interpreted language, all you have to do is to invoque the interpreter to run
 # this program:
 #
-# $ python3 anyfft.py
+# $ python fft_pure.py
+#
+# Notice that, since this implementation uses only standard Python 3 objects, you can try to run
+# this script using Pypy 3, Cython 3 or any other Python 3 implementation.
 
 
 ####################################################################################################
 # Import needed modules:
-import numpy as np                             # Deal with arrays;
 import fft_list
 import fft_array
-import fft_numpy
 from time import perf_counter                  # Time events;
 
 
@@ -35,7 +36,7 @@ def time_it(f, size, repeat=REPEAT):
       f
         Function to be called;
       size
-        Size of the vector on which the transform will be applied;
+        Power of two of the size of the vector on which the transform will be applied;
       repeat
         Number of times the function will be called. Defaults to REPEAT.
 
@@ -53,33 +54,31 @@ def time_it(f, size, repeat=REPEAT):
 # Main program:
 if __name__ == "__main__":
 
-    SIZES = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ]
-
-    # Start printing the table with time comparisons:
+    # Start by printing the table with time comparisons:
     print("+---------"*10 + "+")
-    print("|    N    |   N^2   " \
-          "| Direct  | ADirect | NumPy   " \
-          "| Recurs. | ARecur. | NpRec   | VecRec. | Intern. |")
+    print("|    N    |   N^2   | N logN  " \
+          "| Direct  | CList   | Array   " \
+          "| Recurs. | ARecur. " \
+          "| Itera.  | AItera  |")
     print("+---------"*10 + "+")
 
-    # Try it with vectors with the given sizes:
-    for n in SIZES:
+    # Try it with vectors with size ranging from 32 to 1024 samples:
+    for r in range(5, 11):
 
         # Compute the average execution time:
+        n = 2**r
         dtime  = time_it(fft_list.direct_ft, n, REPEAT)
+        ctime  = time_it(fft_list.lc_dft, n, REPEAT)
         atime  = time_it(fft_array.direct_ft, n, REPEAT)
-        ntime  = time_it(fft_numpy.direct_ft, n, REPEAT)
-        rtime  = time_it(fft_list.recursive_nfft, n, REPEAT)
-        artime = time_it(fft_array.recursive_nfft, n, REPEAT)
-        nrtime = time_it(fft_numpy.recursive_nfft, n, REPEAT)
-        vrtime = time_it(fft_numpy.vec_recursive_nfft, n, REPEAT)
-        intime = time_it(np.fft.fft, n, REPEAT)
+        rtime  = time_it(fft_list.recursive_fft, n, REPEAT)
+        artime = time_it(fft_array.recursive_fft, n, REPEAT)
+        itime  = time_it(fft_list.iterative_fft, n, REPEAT)
+        aitime = time_it(fft_array.iterative_fft, n, REPEAT)
 
         # Print the results:
-        print(f'| {n:7} | {n**2:7} ' \
-              f'| {dtime:7.4f} | {atime:7.4f} | {ntime:7.4f} ' \
-              f'| {rtime:7.4f} | {artime:7.4f} | {nrtime:7.4f} | {vrtime:7.4f} | {intime:7.4f} |')
+        print(f'| {n:7} | {n**2:7} | {r*n:7} ' \
+              f'| {dtime:7.4f} | {ctime:7.4f} | {atime:7.4f} ' \
+              f'| {rtime:7.4f} | {artime:7.4f} ' \
+              f'| {itime:7.4f} | {aitime:7.4f} |')
 
     print("+---------"*10 + "+")
-
-

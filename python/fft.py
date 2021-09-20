@@ -14,6 +14,9 @@
 ####################################################################################################
 # Import needed modules:
 from numpy import *                            # Deal with arrays;
+import fft_list
+import fft_array
+import fft_numpy
 from time import perf_counter                  # Time events;
 
 
@@ -288,27 +291,34 @@ def array_iterative_fft(x):
 if __name__ == "__main__":
 
     # Start by printing the table with time comparisons:
-    print("+---------"*11 + "+")
-    print("|    N    |   N^2   | N logN  " \
-          "| Direct  | CList   | Array   | Recurs. | Rarray  | Itera.  | AItera  | Intern. |")
-    print("+---------"*11 + "+")
+    print("+---------"*14 + "+")
+    print("|    N    |   N^2   | N logN  "
+          "| Direct  | CList   | Array   | NumPy   "
+          "| Recurs. | RArray  | RNumpy  "
+          "| Itera.  | IArray  | INumpy  | Intern. |")
+    print("+---------"*14 + "+")
 
     # Try it with vectors with size ranging from 32 to 1024 samples:
     for r in range(5, 11):
 
         # Compute the average execution time:
         n = 2**r
-        dtime  = time_it(direct_ft, n, REPEAT)
-        ctime  = time_it(lc_dft, n, REPEAT)
-        atime  = time_it(array_direct_ft, n, REPEAT)
-        rtime  = time_it(recursive_fft, n, REPEAT)
-        artime = time_it(array_recursive_fft, n, REPEAT)
-        itime  = time_it(iterative_fft, n, REPEAT)
-        aitime = time_it(array_iterative_fft, n, REPEAT)
+        dtime  = time_it(fft_list.direct_ft, n, REPEAT)
+        ctime  = time_it(fft_list.lc_dft, n, REPEAT)
+        atime  = time_it(fft_array.direct_ft, n, REPEAT)
+        ntime  = time_it(fft_numpy.direct_ft, n, REPEAT)
+        rtime  = time_it(fft_list.recursive_fft, n, REPEAT)
+        artime = time_it(fft_array.recursive_fft, n, REPEAT)
+        nrtime = time_it(fft_numpy.recursive_fft, n, REPEAT)
+        itime  = time_it(fft_list.iterative_fft, n, REPEAT)
+        aitime = time_it(fft_array.iterative_fft, n, REPEAT)
+        nitime = time_it(fft_numpy.iterative_fft, n, REPEAT)
         intime = time_it(fft.fft, n, REPEAT)
 
         # Print the results:
-        print(f'| {n:7} | {n**2:7} | {r*n:7} | {dtime:7.4f} | {ctime:7.4f} | {atime:7.4f} ' \
-              f'| {rtime:7.4f} | {artime:7.4f} | {itime:7.4f} | {aitime:7.4f} | {intime:7.4f} |')
+        print(f'| {n:7} | {n**2:7} | {r*n:7} '
+              f'| {dtime:7.4f} | {ctime:7.4f} | {atime:7.4f} | {ntime:7.4f} '
+              f'| {rtime:7.4f} | {artime:7.4f} | {nrtime:7.4f} ' +
+              f'| {itime:7.4f} | {aitime:7.4f} | {nitime:7.4f} | {intime:7.4f} |')
 
-    print("+---------"*11 + "+")
+    print("+---------"*14 + "+")
