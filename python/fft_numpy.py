@@ -43,6 +43,54 @@ def direct_ft(x):
     return X
 
 
+def simplified_ft(x):
+    """
+    Discrete Fourier Transform directly from the definition. This implementation uses the power of
+    broadcasting from NumPy to make the equations even simpler.
+
+    :Parameters:
+      x
+        The vector of which the DFT will be computed. Given the nature of the implementation, there
+        is no restriction on the size of the vector, although it will almost always be called with
+        a power of two size to give a fair comparison.
+
+    :Returns:
+      A complex-number vector of the same size, with the coefficients of the DFT.
+    """
+    x = np.array(x)
+    N = len(x)
+    X = np.zeros(x.shape, dtype=complex)
+    W = np.exp(-2j*np.pi/N)
+    for k in range(0, N):
+        n = np.arange(N)
+        Wkn = W ** (k*n)
+        X[k] = np.sum(x * Wkn)
+    return X
+
+
+def matrix_ft(x):
+    """
+    This implementation uses NumPy capabilities to the maximum, by creating a matrix with Fourier
+    Transform coefficients (the transform kernel) and matrix multiplying it to the input sequence.
+    This is very fast thanks to the internal implementation of matrix product in NumPy, but it's
+    still a O(N^2) complexity implementation.
+
+    :Parameters:
+      x
+        The vector of which the DFT will be computed. Given the nature of the implementation, there
+        is no restriction on the size of the vector, although it will almost always be called with
+        a power of two size to give a fair comparison.
+
+    :Returns:
+      A complex-number vector of the same size, with the coefficients of the DFT.
+    """
+    x = np.array(x)
+    N = len(x)
+    k, n = np.meshgrid(np.arange(N), np.arange(N))
+    W = np.exp(-2j*k*n*np.pi/N)
+    return np.dot(W, x)
+
+
 ####################################################################################################
 # Recursive Decimation-in-time FFT using NumPy arrays:
 def recursive_fft(x):
