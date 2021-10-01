@@ -168,8 +168,8 @@ fun recursiveFFT(x: Array<Complex>): Array<Complex>
         val N2 = N / 2
 
         val X = Array<Complex>(N) { _ -> Complex() }   // Allocate memory for computation;
-        val xe = Array<Complex>(N/2) { n -> x[2*n] }
-        val xo = Array<Complex>(N/2) { n -> x[2*n+1] }
+        val xe = Array<Complex>(N2) { n -> x[2*n] }
+        val xo = Array<Complex>(N2) { n -> x[2*n+1] }
         val Xe = recursiveFFT(xe)                      // Transform of even samples;
         val Xo = recursiveFFT(xo)                      // Transform of odd samples;
 
@@ -201,11 +201,11 @@ fun recursiveFFT(x: Array<Complex>): Array<Complex>
  **************************************************************************************************/
 fun bitReverse(k: Int, r: Int): Int
 {
-    var l: Int = 0;                                    // Accumulate the results;
-    var k0: Int = k;
+    var l: Int = 0                                     // Accumulate the results;
+    var k0: Int = k
     for (i in 1..r) {                                  // Loop on every bit;
-        l = (l shl 1) + (k0 and 1);                    // Test less signficant bit and add;
-        k0 = (k0 shr 1);                               // Test next bit;
+        l = (l shl 1) + (k0 and 1)                     // Test less signficant bit and add;
+        k0 = (k0 shr 1)                                // Test next bit;
     }
     return l;
 }

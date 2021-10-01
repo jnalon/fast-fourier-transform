@@ -92,8 +92,8 @@ def recursive_fft(x):
         Xo = recursive_fft(x[1::2])            # Transform of odd samples;
         W = [ cm.exp(-2j*cm.pi*k/N) for k in range(N//2) ]     # Twiddle factors;
         WXo = [ Wk*Xok for Wk, Xok in zip(W, Xo) ]
-        X = [ Xek + WXok for Xek, WXok in zip(Xe, WXo) ] + \
-            [ Xek - WXok for Xek, WXok in zip(Xe, WXo) ]       # Recombine results;
+        X = ([ Xek + WXok for Xek, WXok in zip(Xe, WXo) ] +    # Recombine results;
+             [ Xek - WXok for Xek, WXok in zip(Xe, WXo) ])
         return X
 
 

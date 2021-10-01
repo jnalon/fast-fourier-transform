@@ -11,7 +11,9 @@ It is strongly recommended, however, that you install [NumPy](http://numpy.org/)
 
 Python is a very easy language, and it is incredibly easy to develop for it. Most of equations are directly translated to code, and in general, you can have results in a few hours -- if you never used the language before. You can get quicker results if you are already proficient on the language. I have been using Python for more than 20 years now, and it was the base of every simulation and graphic that I run in this time (including the nice pictures for my book). So, for me, there was no problem in converting the FFT algorithm to Python.
 
-That being said, there are some things in Python that I would like to see changed. First, Python is slow, even if you use external libraries (but that can be mitigated with the use of Pypy, which includes a JIT compiler). There are some syntathic sugar that I would like to see: range represented in "slice" notation (`begin:end:step`), partially evaluated functions using the anonymous variable (`f(_, a, b)`), and some others. But, overall, I'm very satisfied with the language.
+Python has a lot of stuff that I like and that I wanted to see implemented in other languages. Things like slice semantics (which are wonderful to use with lists and arrays), operator based constructors (like `[]` for lists, and `{}` for sets, significant increase on readability), and list comprehensions (static languages could generate fantastic code for them). I don't know why these characteristics are not more common in other languages (but then again, I'm not a language designer).
+
+That being said, there are some things in Python that I would like to see changed. First, Python is slow, even if you use external libraries (but that can be mitigated with the use of Pypy, which includes a JIT compiler). There are some syntathic sugar that I would like to see: range represented in "slice" notation (`begin:end:step`), partially evaluated functions using the anonymous variable (`f(_, a, b)` definind a new function), and some others. But, overall, I'm very satisfied with the language.
 
 
 ## The Scripts

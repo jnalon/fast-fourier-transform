@@ -100,10 +100,10 @@ def recursive_fft(x):
         # Aggregate results:
         a_real = list(zip(Xe_real, WXo_real))
         a_imag = list(zip(Xe_imag, WXo_imag))
-        X_real = array('f', [ Xekr + WXokr for Xekr, WXokr in a_real ]) + \
-                 array('f', [ Xekr - WXokr for Xekr, WXokr in a_real ])
-        X_imag = array('f', [ Xeki + WXoki for Xeki, WXoki in a_imag ]) + \
-                 array('f', [ Xeki - WXoki for Xeki, WXoki in a_imag ])
+        X_real = ( array('f', [ Xekr + WXokr for Xekr, WXokr in a_real ]) +
+                   array('f', [ Xekr - WXokr for Xekr, WXokr in a_real ]) )
+        X_imag = ( array('f', [ Xeki + WXoki for Xeki, WXoki in a_imag ]) +
+                   array('f', [ Xeki - WXoki for Xeki, WXoki in a_imag ]) )
         return [ Xr + 1j*Xi for Xr, Xi in zip(X_real, X_imag) ]
 
 

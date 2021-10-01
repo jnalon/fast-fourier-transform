@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * Fast Fourier Transform -- Kotlin Version
- * This version implements Cooley-Tukey algorithm for powers of 2 only.
+ * This version implements Cooley-Tukey algorithm for composite-length sequences.
  *
  * José Alexandre Nalon
  **************************************************************************************************
@@ -11,7 +11,7 @@
  * It will generate a file named 'FftKt.class' in the same directory. It can be run by issuing the
  * command:
  *
- * $ kotlin FftKt
+ * $ kotlin AnyfftKt
  *
  **************************************************************************************************/
 
@@ -146,7 +146,7 @@ fun directFT(x: Array<Complex>): Array<Complex>
 
 
 /**************************************************************************************************
- * Function: Factor
+ * Function: factor
  *   Smallest prime factor of a given number. If the argument is prime itself, then it is the
  *   return value.
  *

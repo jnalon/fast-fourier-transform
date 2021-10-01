@@ -56,9 +56,9 @@ if __name__ == "__main__":
 
     # Start by printing the table with time comparisons:
     print("+---------"*10 + "+")
-    print("|    N    |   N^2   | N logN  " \
-          "| Direct  | CList   | Array   " \
-          "| Recurs. | ARecur. " \
+    print("|    N    |   N^2   | N logN  "
+          "| Direct  | CList   | Array   "
+          "| Recurs. | ARecur. "
           "| Itera.  | AItera  |")
     print("+---------"*10 + "+")
 
@@ -76,9 +76,9 @@ if __name__ == "__main__":
         aitime = time_it(fft_array.iterative_fft, n, REPEAT)
 
         # Print the results:
-        print(f'| {n:7} | {n**2:7} | {r*n:7} ' \
-              f'| {dtime:7.4f} | {ctime:7.4f} | {atime:7.4f} ' \
-              f'| {rtime:7.4f} | {artime:7.4f} ' \
+        print(f'| {n:7} | {n**2:7} | {r*n:7} '
+              f'| {dtime:7.4f} | {ctime:7.4f} | {atime:7.4f} '
+              f'| {rtime:7.4f} | {artime:7.4f} '
               f'| {itime:7.4f} | {aitime:7.4f} |')
 
     print("+---------"*10 + "+")
