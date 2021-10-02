@@ -36,7 +36,7 @@ There are two programs in this folder:
 
 Besides the transform functions, both files also implement a small library to deal with complex numbers. The Standard C++ library already have this, but I wanted to implement my own (that helps me to understand what the language can do). Also, if I was to follow the general guidelines, my complex library should come in a separate module, with a header file and so on. That would be extremely easy to do, but since these are very simple programs, I didn't think I needed that (I might change my mind in the future, however).
 
-As a last note, the programs have *few* characteristics of object orientation. This is because the Fast Fourier Transform is better implemented as an operation (and, thus, as a function) than as a method of a class. In fact, to do it in that way, I would have to create a class to hold the vector data and implement some additional methods to create, allocate and dispose memory and so on. While I could have done this, that would diverge from my first intent, that was to implement the Fast Fourier Transform. So, you might argue that this is - as I said above - C written with C++ syntax, but the functions can be easily transfered to bigger class oriented projects.
+If you checked these programs earlier, you probably noticed that they weren't written in the best C++. While this was intentional to save memory and execution time, I felt that I needed to refactor the programs to a better use of the capabilities of the language. I think they're resembling better C++ code now.
 
 
 ## Compiling and Running
