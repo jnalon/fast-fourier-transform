@@ -16,13 +16,17 @@ However, since most languages are at least in part based on it, C won't feel dif
 
 ## The Programs
 
-There are two programs in this folder:
+There are four programs in this folder:
 
 1. `fft.c`: this implements `direct_ft`, `recursive_fft` and `iterative_fft`, run them a number of times and compare the time spent running the transforms. The functions here can deal only when the vectors to be transformed are of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.);
 
 2. `anyfft.c`: this implements `direct_ft` and `recursive_fft` with the Cooley-Tukey decomposition algorithm for vectors of composite length (that is, the length is a composite number). If the length of the vector is a prime number, it falls back to the `direct_ft`, and shows no gain in efficiency at all.
 
-Besides the transform functions, both files also implement a small library to deal with complex numbers. The Standard C library already have a `complex.h` module, but I wanted to implement my own (that helps me to understand what the language can do). Also, if I was to follow the general guidelines, my complex library should come in a separate module, with a header file and so on. That would be extremely easy to do, but since these are very simple programs, I didn't think I needed that (I might change my mind in the future, however).
+3. `fft_complex.c`: this implements `direct_ft`, `recursive_fft` and `iterative_fft`, run them a number of times and compare the time spent running the transforms. The functions here can deal only when the vectors to be transformed are of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.). The difference of this program from the first one is that this uses the native complex library of the C language.
+
+2. `anyfft_complex.c`: this implements `direct_ft` and `recursive_fft` with the Cooley-Tukey decomposition algorithm for vectors of composite length (that is, the length is a composite number). If the length of the vector is a prime number, it falls back to the `direct_ft`, and shows no gain in efficiency at all. The difference of this program from the first one is that this uses the native complex library of the C language.
+
+Besides the transform functions, the first two files also implement a small library to deal with complex numbers. The Standard C library already have a `complex.h` module, but I wanted to implement my own (that helps me to understand what the language can do). Also, if I was to follow the general guidelines, my complex library should come in a separate module, with a header file and so on. That would be extremely easy to do, but since these are very simple programs, I didn't think I needed that (I might change my mind in the future, however). The other two use the Standard C `complex.h` library, but the differences in performance were negligible, if there's any at all.
 
 The good practices of development in C also mandate that I should actually build a header file (`.h`) to hold the functions and include that in the main program. The header file should control the size of data and precision of operations. That is correct, of course, but if I were to do that, I would be diverging from my main intent, that was creating the Fast Fourier Transform code. The functions, anyway, can be transfered to bigger projects with a more adequate structure.
 
@@ -43,4 +47,4 @@ to compile the `fft.c` file (don't forget the `-lm` switch to link the math libr
 $ ./fft
 ```
 
-To compile and run the `anyfft.c` file, follow the same steps, just change `fft` to `anyfft` in the commands. Once running, the program will repeat the function calls a certain number of times, and show a table comparing the methods.
+To compile and run `anyfft.c`, `fft_complex.c` or `anyfft_complex.c`, follow the same steps, just change the program name in the commands. Once running, the program will repeat the function calls a certain number of times, and show a table comparing the methods.
