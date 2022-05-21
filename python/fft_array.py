@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 ####################################################################################################
 # Fast Fourier Transform -- Python 3 Version using native arrays.
-# This version implements Cooley-Tukey algorithm for powers of 2 only.
-#
-# José Alexandre Nalon
+# This version implements Cooley-Tukey algorithm for powers of 2 and composite numbers.
 ####################################################################################################
 # This is a function only library, and executing this file won't give any results. Notice however,
 # that, since this implementation uses only standard Python 3 objects, you can try to include this
