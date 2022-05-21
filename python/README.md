@@ -20,13 +20,13 @@ That being said, there are some things in Python that I would like to see change
 
 The scripts in the folder are described below:
 
-1. `fft.py`: This is the base script, and it just calls functions defined in modules for timing and prints the resulting table. This will call the Cooley-Tukey decimation-in-time algorithms for vectors of power of two length.
+1. `main_fft.py`: This is the base script, and it just calls functions defined in modules for timing and prints the resulting table. This will call the Cooley-Tukey decimation-in-time algorithms for vectors of power of two length.
 
-2. `fft_pure.py`: This is basically the same as the script above, but only imports the `fft_list.py` and `fft_array.py`, which are native Python libraries that are supported by other Python interpreters suchs as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org), so you can use them to benchmark the implementations.
+2. `main_fft_pure.py`: This is basically the same as the script above, but only imports the `fft_list.py` and `fft_array.py`, which are native Python libraries that are supported by other Python interpreters suchs as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org), so you can use them to benchmark the implementations.
 
-3. `anyfft.py`: Base script for the Cooley-Tukey decimation-in-time algorithms for vectors of composite length (that is, the length is a composite number).
+3. `main_anyfft.py`: Base script for the Cooley-Tukey decimation-in-time algorithms for vectors of composite length (that is, the length is a composite number).
 
-4. `anyfft_pure.py`: This is basically the same as the script above, but only imports the `fft_list.py` and `fft_array.py`, which are native Python libraries that are supported by other Python interpreters suchs as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org), so you can use them to benchmark the implementations.
+4. `main_anyfft_pure.py`: This is basically the same as the script above, but only imports the `fft_list.py` and `fft_array.py`, which are native Python libraries that are supported by other Python interpreters suchs as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org), so you can use them to benchmark the implementations.
 
 5. `fft_list.py`: Contains implementations of the algorithms using only Python lists, so that it doesn't need external modules that are not part of the Python standard distribution. With this, you can try other Python interpreters, such as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org).
 
@@ -64,19 +64,21 @@ The scripts in the folder are described below:
 
    7.6. `recursive_nfft`: the same implementation, but with NumPy arrays.
 
+In addition to these modules, a `time_it.py` module has a function to compute the time spent running the transforms. The function in this module is shared by all the scripts above.
+
 
 ## Running
 
 Python is an interpreted language, and there is not much needed to run any program. There is a number of different ways to run the program, depending on what you want to inspect. If you want to see all of the algorithms running for power-of-two sequences, go to the command line and type:
 
 ```
-$ python fft.py
+$ python main_fft.py
 ```
 
 The script will repeat the computation of the Fast Fourier Transform for various sizes of vectors, and report the average time. If you want to see the performance of the algorithms with composite-length sequences, then type:
 
 ```
-$ python anyfft.py
+$ python main_anyfft.py
 ```
 
-You can also run the programs with other implementations of Python. Not every one of them can support modules like NumPy, so you will have to deal with the `pure` versions: `fft_pure.py` for power-of-two sequences, and `anyfft_pure.py` for composite-length sequences.
+You can also run the programs with other implementations of Python. Not every one of them can support modules like NumPy, so you will have to deal with the `pure` versions: `main_fft_pure.py` for power-of-two sequences, and `main_anyfft_pure.py` for composite-length sequences.
