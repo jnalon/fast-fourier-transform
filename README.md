@@ -13,7 +13,9 @@ Instructions on how to compile and run are in the comments of each file. There i
 I don't claim that any of these implementations is the most efficient way to deal with the FFT in any language. In fact, most likely, it isn't, as most of them have bindings for a tested and fast library, such as FFTW.
 
 
-## In Progress
+## Implementations
+
+### In Progress
 
 Right now, I'm trying to write a Haskell version. I actually got the Fourier transforms working, but I can't seem to find a way to measure the repeated evaluations of the transform because Haskell has lazy evaluation and **really** anoying ways to make it circumvent that that doesn't seem to work at all.
 
@@ -25,6 +27,7 @@ The languages below are imperative languages. It's the most common programming p
 * C
 * C#
 * C++
+* Dart
 * Euphoria
 * Fortran
 * Frink
@@ -34,6 +37,7 @@ The languages below are imperative languages. It's the most common programming p
 * Kotlin
 * Pascal
 * Ruby
+* Smalltalk
 
 
 ### Semi-functional Languages
@@ -56,6 +60,13 @@ Functional languages support the paradigm that programs should be thought of and
 * Erlang
 * OCaml
 
+
+### Retrocomputing
+
+As most, if not all, people of my age, I started learning programming and computers in general in the old 8-bit computers common in the end of 80's and start of the 90's (in the past century!). So, I thought it would be a nice touch of nostalgia to add a version for some of the computers with which I had fun at the time. In name of a complete nostalgia, the programs were written in the respective machines BASIC, and the listing is not provided as a text, but as a series of images, as was common with the magazines of that time. The interested reader can type the programs and wait some minutes for the transform to complete. Currently, these are the architectures supported:
+
+* MSX
+* ZX Spectrum
 
 ----
 José Alexandre Nalon
