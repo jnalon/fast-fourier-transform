@@ -7,28 +7,30 @@ C was designed to be a structured language working *very* close to the machine, 
 
 ## Comments on the Language
 
-First, I must say that I've been using C most of my life, so it was exactly difficult for me. I had to check here and there for help with a function of library, but that was all. However, I don't claim that this is the most efficient implementation (it isn't, of course), but I explicitly tried to avoid some tricks that experienced programmers use. I think that resulted in a very readable and easy to understand code.
+First, I must say that I've been using C most of my life, so it wasn't exactly difficult for me. I had to check here and there for help with a function of library, but that was all. However, I don't claim that this is the most efficient implementation (it isn't, of course), but I explicitly tried to avoid some tricks that experienced programmers use. I think that resulted in a very readable and easy to understand code.
 
 Strictly speaking, C is *not* an easy language. Although you can program in it using the basic structures, you won't harvest the full power of the language - which is probably what happened with my code here. There are a lot of techniques and idioms that will make the programs *safer* and *faster*. Knowing and learning such techniques demands a lot time spent on studying and practicing with the language, and not all programmers will agree on what the best tricks are, or whether they are good to use or not.
 
 However, since most languages are at least in part based on it, C won't feel different, even if it was the first time using it (although, if that is the case, I'd recommend starting with easier algorithms). In fact, C won't feel that complicated if you avoid problematic things like memory management. Every program, however, *will* have to deal with memory with some extent. There are two techniques that I use to mitigate the problems: first, every variable that needs it has its memory allocated at the beginning of the scope and is freed in the end of the scope, so it's easy to figure if something is not or wrongly allocated or deallocated; second, if a function must return an array or a set of values, the memory is allocated and freed outside of the function. These are, in fact, good practices in C.
 
+Previous versions of the files in these directories (check the history) had separated implementations using a small custom complex number library and using C native complex numbers. But, since it is a good idea to compare the results of both implementations, it was refactored to a more modularized version that allowed to mix the functions. This lead to a problem: since C doesn't have _namespaces_ (or something equivalent to it), function names needed to be prefixed to be different. This lead to some code duplication, which is _never_ a good thing. Here, it isn't a big problem: if you are using one of the implementations of the FFT, you can disregard the other, and adapt the names as you wish. _There are_ ways to solve this, but that would lead to very complex code, and that is not needed in a project so small as this.
+
 
 ## The Programs
 
-There are four programs in this folder:
+There are some files in this folder. A good practice in C language is to modularize your program by separating uncorrelated functions. While this may seem that a lot of unnecessary files are created, it is easier to mantain and find bugs, and also to copy only the needed files to a project. For example, if you only need the FFT using native C complex numbers, only the corresponding file needs to be added to your project:
 
-1. `fft.c`: this implements `direct_ft`, `recursive_fft` and `iterative_fft`, run them a number of times and compare the time spent running the transforms. The functions here can deal only when the vectors to be transformed are of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.);
+1. `my_complex.h` and `my_comlex.c`: respectively, the header and implementation files for a very simple and small complex number library used to compute the FFT.
 
-2. `anyfft.c`: this implements `direct_ft` and `recursive_fft` with the Cooley-Tukey decomposition algorithm for vectors of composite length (that is, the length is a composite number). If the length of the vector is a prime number, it falls back to the `direct_ft`, and shows no gain in efficiency at all.
+2. `time_it.h` and `time_it.c`: respectively, the header and implementation files for functions used to measure the time spent in the computation of the FFT. There are two functions here: one using the `my_complex` library define in the files described above, and another using C native complex numbers.
 
-3. `fft_complex.c`: this implements `direct_ft`, `recursive_fft` and `iterative_fft`, run them a number of times and compare the time spent running the transforms. The functions here can deal only when the vectors to be transformed are of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.). The difference of this program from the first one is that this uses the native complex library of the C language.
+3. `fft.h` and `fft.c`: respectively, the header and implementation files for the functions computing the FFT using the small `my_complex` library. These files implements `direct_ft`, `recursive_fft`, `iterative_fft` and `recursive_nfft`. The first function computes the FFT for vectors of any length, the following two use Cooley-Tukey decomposition to compute for vectors of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.), and the last one use Cooley-Tukey decomposition to compute for vectors with length a composite number.
 
-2. `anyfft_complex.c`: this implements `direct_ft` and `recursive_fft` with the Cooley-Tukey decomposition algorithm for vectors of composite length (that is, the length is a composite number). If the length of the vector is a prime number, it falls back to the `direct_ft`, and shows no gain in efficiency at all. The difference of this program from the first one is that this uses the native complex library of the C language.
+4. `fft_native.h` and `fft_native.c`: respectively, the header and implementation files for the functions computing the FFT using C language native complex numbers. These files implements `native_complex_direct_ft`, `native_complex_recursive_fft`, `native_complex_iterative_fft` and `native_complex_recursive_nfft`. The first function computes the FFT for vectors of any length, the following two use Cooley-Tukey decomposition to compute for vectors of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.), and the last one use Cooley-Tukey decomposition to compute for vectors with length a composite number.
 
-Besides the transform functions, the first two files also implement a small library to deal with complex numbers. The Standard C library already have a `complex.h` module, but I wanted to implement my own (that helps me to understand what the language can do). Also, if I was to follow the general guidelines, my complex library should come in a separate module, with a header file and so on. That would be extremely easy to do, but since these are very simple programs, I didn't think I needed that (I might change my mind in the future, however). The other two use the Standard C `complex.h` library, but the differences in performance were negligible, if there's any at all.
+5. `main_fft.c`: main program to run power of 2 length FFTs a number of times and print the average running time for all implementations of the FFT.
 
-The good practices of development in C also mandate that I should actually build a header file (`.h`) to hold the functions and include that in the main program. The header file should control the size of data and precision of operations. That is correct, of course, but if I were to do that, I would be diverging from my main intent, that was creating the Fast Fourier Transform code. The functions, anyway, can be transfered to bigger projects with a more adequate structure.
+6. `main_anyfft.c`: main program to run composite number length FFTs a number of times and print the average running time for all implementations of the FFT.
 
 
 ## Compiling and Running
@@ -38,13 +40,13 @@ Compiling and running these programs will depend a lot on the compiler that you 
 My system is Linux with the GNU C Compiler (`gcc`) installed, I'll go with it. It is very easy to compile, just issue this command in the shell:
 
 ```
-$ gcc -o fft fft.c -lm
+$ gcc -o fft main_fft.c fft.c fft_native.c my_complex.c time_it.c -lm
 ```
 
-to compile the `fft.c` file (don't forget the `-lm` switch to link the math library). This will generate an executable file named `fft` in the same folder, that can be run with the command:
+to compile the `main_fft.c` file (don't forget the `-lm` switch to link the math library). This will generate an executable file named `fft` in the same folder, that can be run with the command:
 
 ```
 $ ./fft
 ```
 
-To compile and run `anyfft.c`, `fft_complex.c` or `anyfft_complex.c`, follow the same steps, just change the program name in the commands. Once running, the program will repeat the function calls a certain number of times, and show a table comparing the methods.
+To compile and run `main_anyfft.c`, follow the same steps, just change `main_fft.c` to `main_anyfft.c` in the commands. Once running, the program will repeat the function calls a certain number of times, and show a table comparing the methods. You won't be surprised to find out that the native implementation of complex numbers is faster (but by a _very small_ margin).
