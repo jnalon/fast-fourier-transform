@@ -1,23 +1,18 @@
 # Python Version
-
 This folder contais the implementation of the Fast Fourier Transform using the [Python Programming Language](https://python.org). Python is an interpreted script language that found great success in scientific environments. There are a lot of reasons for that: Python is easy and clean, it doesn't get in the way of the solution of the problem, is very readable, has an active and passionate community and -- most of all -- have libraries to accomplish whatever tasks you need.
 
 Most of the systems these days come with Python already preinstalled. That is most true in all operating systems based on Unix or Linux, that includes BSDs flavours, probably all Linux distributions and Mac OS X. Windows users can download and install the binaries or search for a Python distribution, such as Anaconda. In any case, it comes with (or it is very easy to install) some fantastic libraries to deal with scientific data. A complete survey of them, however, is beyond the scope of this document.
 
 It is strongly recommended, however, that you install [NumPy](http://numpy.org/), which is a very powerful library to deal with numerical computations. Some of the scripts in this folder use it.
 
-
 ## Comments on the Language
-
 Python is a very easy language, and it is incredibly easy to develop for it. Most of equations are directly translated to code, and in general, you can have results in a few hours -- if you never used the language before. You can get quicker results if you are already proficient on the language. I have been using Python for more than 20 years now, and it was the base of every simulation and graphic that I run in this time (including the nice pictures for my book). So, for me, there was no problem in converting the FFT algorithm to Python.
 
 Python has a lot of stuff that I like and that I wanted to see implemented in other languages. Things like slice semantics (which are wonderful to use with lists and arrays), operator based constructors (like `[]` for lists, and `{}` for sets, significant increase on readability), and list comprehensions (static languages could generate fantastic code for them). I don't know why these characteristics are not more common in other languages (but then again, I'm not a language designer).
 
 That being said, there are some things in Python that I would like to see changed. First, Python is slow, even if you use external libraries (but that can be mitigated with the use of Pypy, which includes a JIT compiler). There are some syntathic sugar that I would like to see: range represented in "slice" notation (`begin:end:step`), partially evaluated functions using the anonymous variable (`f(_, a, b)` definind a new function), and some others. But, overall, I'm very satisfied with the language.
 
-
-## The Scripts
-
+## The Code
 The scripts in the folder are described below:
 
 1. `main_fft.py`: This is the base script, and it just calls functions defined in modules for timing and prints the resulting table. This will call the Cooley-Tukey decimation-in-time algorithms for vectors of power of two length.
@@ -27,6 +22,8 @@ The scripts in the folder are described below:
 3. `main_anyfft.py`: Base script for the Cooley-Tukey decimation-in-time algorithms for vectors of composite length (that is, the length is a composite number).
 
 4. `main_anyfft_pure.py`: This is basically the same as the script above, but only imports the `fft_list.py` and `fft_array.py`, which are native Python libraries that are supported by other Python interpreters suchs as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org), so you can use them to benchmark the implementations.
+
+5. `main_test.py`: This script runs every implementation of the Fourier Transform and prints the results in a structured format. Its purpose is just for testing and conference of results.
 
 5. `fft_list.py`: Contains implementations of the algorithms using only Python lists, so that it doesn't need external modules that are not part of the Python standard distribution. With this, you can try other Python interpreters, such as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org).
 
@@ -66,9 +63,7 @@ The scripts in the folder are described below:
 
 In addition to these modules, a `time_it.py` module has a function to compute the time spent running the transforms. The function in this module is shared by all the scripts above.
 
-
 ## Running
-
 Python is an interpreted language, and there is not much needed to run any program. There is a number of different ways to run the program, depending on what you want to inspect. If you want to see all of the algorithms running for power-of-two sequences, go to the command line and type:
 
 ```
@@ -81,4 +76,6 @@ The script will repeat the computation of the Fast Fourier Transform for various
 $ python main_anyfft.py
 ```
 
-You can also run the programs with other implementations of Python. Not every one of them can support modules like NumPy, so you will have to deal with the `pure` versions: `main_fft_pure.py` for power-of-two sequences, and `main_anyfft_pure.py` for composite-length sequences.
+To run the test, just substitute `main_test.py` for the main script on the command line.
+
+You can also run the programs with other implementations of Python. Not every one of them can support modules like NumPy, so you will have to deal with the `pure` versions: `main_fft_pure.py` for power-of-two sequences, and `main_anyfft_pure.py` for composite-length sequences. You can use the implementations here in your program. You will probably want to use `fft_lists.py` (especially if you want to run with Pypy or other Python implementations) or `fft_numpy.py`, but **it's not recomended that you do that**. This is because this code's purpose is educational only, and there are a lot of libraries that implement more stable and tested versions of the Fourier Transform.

@@ -16,7 +16,7 @@
 # Import needed modules:
 import fft_list
 import fft_array
-from time_it import time_it                    # Time events;
+from test_it import time_it                    # Time events;
 
 
 ####################################################################################################

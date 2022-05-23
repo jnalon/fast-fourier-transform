@@ -16,6 +16,25 @@ REPEATS = 50                                   # Number of executions to compute
 
 ####################################################################################################
 # Auxiliary Function:
+def test_it(f, size):
+    """
+    Pretty print of input and output of the Fourier transform for visual inspection.
+
+    :Parameters:
+      f
+        Function to be called;
+      size
+        Number of elements in the vector on which the transform will be applied.
+    """
+    x = [ j+0j for j in range(size) ]
+    X = f(x)
+    print(f"N = {size} | Input | Output:")
+    for i in range(size):
+        print(f"  {i:2d}: ({x[i].real:8.4f}, {x[i].imag:8.4f}) | " +
+              f"({X[i].real:8.4f}, {X[i].imag:8.4f})")
+    print("-" * 30)
+
+
 def time_it(f, size, repeats=REPEATS):
     """
     Measure execution time through repeated calls to a (Fast) Fourier Transform function.

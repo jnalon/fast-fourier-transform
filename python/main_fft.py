@@ -6,7 +6,7 @@
 # Since Python is an interpreted language, all you have to do is to invoque the interpreter to run
 # this program:
 #
-# $ python fft_pure.py
+# $ python main_fft.py
 #
 # Notice that, since this implementation uses only standard Python 3 objects, you can try to run
 # this script using Pypy 3, Cython 3 or any other Python 3 implementation.
@@ -18,7 +18,7 @@ import fft_list
 import fft_array
 import fft_numpy
 import numpy.fft as fft
-from time_it import time_it                    # Time events;
+from test_it import time_it                    # Time events;
 
 
 ####################################################################################################

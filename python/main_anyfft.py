@@ -18,7 +18,7 @@ import numpy as np                             # Deal with arrays;
 import fft_list
 import fft_array
 import fft_numpy
-from time_it import time_it                    # Time events;
+from test_it import time_it                    # Time events;
 
 
 ####################################################################################################
