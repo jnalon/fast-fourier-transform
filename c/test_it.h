@@ -3,8 +3,8 @@
  * This is the header file for the time measuring functions.
  **************************************************************************************************/
 
-#ifndef __TIME_IT__
-#define __TIME_IT__
+#ifndef __TEST_IT__
+#define __TEST_IT__
 
 
 // Include necessary libraries:

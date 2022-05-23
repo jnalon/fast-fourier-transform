@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * Fast Fourier Transform -- C Version
- * This is the implementation file for the time measuring function.
+ * This is the implementation file for the testing and time measuring functions.
  **************************************************************************************************/
 
 // Include necessary libraries:
