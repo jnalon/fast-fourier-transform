@@ -37,10 +37,10 @@ void native_complex_recursive_fft(float complex x[], float complex X[], int N)
     else {
         N2 = N >> 1;
 
-        xe = (float complex *) malloc(sizeof(float complex)*N2);       // Allocate memory;
-        xo = (float complex *) malloc(sizeof(float complex)*N2);
-        Xe = (float complex *) malloc(sizeof(float complex)*N2);
-        Xo = (float complex *) malloc(sizeof(float complex)*N2);
+        xe = (float complex *) malloc(N2 * sizeof(float complex));     // Allocate memory;
+        xo = (float complex *) malloc(N2 * sizeof(float complex));
+        Xe = (float complex *) malloc(N2 * sizeof(float complex));
+        Xo = (float complex *) malloc(N2 * sizeof(float complex));
 
         for(int k=0; k<N2; k++) {                      // Split even and odd samples;
             xe[k] = x[k<<1];
@@ -107,8 +107,8 @@ void native_complex_recursive_nfft(float complex x[], float complex X[], int N)
     else {
         N2 = N / N1;                           // Decompose in two factors, N1 being prime;
 
-        xj = malloc(sizeof(float complex)*N2);         // Allocate memory for subsequences
-        Xj = malloc(sizeof(float complex)*N2);         //    and their transforms;
+        xj = malloc(N2 * sizeof(float complex));       // Allocate memory for subsequences
+        Xj = malloc(N2 * sizeof(float complex));       //    and their transforms;
 
         W = cexpf(-2i*M_PI/N);                 // Twiddle factor;
         Wj = 1;

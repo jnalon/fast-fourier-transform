@@ -55,10 +55,3 @@ Complex cexpn(float angle)
     w.i = sin(angle);                          // Imaginary part of exponential;
     return w;
 }
-
-
-void complex_show(Complex x[], int n)
-{
-    for (int i=0; i<n; i++)
-        printf("(%7.4f, %7.4f)\n", x[i].r, x[i].i);
-}

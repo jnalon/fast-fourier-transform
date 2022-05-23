@@ -30,13 +30,4 @@ Complex cmul(Complex a, Complex b);            //< Complex product of numbers a 
 Complex cexpn(float angle);                    //< Complex exponential of an angle.
 
 
-/**
- * Pretty printing of an array of complex numbers, used to inspect results.
- *
- * @param x A vector of complex numbers, according to the definition above;
- * @param n Number of elements on the vector.
- */
-void complex_show(Complex x[], int n);
-
-
 #endif

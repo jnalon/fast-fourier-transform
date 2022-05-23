@@ -30,7 +30,7 @@ void direct_ft(Complex x[], Complex X[], int N)
 void recursive_fft(Complex x[], Complex X[], int N)
 {
     Complex *xe, *xo, *Xe, *Xo;                // Vectors with intermediate results;
-    Complex W, Wk, w;                          // Twiddle factors;
+    Complex W, Wk, WkXo;                       // Twiddle factors;
     int N2;
 
     if(N==1)                                   // A length-1 vector is its own FT;
@@ -38,14 +38,16 @@ void recursive_fft(Complex x[], Complex X[], int N)
     else {
         N2 = N >> 1;
 
-        xe = (Complex *) malloc(sizeof(Complex)*N2);   // Allocate memory for computation;
-        xo = (Complex *) malloc(sizeof(Complex)*N2);
-        Xe = (Complex *) malloc(sizeof(Complex)*N2);
-        Xo = (Complex *) malloc(sizeof(Complex)*N2);
+        xe = (Complex *) malloc(N2 * sizeof(Complex)); // Allocate memory for computation;
+        xo = (Complex *) malloc(N2 * sizeof(Complex));
+        Xe = (Complex *) malloc(N2 * sizeof(Complex));
+        Xo = (Complex *) malloc(N2 * sizeof(Complex));
 
         for(int k=0; k<N2; k++) {                      // Split even and odd samples;
             xe[k] = x[k<<1];
             xo[k] = x[(k<<1)+1];
+            Xe[k] = cmplx(0, 0);
+            Xo[k] = cmplx(0, 0);
         }
         recursive_fft(xe, Xe, N2);                     // Transform of even samples;
         recursive_fft(xo, Xo, N2);                     // Transform of odd samples;
@@ -53,9 +55,9 @@ void recursive_fft(Complex x[], Complex X[], int N)
         W = cexpn(-2*M_PI/N);                          // Twiddle factors;
         Wk = cmplx(1, 0);
         for(int k=0; k<N2; k++) {
-            w = cmul(Xo[k], Wk);
-            X[k] = cadd(Xe[k], w);                     // Recombine results;
-            X[k+N2] = csub(Xe[k], w);
+            WkXo = cmul(Xo[k], Wk);
+            X[k] = cadd(Xe[k], WkXo);                  // Recombine results;
+            X[k+N2] = csub(Xe[k], WkXo);
             Wk = cmul(Wk, W);                          // Update twiddle factors;
         }
 
@@ -130,8 +132,8 @@ void recursive_nfft(Complex x[], Complex X[], int N)
     else {
         N2 = N / N1;                           // Decompose in two factors, N1 being prime;
 
-        xj = malloc(sizeof(Complex)*N2);       // Allocate memory for subsequences
-        Xj = malloc(sizeof(Complex)*N2);       //    and their transforms;
+        xj = malloc(N2 * sizeof(Complex));     // Allocate memory for subsequences
+        Xj = malloc(N2 * sizeof(Complex));     //    and their transforms;
 
         W = cexpn(-2*M_PI/N);                  // Twiddle factor;
         Wj = cmplx(1, 0);
@@ -152,5 +154,3 @@ void recursive_nfft(Complex x[], Complex X[], int N)
         free(Xj);
     }
 }
-
-

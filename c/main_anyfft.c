@@ -13,7 +13,7 @@
  **************************************************************************************************/
 
 // Include necessary libraries:
-#include "time_it.h"                           // Time measurement;
+#include "test_it.h"                           // Time measurement;
 #include "fft.h"                               // FFT implementations;
 #include "fft_native.h"                        // FFT implementations using C native complex;
 
