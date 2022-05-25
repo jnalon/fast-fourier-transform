@@ -1,10 +1,10 @@
 /**************************************************************************************************
  * Fast Fourier Transform -- C with Native Complex Version
- * This is the header file for the implementations of the FFT using C native complex numbers.
+ * This is the header file for the implementations of the FFT using C native float complex numbers.
  **************************************************************************************************/
 
-#ifndef __FFT_COMPLEX__
-#define __FFT_COMPLEX__
+#ifndef __FFT_FLOAT__
+#define __FFT_FLOAT__
 
 
 // Include necessary libraries:
@@ -24,7 +24,7 @@
  *   allocated prior to the function call;
  * @param N The number of elements in the vector.
  */
-void native_complex_direct_ft(float complex x[], float complex X[], int N);
+void float_direct_ft(float complex x[], float complex X[], int N);
 
 
 /**
@@ -37,7 +37,7 @@ void native_complex_direct_ft(float complex x[], float complex X[], int N);
  *   allocated prior to the function call;
  * @param N The number of elements in the vector.
  */
-void native_complex_recursive_fft(float complex x[], float complex X[], int N);
+void float_recursive_fft(float complex x[], float complex X[], int N);
 
 
 /**
@@ -51,7 +51,7 @@ void native_complex_recursive_fft(float complex x[], float complex X[], int N);
  *   allocated prior to the function call;
  * @param N The number of elements in the vector.
  */
-void native_complex_iterative_fft(float complex x[], float complex X[], int N);
+void float_iterative_fft(float complex x[], float complex X[], int N);
 
 
 /**
@@ -64,7 +64,7 @@ void native_complex_iterative_fft(float complex x[], float complex X[], int N);
  *   allocated prior to the function call;
  * @param N The number of elements in the vector.
  */
-void native_complex_recursive_nfft(float complex x[], float complex X[], int N);
+void float_recursive_nfft(float complex x[], float complex X[], int N);
 
 
 #endif

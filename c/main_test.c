@@ -16,15 +16,14 @@
 #include "test_it.h"                           // Time measurement;
 #include "my_complex.h"                        // Mini-library for complex numbers;
 #include "fft.h"                               // FFT implementations;
-#include "fft_native.h"                        // FFT implementations using C native complex;
+#include "fft_float.h"                         // FFT implementations using native C float complex;
+#include "fft_double.h"                        // FFT implementations using native C double complex;
 
 
 /**************************************************************************************************
  Main Function:
  **************************************************************************************************/
 int main(int argc, char *argv[]) {
-
-    Complex x[16], X[16];
 
     // Tests for the implementations of the FFT using `my_complex.h` library:
     printf("Direct FT - ");
@@ -41,18 +40,32 @@ int main(int argc, char *argv[]) {
     test_it(iterative_fft, 16);
 
     // Tests for the implementations of the FFT using native complex:
-    printf("Direct FT with Native Complex - ");
-    native_complex_test_it(native_complex_direct_ft, 8);
-    printf("Recursive FFT with Native Complex - ");
-    native_complex_test_it(native_complex_recursive_fft, 8);
-    printf("Iterative FFT with Native Complex - ");
-    native_complex_test_it(native_complex_iterative_fft, 8);
-    printf("Direct FT with Native Complex - ");
-    native_complex_test_it(native_complex_direct_ft, 16);
-    printf("Recursive FFT with Native Complex - ");
-    native_complex_test_it(native_complex_recursive_fft, 16);
-    printf("Iterative FFT with Native Complex - ");
-    native_complex_test_it(native_complex_iterative_fft, 16);
+    printf("Direct FT with Float Complex - ");
+    float_test_it(float_direct_ft, 8);
+    printf("Recursive FFT with Float Complex - ");
+    float_test_it(float_recursive_fft, 8);
+    printf("Iterative FFT with Float Complex - ");
+    float_test_it(float_iterative_fft, 8);
+    printf("Direct FT with Float Complex - ");
+    float_test_it(float_direct_ft, 16);
+    printf("Recursive FFT with Float Complex - ");
+    float_test_it(float_recursive_fft, 16);
+    printf("Iterative FFT with Float Complex - ");
+    float_test_it(float_iterative_fft, 16);
+
+    // Tests for the implementations of the FFT using native complex:
+    printf("Direct FT with Double Complex - ");
+    double_test_it(double_direct_ft, 8);
+    printf("Recursive FFT with Double Complex - ");
+    double_test_it(double_recursive_fft, 8);
+    printf("Iterative FFT with Double Complex - ");
+    double_test_it(double_iterative_fft, 8);
+    printf("Direct FT with Double Complex - ");
+    double_test_it(double_direct_ft, 16);
+    printf("Recursive FFT with Double Complex - ");
+    double_test_it(double_recursive_fft, 16);
+    printf("Iterative FFT with Double Complex - ");
+    double_test_it(double_iterative_fft, 16);
 
     // Tests for the implementations of the FFT using `my_complex.h` library:
     printf("Direct FT - ");
@@ -61,10 +74,16 @@ int main(int argc, char *argv[]) {
     test_it(recursive_nfft, 12);
 
     // Tests for the implementations of the FFT using native complex:
-    printf("Direct FT with Native Complex - ");
-    native_complex_test_it(native_complex_direct_ft, 12);
-    printf("Recursive FFT with Native Complex - ");
-    native_complex_test_it(native_complex_recursive_nfft, 12);
+    printf("Direct FT with Float Complex - ");
+    float_test_it(float_direct_ft, 12);
+    printf("Recursive FFT with Float Complex - ");
+    float_test_it(float_recursive_nfft, 12);
+
+    // Tests for the implementations of the FFT using native complex:
+    printf("Direct FT with Double Complex - ");
+    double_test_it(double_direct_ft, 12);
+    printf("Recursive FFT with Double Complex - ");
+    double_test_it(double_recursive_nfft, 12);
 
     return 0;
 }

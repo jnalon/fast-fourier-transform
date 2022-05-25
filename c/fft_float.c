@@ -5,10 +5,10 @@
 
 // Include necessary libraries:
 #include "fft.h"
-#include "fft_native.h"
+#include "fft_float.h"
 
 
-void native_complex_direct_ft(float complex x[], float complex X[], int N)
+void float_direct_ft(float complex x[], float complex X[], int N)
 {
     float complex W, Wk, Wkn;                  // Twiddle factors;
 
@@ -26,7 +26,7 @@ void native_complex_direct_ft(float complex x[], float complex X[], int N)
 }
 
 
-void native_complex_recursive_fft(float complex x[], float complex X[], int N)
+void float_recursive_fft(float complex x[], float complex X[], int N)
 {
     float complex *xe, *xo, *Xe, *Xo;          // Vectors with intermediate results;
     float complex W, Wk, WkXo;                 // Twiddle factors;
@@ -46,8 +46,8 @@ void native_complex_recursive_fft(float complex x[], float complex X[], int N)
             xe[k] = x[k<<1];
             xo[k] = x[(k<<1)+1];
         }
-        native_complex_recursive_fft(xe, Xe, N2);      // Transform of even samples;
-        native_complex_recursive_fft(xo, Xo, N2);      // Transform of odd samples;
+        float_recursive_fft(xe, Xe, N2);               // Transform of even samples;
+        float_recursive_fft(xo, Xo, N2);               // Transform of odd samples;
 
         W = cexpf(-2i*M_PI/N);                         // Twiddle factors;
         Wk = 1;
@@ -66,7 +66,7 @@ void native_complex_recursive_fft(float complex x[], float complex X[], int N)
 }
 
 
-void native_complex_iterative_fft(float complex x[], float complex X[], int N)
+void float_iterative_fft(float complex x[], float complex X[], int N)
 {
     float complex W, Wkn;                      // Twiddle factors;
     int r, l, p, q, step;
@@ -95,7 +95,7 @@ void native_complex_iterative_fft(float complex x[], float complex X[], int N)
 }
 
 
-void native_complex_recursive_nfft(float complex x[], float complex X[], int N)
+void float_recursive_nfft(float complex x[], float complex X[], int N)
 {
     float complex *xj, *Xj;                    // Subsequences of the transform;
     float complex W, Wj, Wkj;
@@ -103,7 +103,7 @@ void native_complex_recursive_nfft(float complex x[], float complex X[], int N)
 
     N1 = factor(N);                            // Smallest prime factor of the length;
     if (N1==N)                                 // If the length is prime itself,
-        native_complex_direct_ft(x, X, N);     //   the transform is given by the direct form;
+        float_direct_ft(x, X, N);              //   the transform is given by the direct form;
     else {
         N2 = N / N1;                           // Decompose in two factors, N1 being prime;
 
@@ -117,7 +117,7 @@ void native_complex_recursive_nfft(float complex x[], float complex X[], int N)
                 xj[n] = x[n*N1+j];             // Create the subsequence;
                 Xj[n] = 0;                     // Initialize the transform;
             }
-            native_complex_recursive_nfft(xj, Xj, N2); // Compute the DFT of the subsequence;
+            float_recursive_nfft(xj, Xj, N2);  // Compute the DFT of the subsequence;
             Wkj = 1;
             for(int k=0; k<N; k++) {
                 X[k] = X[k] + Wkj * Xj[k%N2];  // Recombine results;
