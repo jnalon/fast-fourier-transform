@@ -17,7 +17,7 @@ There are some files in this folder. A good practice in C language is to modular
 
 1. `my_complex.h` and `my_complex.c`: respectively, the header and implementation files for a very simple and small complex number library used to compute the FFT.
 
-2. `time_it.h` and `time_it.c`: respectively, the header and implementation files for functions used to measure the time spent in the computation of the FFT. There are two functions here: one using the `my_complex` library define in the files described above, and another using C native complex numbers.
+2. `test_it.h` and `test_it.c`: respectively, the header and implementation files for functions used to measure the time spent in the computation of the FFT. In this file, there are test functions using the `my_complex` library defined in the files described above, and functions using C native complex numbers with single and double precision.
 
 3. `fft.h` and `fft.c`: respectively, the header and implementation files for the functions computing the FFT using the small `my_complex` library. These files implements `direct_ft`, `recursive_fft`, `iterative_fft` and `recursive_nfft`. The first function computes the FFT for vectors of any length, the following two use Cooley-Tukey decomposition to compute for vectors of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.), and the last one use Cooley-Tukey decomposition to compute for vectors with length a composite number.
 
@@ -37,7 +37,7 @@ Compiling and running these programs will depend a lot on the compiler that you 
 My system is Linux with the GNU C Compiler (`gcc`) installed, I'll go with it. It is very easy to compile, just issue this command in the shell:
 
 ```
-$ gcc -o fft main_fft.c fft.c fft_native.c my_complex.c time_it.c -lm
+$ gcc -o fft main_fft.c fft.c fft_float.c fft_double.c my_complex.c test_it.c -lm
 ```
 
 to compile the `main_fft.c` file (don't forget the `-lm` switch to link the math library). This will generate an executable file named `fft` in the same folder, that can be run with the command:
