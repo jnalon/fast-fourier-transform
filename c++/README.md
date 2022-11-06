@@ -29,7 +29,7 @@ There is a number of files in this folder. The modularization, while makes it ea
 
 1. `my_complex.h`: this implements a very simple and small complex number library. This was implemented as a templated class, so you can choose the type of real and imaginary parts. This made going from `float` to `double` to `FixedPoint` incredibly easy. However, since the class is templated, declaration and definition must be in the same file, so there is no `.cpp` for this header.
 
-2. `time_it.h`: implementation of functions used to measure the time spent in the computation of the FFT. Since these functions are also templated, declaration and definition can be found in the same file.
+2. `test_it.h`: implementation of functions used to measure the time spent in the computation of the FFT. Since these functions are also templated, declaration and definition can be found in the same file.
 
 3. `fixed_point.h` and `fixed_point.cpp`: respectively, header and implementation of a small fixed point arithmetic library. This implements fixed point numbers as a class encapsulating a `long int` to hold the number values, and the main operations with these numbers. There are also functions to evaluate Taylor series, which are used to compute _sine_ and _cosine_ of fixed point numbers.
 
