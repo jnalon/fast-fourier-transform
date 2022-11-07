@@ -92,6 +92,8 @@ if __name__ == "__main__":
 
     # Tests for the implementations of the FFT using NumPy:
     print("Direct FT Using NumPy - ")
-    test_it(fft_list.direct_ft, 12)
+    test_it(fft_numpy.direct_ft, 12)
     print("Recursive FFT Using NumPy - ")
-    test_it(fft_list.recursive_nfft, 12)
+    test_it(fft_numpy.recursive_nfft, 12)
+    print("Recursive FFT Using NumPy with Vectorization - ")
+    test_it(fft_numpy.vec_recursive_nfft, 12)

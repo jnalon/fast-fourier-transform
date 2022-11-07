@@ -28,9 +28,9 @@ if __name__ == "__main__":
     SIZES = [ 2*3, 2*2*3, 2*3*3, 2*3*5, 2*2*3*3, 2*2*5*5, 2*3*5*7, 2*2*3*3*5*5 ]
 
     # Start printing the table with time comparisons:
-    print("+---------"*7 + "+")
-    print("|    N    |   N^2   | Direct  | ADirect | Recurs. | ARecur. | RNumpy  |")
-    print("+---------"*7 + "+")
+    print("+---------"*8 + "+")
+    print("|    N    |   N^2   | Direct  | ADirect | Recurs. | ARecur. | RNumpy  | VecRec  |")
+    print("+---------"*8 + "+")
 
     # Try it with vectors with the given sizes:
     for n in SIZES:
@@ -41,11 +41,12 @@ if __name__ == "__main__":
         rtime  = time_it(fft_list.recursive_nfft, n)
         artime = time_it(fft_array.recursive_nfft, n)
         ntime  = time_it(fft_numpy.recursive_nfft, n)
+        vtime  = time_it(fft_numpy.vec_recursive_nfft, n)
 
         # Print the results:
         print(f'| {n:7} | {n**2:7} | {dtime:7.4f} |'
-              f' {atime:7.4f} | {rtime:7.4f} | {artime:7.4f} | {ntime:7.4f} |')
+              f' {atime:7.4f} | {rtime:7.4f} | {artime:7.4f} | {ntime:7.4f} | {vtime:7.4f} |')
 
-    print("+---------"*7 + "+")
+    print("+---------"*8 + "+")
 
 

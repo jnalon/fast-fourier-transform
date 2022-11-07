@@ -63,6 +63,8 @@ The scripts in the folder are described below:
 
    9.6. `recursive_nfft`: the same implementation, but with NumPy arrays.
 
+   9.7. `vec_recursive_nfft`: a version of the recursive FFT for composite lengths, but taking advantage of NumPy vectorization to speed up the computation.
+
 
 ## Running
 Python is an interpreted language, and there is not much needed to run any program. There is a number of different ways to run the program, depending on what you want to inspect. If you want to see all of the algorithms running for power-of-two sequences, go to the command line and type:
