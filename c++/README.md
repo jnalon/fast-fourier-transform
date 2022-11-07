@@ -33,7 +33,7 @@ There is a number of files in this folder. The modularization, while makes it ea
 
 3. `fixed_point.h` and `fixed_point.cpp`: respectively, header and implementation of a small fixed point arithmetic library. This implements fixed point numbers as a class encapsulating a `long int` to hold the number values, and the main operations with these numbers. There are also functions to evaluate Taylor series, which are used to compute _sine_ and _cosine_ of fixed point numbers.
 
-4. `fft.h`: this implements `direct_ft`, `recursive_fft`, `iterative_fft` and `recursive_nfft`. The first function computes the FFT for vectors of any length, the following two use Cooley-Tukey decomposition to compute for vectors of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.), and the last one use Cooley-Tukey decomposition to compute for vectors with length a composite number. As in the case of the first two files, the functions are templated, so declaration and definition can be found in this
+4. `fft.h`: this implements `direct_ft`, `recursive_fft`, `iterative_fft` and `recursive_nfft`. The first function computes the FFT for vectors of any length, the following two use Cooley-Tukey decomposition to compute for vectors of power of 2 length (that is, 2, 4, 8, 16, 32, 64, etc.), and the last one use Cooley-Tukey decomposition to compute for vectors with length a composite number. As in the case of the first two files, the functions are templated, so declaration and definition can be found here.
 
 5. `fp_test.c`: a small program to test the fixed point library by printing the results of some operations. The checking is mainly done visually.
 
