@@ -25,43 +25,44 @@ The scripts in the folder are described below:
 
 5. `main_test.py`: This script runs every implementation of the Fourier Transform and prints the results in a structured format. Its purpose is just for testing and conference of results.
 
-5. `fft_list.py`: Contains implementations of the algorithms using only Python lists, so that it doesn't need external modules that are not part of the Python standard distribution. With this, you can try other Python interpreters, such as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org).
+6. `test_it.py`: This script is a small library with a couple of functions to test and measure execution time of the Fourier transform functions. This module is shared by all the scripts above.
 
-   5.1. `direct_ft`: this function is the base implementation. It is a direct translation of the analysis function, and it is not supposed to be very efficient. It is implemented using Python native lists, and it's very readable and easy to understand;
+7. `fft_list.py`: Contains implementations of the algorithms using only Python lists, so that it doesn't need external modules that are not part of the Python standard distribution. With this, you can try other Python interpreters, such as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org).
 
-   5.2. `lc_dft`: this is an implementation of the direct FT using Python list comprehensions. Given the clarity and the conciseness of Python, it is a very readable function, but I urge you to explore the source code and see the comments on the function;
+   7.1. `direct_ft`: this function is the base implementation. It is a direct translation of the analysis function, and it is not supposed to be very efficient. It is implemented using Python native lists, and it's very readable and easy to understand;
 
-   5.3. `recursive_fft`: a recursive implementation of a decimation-in-time algorithm for powers of two. If you consult any book on the subject (I, of course, suggest mine, *"Introdução ao Processamento Digital de Sinais", LTC*), you will see that Fourier Transform has a lot of nice redundancies in its definition, which can be used in a very intuitive way with recursive definitions. This implementation uses Python native lists to accomplish the task.
+   7.2. `lc_dft`: this is an implementation of the direct FT using Python list comprehensions. Given the clarity and the conciseness of Python, it is a very readable function, but I urge you to explore the source code and see the comments on the function;
 
-   5.4. `iterative_fft`: if you studied a little of Computer Science, you will know that, although recursive definitions can be very natural and intuitive, they might not be the most efficient implementation, since the frequent function calls exert an overhead that uses memory and costs time. There is a way, however, that it can be translated to a iterative version, and this is it. This uses Python native lists;
+   7.3. `recursive_fft`: a recursive implementation of a decimation-in-time algorithm for powers of two. If you consult any book on the subject (I, of course, suggest mine, *"Introdução ao Processamento Digital de Sinais", LTC*), you will see that Fourier Transform has a lot of nice redundancies in its definition, which can be used in a very intuitive way with recursive definitions. This implementation uses Python native lists to accomplish the task.
 
-   5.5. `recursive_nfft`: an implementation of a recursive decimation-in-time algorithm, but factored to deal with sequences which length is a composite number (that is, a product of primes). It decomposes using the smallest prime and recursively calling the function on each sub-sequence; if the sequence is not decomposable as such, defers it to the `direct_ft` implementation.
+   7.4. `iterative_fft`: if you studied a little of Computer Science, you will know that, although recursive definitions can be very natural and intuitive, they might not be the most efficient implementation, since the frequent function calls exert an overhead that uses memory and costs time. There is a way, however, that it can be translated to a iterative version, and this is it. This uses Python native lists;
 
-6. `fft_array.py`: Contains implementations of the algorithms using only Python arrays from the `array` module, so that it doesn't need external modules that are not part of the Python standard distribution. With this, you can try other Python interpreters, such as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org).
+   7.5. `recursive_nfft`: an implementation of a recursive decimation-in-time algorithm, but factored to deal with sequences which length is a composite number (that is, a product of primes). It decomposes using the smallest prime and recursively calling the function on each sub-sequence; if the sequence is not decomposable as such, defers it to the `direct_ft` implementation.
 
-   6.1. `direct_ft`: this is the same direct FT, but implemented using Python arrays;
+8. `fft_array.py`: Contains implementations of the algorithms using only Python arrays from the `array` module, so that it doesn't need external modules that are not part of the Python standard distribution. With this, you can try other Python interpreters, such as [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org).
 
-   6.2. `recursive_fft`: the same algorithm, but implemented using Python arrays;
+   8.1. `direct_ft`: this is the same direct FT, but implemented using Python arrays;
 
-   6.3. `iterative_fft`: the same implementation, but with Python arrays.
+   8.2. `recursive_fft`: the same algorithm, but implemented using Python arrays;
 
-   6.4. `recursive_nfft`: the same implementation, but with Python arrays.
+   8.3. `iterative_fft`: the same implementation, but with Python arrays.
 
-7. `fft_numpy.py`: Contains implementations of the algorithms using NumPy arrays. Your local installation might not be able to run this file using [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org), but you can try.
+   8.4. `recursive_nfft`: the same implementation, but with Python arrays.
 
-   7.1. `direct_ft`: this is the same direct FT, but implemented using NumPy arrays;
+9. `fft_numpy.py`: Contains implementations of the algorithms using NumPy arrays. Your local installation might not be able to run this file using [Pypy](https://pypy.org), [Jython](http://jython.org) or [Cython](https://cython.org), but you can try.
 
-   7.2. `simplified_ft`: this implements the direct FT, but using some of NumPy broadcast power to speed up the operations;
+   9.1. `direct_ft`: this is the same direct FT, but implemented using NumPy arrays;
 
-   7.3. `matrix_ft`: this implements the direct FT, but constructing the transform kernel and matrix multiplying it by the input sequence;
+   9.2. `simplified_ft`: this implements the direct FT, but using some of NumPy broadcast power to speed up the operations;
 
-   7.4. `recursive_fft`: the same algorithm, but implemented using NumPy arrays;
+   9.3. `matrix_ft`: this implements the direct FT, but constructing the transform kernel and matrix multiplying it by the input sequence;
 
-   7.5. `iterative_fft`: the same implementation, but with NumPy arrays.
+   9.4. `recursive_fft`: the same algorithm, but implemented using NumPy arrays;
 
-   7.6. `recursive_nfft`: the same implementation, but with NumPy arrays.
+   9.5. `iterative_fft`: the same implementation, but with NumPy arrays.
 
-In addition to these modules, a `time_it.py` module has a function to compute the time spent running the transforms. The function in this module is shared by all the scripts above.
+   9.6. `recursive_nfft`: the same implementation, but with NumPy arrays.
+
 
 ## Running
 Python is an interpreted language, and there is not much needed to run any program. There is a number of different ways to run the program, depending on what you want to inspect. If you want to see all of the algorithms running for power-of-two sequences, go to the command line and type:
@@ -78,4 +79,4 @@ $ python main_anyfft.py
 
 To run the test, just substitute `main_test.py` for the main script on the command line.
 
-You can also run the programs with other implementations of Python. Not every one of them can support modules like NumPy, so you will have to deal with the `pure` versions: `main_fft_pure.py` for power-of-two sequences, and `main_anyfft_pure.py` for composite-length sequences. You can use the implementations here in your program. You will probably want to use `fft_lists.py` (especially if you want to run with Pypy or other Python implementations) or `fft_numpy.py`, but **it's not recomended that you do that**. This is because this code's purpose is educational only, and there are a lot of libraries that implement more stable and tested versions of the Fourier Transform.
+You can also run the programs with other implementations of Python. Not every one of them can support modules like NumPy, while others might make communication with the library very slow. Because of that, you might want to use the `pure` versions: `main_fft_pure.py` for power-of-two sequences, and `main_anyfft_pure.py` for composite-length sequences. You can use the implementations here in your program. You will probably want to use `fft_lists.py` (especially if you want to run with Pypy or other Python implementations) or `fft_numpy.py`, but **it's not recomended that you do that**. This is because this code's purpose is educational only, and there are a lot of libraries that implement more stable and tested versions of the Fourier Transform.
