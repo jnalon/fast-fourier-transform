@@ -39,4 +39,4 @@ Once the compiler is installed, you can compile the programs with the command:
 $ fbc main_fft.bas
 ```
 
-This will generate a `main_fft.exe` executable in the same directory. Just run it and the program executes. To compile `main_anyfft.bas`, just substitute the name of the program in the same command line as above.
+This will generate a `main_fft` executable in the same directory. Just run it and the program executes. To compile `main_anyfft.bas`, just substitute the name of the program in the same command line as above.
