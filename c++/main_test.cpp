@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * Fast Fourier Transform -- C++ Version
- * This version compares Cooley-Tukey algorithm.
+ * This program performs a simple test of the implementations.
  **************************************************************************************************
  * This program doesn't need much to be compiled and run. It can be done, as far as I know, with
  * any C++ compiler, just remember to link the math library. In my box, I used the command:

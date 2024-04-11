@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ####################################################################################################
 # Fast Fourier Transform -- Python 3 Version
-# This version compares Cooley-Tukey algorithm.
+# This program performs a simple test of the implementations.
 ####################################################################################################
 # Since Python is an interpreted language, all you have to do is to invoque the interpreter to run
 # this program:

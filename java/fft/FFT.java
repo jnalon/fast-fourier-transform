@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * Fast Fourier Transform -- Java Version
- * This version implements Cooley-Tukey algorithm for powers of 2 only.
+ * This version implements Cooley-Tukey algorithm.
  **************************************************************************************************/
 
 package fft;

@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * Fast Fourier Transform -- Java Version
- * This version implements Cooley-Tukey algorithm.
+ * This program performs a simple test of the implementations.
  **************************************************************************************************
  * This program can be compiled with the command:
  *

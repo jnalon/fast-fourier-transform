@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * Fast Fourier Transform -- C++ Version
- * This version compares Cooley-Tukey algorithm for powers of 2 only.
+ * This version compares Cooley-Tukey algorithm for composite numbers (not powers of 2 only).
  **************************************************************************************************
  * This program doesn't need much to be compiled and run. It can be done, as far as I know, with
  * any C++ compiler, just remember to link the math library. In my box, I used the command:
